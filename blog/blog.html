@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="icon" type="image/x-icon" href="images/logo.png">
+
+  <title>CampusLink - Blog Page</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="blog.css">
+
+</head>
+
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg top-navbar fixed-top shadow">
+
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="#">
+
+            <img src="images/logo.png" alt="CampusLink Logo" class="logo_pic"
+              title="Campus Link" title="CampusLink Logo">
+
+          </a>
+
+      <a class="navbar-brand fw-bold" href="#">CampusLink</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="topNav">
+
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="../homepage/index.html" title="Home">Home</a>
+
+          </li>
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="schedulesDropdown"
+              data-bs-toggle="dropdown" aria-expanded="false" title="Schedule a Travel">
+              Schedules ▼ <i class="bi bi-caret-down-fill"></i>
+            </a>
+
+            <ul class="dropdown-menu">
+
+              <li><a class="dropdown-item" href="#">Order Motorcycle</a></li>
+              <li><a class="dropdown-item" href="#">Order Car</a></li>
+              <li><a class="dropdown-item" href="#">Book a Travel</a></li>
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="../services/services.html"
+              title="Services Offered">Services</a>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="#" title="Blog">Blog</a>
+
+          </li>
+
+        </ul>
+
+        <ul class="navbar-nav ms-lg-3">
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+              title="Become Part of Us"> Register As ▼ <i class="bi bi-caret-down-fill">
+              </i> </a>
+
+            <ul class="dropdown-menu">
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                  onclick="openClientRegister()">Client</a></li>
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                onclick="openRiderRegister()">MotorCycle Rider</a></li>
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                onclick="openDriverRegister()">Car Driver</a></li>
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="javascript:void(0);" title="Login"
+              onclick="openLogin()">Login</a>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section d-flex align-items-center justify-content-center">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content text-center position-relative">
+
+      <img src="images/vehicle.jpeg" alt="Campus Transport" class="img-fluid hero-img mb-4" />
+
+      <h1 id="hero-text" class="mb-4">Connecting Students to Safe & Reliable Rides</h1>
+
+      <a href="#" class="btn btn-order">Order Now</a>
+
+    </div>
+
+  </section>
+
+<!-- Blog Header -->
+  <section class="py-5 text-center bg-light">
+
+    <div class="container">
+
+      <h2 class="display-5 fw-bold">Our Blog</h2>
+
+      <p class="lead">Stay updated with tips, news, and stories from CampusLink.</p>
+
+    </div>
+
+  </section>
+
+  <!-- Blog Posts Grid -->
+  <section class="py-5">
+
+    <div class="container">
+
+      <div class="row g-4">
+
+        <!-- Blog Card 1 -->
+        <div class="col-md-4">
+
+          <div class="card h-100 shadow-sm">
+
+            <img src="images/blog11.jpeg" class="card-img-top" alt="On Time">
+
+            <div class="card-body">
+
+              <h5 class="card-title">5 Tips for Getting to Campus on Time</h5>
+
+              <p class="card-text">Learn simple strategies to never miss a lecture again
+                with CampusLink rides.</p>
+
+              <a href="#" class="btn btn-primary">Read More</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Blog Card 2 -->
+        <div class="col-md-4">
+
+          <div class="card h-100 shadow-sm">
+
+            <img src="images/blog22.jpeg" class="card-img-top" alt="Safe Rides">
+
+            <div class="card-body">
+
+              <h5 class="card-title">Why Safe Rides Matter for Students</h5>
+
+              <p class="card-text">CampusLink ensures every rider is verified for your
+                safety and peace of mind.</p>
+
+              <a href="#" class="btn btn-primary">Read More</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Blog Card 3 -->
+        <div class="col-md-4">
+
+          <div class="card h-100 shadow-sm">
+
+            <img src="images/blog3.jpeg" class="card-img-top" alt="Local Riders">
+
+            <div class="card-body">
+
+              <h5 class="card-title">Supporting Local Riders Through CampusLink</h5>
+
+              <p class="card-text">How we empower motorcycle and car drivers with income
+                opportunities.</p>
+
+              <a href="#" class="btn btn-primary">Read More</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-5 bg-primary text-white text-center">
+
+    <div class="container">
+
+      <h3>Subscribe to Our Newsletter</h3>
+
+      <p>Get the latest updates and tips right to your inbox.</p>
+
+      <form class="newsletter-form d-flex justify-content-center">
+
+        <input type="email" class="form-control w-50 me-2" placeholder="Enter your email"
+            required>
+
+        <button type="submit" class="btn btn-light">Subscribe</button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+  <!-- FAQs Section -->
+  <section class="py-5 bg-light">
+
+    <div class="container">
+
+      <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+
+      <div class="accordion" id="faqAccordion">
+
+        <!-- FAQ 1 -->
+        <div class="accordion-item">
+
+          <h2 class="accordion-header" id="faq1">
+
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapse1" aria-expanded="true">
+
+              How do I book a ride?
+
+            </button>
+
+          </h2>
+
+          <div id="collapse1" class="accordion-collapse collapse show"
+            data-bs-parent="#faqAccordion">
+
+            <div class="accordion-body">
+
+              Simply register as a client, go to "Order Now," choose a motorcycle or car,
+              and confirm your booking.
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="accordion-item">
+
+          <h2 class="accordion-header" id="faq2">
+
+            <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapse2">
+
+              Can I pay cash or online?
+
+            </button>
+
+          </h2>
+
+          <div id="collapse2" class="accordion-collapse collapse"
+            data-bs-parent="#faqAccordion">
+
+            <div class="accordion-body">
+
+              Yes, you can pay cash directly to the driver or use available mobile money
+              options (coming soon).
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="accordion-item">
+
+          <h2 class="accordion-header" id="faq3">
+
+            <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapse3">
+
+              How do I know my rider is trusted?
+
+            </button>
+
+          </h2>
+
+          <div id="collapse3" class="accordion-collapse collapse"
+            data-bs-parent="#faqAccordion">
+
+            <div class="accordion-body">
+
+              All riders and drivers are verified through CampusLink with ID checks and
+              safety training.
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="accordion-item">
+
+          <h2 class="accordion-header" id="faq4">
+
+            <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapse4">
+
+              Is delivery available outside campus hours?
+
+            </button>
+
+          </h2>
+
+          <div id="collapse4" class="accordion-collapse collapse"
+            data-bs-parent="#faqAccordion">
+
+            <div class="accordion-body">
+
+              Yes, delivery services are available during extended hours, depending on the
+              rider’s availability.
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-light pt-5">
+
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Quick Links -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Quick Links</h5>
+
+          <ul class="list-unstyled">
+
+            <li><a href="#" class="footer-link" title="About">About</a></li>
+            <li><a href="#" class="footer-link" title="Privacy">Privacy</a></li>
+            <li><a href="#" class="footer-link" title="Terms & Conditions">Terms & Conditions</a></li>
+
+          </ul>
+
+        </div>
+
+        <!-- Newsletter -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Newsletter</h5>
+
+          <form>
+
+            <div class="mb-2">
+
+              <input type="email" class="form-control form-control-sm"
+              placeholder="Your email">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+
+          </form>
+
+        </div>
+
+        <!-- App Downloads -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Download App</h5>
+
+          <a href="#"><img src="images/apple_store.png" alt="Apple Store"
+            title="Download on Apple Store" class="store-img mb-2"></a>
+            <br>
+          <a href="#"><img src="images/playstore.png" alt="Google Play Store"
+            title="Download on Play Store"class="store-img mb-2"></a>
+
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Contact Us</h5>
+
+          <ul>
+
+            <li><a href="tel:+256763343453" class="footer-link" title="Call Us"> 📞 +256 763 343 453
+            </a></li>
+
+            <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us"> jobingetimothyosubert@gmail.com
+            </a></li>
+
+            <li><a href="https://mbararacity.go.ug/page/about-us" class="footer-link" title="Find Us"> Mbarara-City, Uganda </a></li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+      <div class="row mt-4">
+
+        <div class="col text-center">
+
+          <p class="mb-0">© 2025 CampusLink. All rights reserved.</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <script>
+
+    AOS.init();
+
+  </script>
+
+  <!-- Custom JS -->
+  <script src="blog.js"></script>
+
+</body>
+
+</html>

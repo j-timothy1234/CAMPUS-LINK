@@ -1,0 +1,37 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background: #f5f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+}
+
+h3 {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+p.text-muted {
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  font-weight: bold;
+  padding: 8px 20px;
+}

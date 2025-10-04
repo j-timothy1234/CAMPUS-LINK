@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="icon" type="image/x-icon" href="images/logo.png">
+
+  <title>CampusLink-Services</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="services.css">
+
+</head>
+
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg top-navbar fixed-top shadow">
+
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="#">
+
+            <img src="images/logo.png" alt="CampusLink Logo" class="logo_pic"
+              title="Campus Link" title="CampusLink Logo">
+
+      </a>
+
+      <a class="navbar-brand fw-bold" href="#">CampusLink</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="topNav">
+
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="../homepage/index.html" title="Home">Home</a>
+
+          </li>
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" id="schedulesDropdown"
+              data-bs-toggle="dropdown" aria-expanded="false" title="Schedule a Travel">
+              Schedules ▼ <i class="bi bi-caret-down-fill"></i>
+            </a>
+
+            <ul class="dropdown-menu">
+
+              <li><a class="dropdown-item" href="#">Order Motorcycle</a></li>
+              <li><a class="dropdown-item" href="#">Order Car</a></li>
+              <li><a class="dropdown-item" href="#">Book a Travel</a></li>
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="services.html" title="Services Offered">Services</a>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="../blog/blog.html" title="Blog">Blog</a>
+
+          </li>
+
+        </ul>
+
+        <ul class="navbar-nav ms-lg-3">
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+              title="Become Part of Us"> Register As ▼ <i class="bi bi-caret-down-fill">
+              </i> </a>
+
+            <ul class="dropdown-menu">
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                  onclick="openClientRegister()">Client</a></li>
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                onclick="openRiderRegister()">MotorCycle Rider</a></li>
+
+              <li><a class="dropdown-item" href="javascript:void(0);"
+                onclick="openDriverRegister()">Car Driver</a></li>
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+
+            <a class="nav-link nav-animate" href="javascript:void(0);" title="Login"
+              onclick="openLogin()">Login</a>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section d-flex align-items-center justify-content-center">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content text-center position-relative">
+
+      <img src="images/bus.jpeg" alt="Campus Transport" class="img-fluid hero-img mb-4" />
+
+      <h1 id="hero-text" class="mb-4">We provide safe, affordable, and reliable transport
+        services for students and the campus community.</h1>
+
+      <a href="#" class="btn btn-order">Order Now</a>
+
+    </div>
+
+  </section>
+
+  <!-- Services Cards -->
+  <section class="py-5 bg-light">
+
+  <h2 class="display-5 text-center mb-4">Our Services</h2>
+
+  <div class="container">
+
+    <div class="row g-4">
+
+      <!-- Student Transport -->
+      <div class="col-md-3">
+
+        <div class="card h-100 service-card text-center">
+
+          <div class="card-body">
+
+            <img src="images/transport.jpeg" class="service-img mb-3"
+              alt="Student Transport">
+
+            <h5 class="card-title">Student Transport</h5>
+
+            <p class="card-text">Quick and safe rides to and from campus using motorcycles
+              and cars.</p>
+
+            <!-- Hidden hover content -->
+            <div class="hover-content">
+
+              <a href="order.html" class="btn btn-primary">Make an Order</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Delivery Services -->
+      <div class="col-md-3">
+
+        <div class="card h-100 service-card text-center">
+
+          <div class="card-body">
+
+            <img src="images/delivery.jpeg" class="service-img mb-3" alt="Delivery Services">
+
+            <h5 class="card-title">Delivery Services</h5>
+
+            <p class="card-text">Fast delivery of small packages, food, or
+              academic materials.</p>
+
+            <div class="hover-content">
+
+              <a href="delivery.html" class="btn btn-success">Make a Delivery</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Ride Scheduling -->
+      <div class="col-md-3">
+
+        <div class="card h-100 service-card text-center">
+
+          <div class="card-body">
+
+            <img src="images/schedule.jpeg" class="service-img mb-3" alt="Ride Scheduling">
+
+            <h5 class="card-title">Ride Scheduling</h5>
+
+            <p class="card-text">Book rides in advance for exams, lectures, or special
+              events.</p>
+
+            <div class="hover-content">
+
+              <a href="schedule.html" class="btn btn-warning text-white">Book Travel</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Trusted Network -->
+      <div class="col-md-3">
+
+        <div class="card h-100 service-card text-center">
+
+          <div class="card-body">
+
+            <img src="images/trusted.jpeg" class="service-img mb-3" alt="Trusted Network">
+
+            <h5 class="card-title">Trusted Networks</h5>
+
+            <p class="card-text">Verified riders & drivers to ensure safety and
+              reliability.</p>
+
+            <div class="hover-content">
+
+              <p class="mb-1"> +256 763 243 453 </p>
+
+              <p class="mb-1">✉ info@campuslink.com</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-light pt-5">
+
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Quick Links -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Quick Links</h5>
+
+          <ul class="list-unstyled">
+
+            <li><a href="#" class="footer-link" title="About">About</a></li>
+            <li><a href="#" class="footer-link" title="Privacy">Privacy</a></li>
+            <li><a href="#" class="footer-link" title="Terms & Conditions">Terms & Conditions</a></li>
+
+          </ul>
+
+        </div>
+
+        <!-- Newsletter -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Newsletter</h5>
+
+          <form>
+
+            <div class="mb-2">
+
+              <input type="email" class="form-control form-control-sm"
+              placeholder="Your email">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+
+          </form>
+
+        </div>
+
+        <!-- App Downloads -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Download App</h5>
+
+          <a href="#"><img src="images/apple_store.png" alt="Apple Store"
+            title="Download on Apple Store" class="store-img mb-2"></a>
+            <br>
+          <a href="#"><img src="images/playstore.png" alt="Google Play Store"
+            title="Download on Play Store" class="store-img mb-2"></a>
+
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-md-3 mb-3">
+
+          <h5 data-aos="zoom-in">Contact Us</h5>
+
+          <ul>
+
+            <li><a href="tel:+256763343453" class="footer-link" title="Call Us"> +256 763 343 453
+            </a></li>
+
+            <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us"> jobingetimothyosubert@gmail.com
+            </a></li>
+
+            <li><a href="https://mbararacity.go.ug/page/about-us" class="footer-link" title="Find Us"> Mbarara-City, Uganda </a></li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+      <div class="row mt-4">
+
+        <div class="col text-center">
+
+          <p class="mb-0">© 2025 CampusLink. All rights reserved.</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <script>
+
+    AOS.init();
+
+  </script>
+
+  <!-- Custom JS -->
+  <script src="services.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+body {
+
+  font-family: 'Times New Roman', Times, serif;
+  background: #f8f9fa;
+
+}
+
+/* Top Navbar */
+.top-navbar {
+
+  background: #005eb8 !important;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+  z-index: 1050;
+
+}
+
+.top-navbar .navbar-brand {
+
+  color: #fff !important;
+  font-size: 1.7rem;
+
+}
+
+.top-navbar .nav-link {
+
+  color: #fff !important;
+  font-size: 1.1rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+
+}
+
+.logo_pic {
+
+  width:80px;
+  height:80px;
+  border-radius:50%;
+
+}
+
+.top-navbar .nav-link:hover,
+.top-navbar .nav-link:focus {
+
+  color: #ffd700 !important;
+  background: rgba(255,255,255,0.13);
+
+}
+
+.top-navbar .nav-link::after {
+
+  content: "";
+  display: block;
+  height: 2px;
+  background: #ffd700;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  margin-top: 2px;
+
+}
+
+.top-navbar .nav-link:hover::after {
+
+  transform: scaleX(1.2);
+
+}
+
+/* Lower Navbar */
+.lower-navbar {
+
+  background: #005eb8 !important;
+  position: sticky;
+  top: 20%;
+  z-index: 1040;
+  margin-top: 30px;
+  border-radius: 8px;
+
+}
+
+.lower-navbar .navbar-nav {
+
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+}
+
+.lower-navbar .nav-link {
+
+  color: #fff;
+  font-size: 35px;
+  font-weight: 500;
+  margin: 0 18px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+
+}
+
+.lower-navbar .nav-link:hover,
+.lower-navbar .nav-link:focus {
+
+  color: #ffd700 !important;
+  background: rgba(255,255,255,0.13);
+
+}
+
+.lower-navbar .nav-link::after {
+
+  content: "";
+  display: block;
+  height: 2.5px;
+  background: #ffd700;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  margin-top: 2px;
+
+}
+
+.lower-navbar .nav-link:hover::after {
+
+  transform: scaleX(1.2);
+
+}
+
+/* Hero Section */
+.hero-section {
+
+  position: relative;
+  min-height: 80vh;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+}
+
+.hero-img {
+
+  max-width: 350px;
+  width: 90vw;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 2;
+
+}
+
+.hero-overlay {
+
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #005eb8 60%, #003366 100%);
+  opacity: 0.7;
+  z-index: 1;
+
+}
+
+.hero-content {
+
+  background:(url"images/boda.jpeg");
+  background: no-repeat;
+  background-size: cover;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+
+}
+
+#hero-text {
+
+  color: #fff;
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  animation: heroZoom 2s infinite alternate;
+
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 3px solid #0d6efd; /* nice blue line under image */
+}
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}
+
+
+@keyframes heroZoom {
+
+  0% { transform: scale(1);}
+  100% { transform: scale(1.07);}
+
+}
+
+.btn-order {
+
+  background:#005eb8;
+  color:  #fff;
+  padding: 12px 36px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+
+}
+
+.btn-order:hover, .btn-order:focus {
+
+  background: #ffd700;
+  color: #005eb8;
+  transform: scale(1.08);
+
+}
+
+/* Section Headers and Text */
+h2, p {
+
+  text-align: center;
+
+}
+
+h5 {
+
+  color: #005eb8;
+
+}
+
+.vision-text, .mission-text {
+
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.15rem;
+
+}
+
+/* Footer */
+footer {
+
+  align-items: center;
+  justify-content: center;
+
+}
+
+.footer-link {
+
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.footer-link:hover {
+
+  color: #ffd700;
+  text-decoration: underline;
+
+}
+
+.store-img {
+
+  width: 120px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 3px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+/* Responsive Tweaks */
+@media (max-width: 991.98px) {
+
+  .lower-navbar .navbar-nav {
+
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .lower-navbar {
+
+    border-radius: 0;
+    margin-top: 0;
+
+  }
+
+  .hero-img {
+
+    max-width: 90vw;
+
+  }
+
+}
+
+@media (max-width: 575.98px) {
+  
+  #hero-text {
+
+    font-size: 1.3rem;
+
+  }
+
+  .hero-img {
+
+    max-width: 100vw;
+
+  }
+
+}

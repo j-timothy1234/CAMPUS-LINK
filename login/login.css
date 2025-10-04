@@ -1,0 +1,49 @@
+body {
+  background: #f5f8ff;
+  font-family:'Times New Roman', Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  border-radius:50%;
+  border:3px solid #0d6efd;
+}
+
+h3 {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+.forgot-link {
+  font-size: 0.9rem;
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+  color: #084298;
+}
+
+button {
+  min-width: 100px;
+}
+
+select {
+  margin-top: 5px;
+}
