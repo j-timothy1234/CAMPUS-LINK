@@ -1,26 +1,35 @@
 body {
 
   font-family: 'Times New Roman', Times, serif;
-  background: #f4f7fb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background: #f4f6f9;
   margin: 0;
+  padding: 0;
 
 }
 
 .form-container {
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
+
   width: 350px;
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+
+h3 {
+
+  font-weight: bold;
+  color: #0d6efd;
+
 }
 
 .form-header {
+
   text-align: center;
   margin-bottom: 20px;
+
 }
 
 .logo {
@@ -28,68 +37,64 @@ body {
   width: 80px;
   height: 80px;
   border-radius:50%;
-  border:3px solid #007bff;
+  margin-bottom: 10px;
+  border: 3px solid #0d6efd;
 
-}
-
-h3 {
-  font-weight: bold;
-  color: #0d6efd;
-}
-
-p {
-  margin: 0;
-  color: #666;
 }
 
 label {
-  font-weight:bold;
+
+  font-weight: bold;
   display: block;
   margin: 10px 0 5px;
-  color: #444;
+
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"] {
+input, button {
+
   width: 100%;
   padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  outline: none;
-}
-
-.gender-options {
-
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
 
 }
 
 button {
-  width: 100%;
-  padding: 12px;
+
   background: #007bff;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
+  color: white;
   font-size: 16px;
   cursor: pointer;
+  border: none;
+
 }
 
 button:hover {
+
   background: #0056b3;
+
 }
 
+/* Gender inline */
+.gender-options {
+
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+
+}
+
+/* Preview */
 .preview-container {
+
   text-align: center;
   margin: 10px 0;
+
 }
 
 #photoPreview {
+
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -97,9 +102,11 @@ button:hover {
   border: 2px solid #007bff;
   display: block;
   margin: 0 auto;
+
 }
 
 .hidden {
-  display: none;
-}
 
+  display: none;
+
+}

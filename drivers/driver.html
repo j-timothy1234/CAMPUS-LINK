@@ -7,6 +7,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
   <title>Register As Car Driver</title>
 
   <!-- Bootstrap CSS -->
@@ -29,30 +31,22 @@
 
           <div class="card-body p-4">
 
-            <div class="text-center mb-4">
+            <div class="text-center mb-3 form-header">
 
-              <img src="images/logo.png" alt="Logo" class="logo mb-2">
+              <img src="images/logo.png" alt="Logo" class="logo">
 
-              <h3 class="h4 mb-1">Register As Car Driver</h3>
-              <p class="text-muted mb-0">Become Part of Our Driving Network</p>
+              <h3> Register As Car Driver </h3>
+              <p> Become Part of Our Driving Network </p>
 
             </div>
 
-            <form id="driverForm">
-
-              <div class="mb-3">
-
-                <label for="fullname" class="form-label">Full Name</label>
-                <input type="text" id="fullname" name="fullname" class="form-control"
-                  placeholder="Enter your full name" required>
-
-              </div>
+            <form id="driverForm" method="POST" action="driver.php">
 
               <div class="mb-3">
 
                 <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" name="username" class="form-control"
-                  placeholder="Choose a username" required>
+                  placeholder="Username: Osubert" required>
 
               </div>
 
@@ -60,7 +54,7 @@
 
                 <label for="email" class="form-label">Email</label>
                 <input type="email" id="email" name="email" class="form-control"
-                  placeholder="Enter your email" required>
+                  placeholder="Email: jto@gmail.com" required>
 
               </div>
 
@@ -68,7 +62,7 @@
 
                 <label for="phone" class="form-label">Phone Number</label>
                 <input type="tel" id="phone" name="phone" class="form-control"
-                  placeholder="Enter your phone number" required>
+                  placeholder="Phone number: 0763243453" required>
 
               </div>
 
@@ -81,18 +75,18 @@
                   <div class="form-check form-check-inline">
 
                     <input class="form-check-input" type="radio" name="gender"
-                      id="genderMale" value="Male" required>
+                      id="genderMale" value="MALE" required>
 
-                    <label class="form-check-label" for="genderMale">Male</label>
+                    <label class="form-check-label" for="genderMale">MALE</label>
 
                   </div>
 
                   <div class="form-check form-check-inline">
 
                     <input class="form-check-input" type="radio" name="gender"
-                      id="genderFemale" value="Female">
+                      id="genderFemale" value="FEMALE">
 
-                    <label class="form-check-label" for="genderFemale">Female</label>
+                    <label class="form-check-label" for="genderFemale">FEMALE</label>
 
                   </div>
 
@@ -104,7 +98,7 @@
 
                 <label for="plate" class="form-label">Car Plate Number</label>
                 <input type="text" id="plate" name="plate" class="form-control"
-                  placeholder="Enter car plate number" required>
+                  placeholder="Car plate number: UBB 493B" required>
 
               </div>
 
@@ -124,12 +118,21 @@
 
               </div>
 
+              <div class="mb-4">
+
+                <label for="residence" class="form-label">Place of Residence</label>
+
+                <input type="text" id="residence" name="residence" class="form-control"
+                  placeholder="Place of residence..." required>
+
+              </div>
+
               <div class="mb-3">
 
                 <label for="password" class="form-label">Password</label>
 
                 <input type="password" id="password" name="password" class="form-control"
-                  placeholder="Enter password" required>
+                  placeholder="Enter password: yj_G86v%w" required>
 
               </div>
 
@@ -137,15 +140,7 @@
 
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword"
-                  class="form-control" placeholder="Confirm password" required>
-
-              </div>
-
-              <div class="mb-4">
-
-                <label for="residence" class="form-label">Place of Residence</label>
-                <input type="text" id="residence" name="residence" class="form-control"
-                  placeholder="Enter your residence" required>
+                  class="form-control" placeholder="Confirm password: yj_G86v%w" required>
 
               </div>
 
@@ -166,6 +161,7 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="driver.js"></script>
 
 </body>

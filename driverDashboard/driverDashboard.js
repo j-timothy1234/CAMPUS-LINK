@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Custom rotating bike icon
 
         const bikeIcon = L.icon({
-          iconUrl: "images/bike-icon.png", // 🏍️ place your bike icon image in the 'images' folder
+          iconUrl: "images/car-icon.jpeg",
           iconSize: [40, 40],              // size of the icon
           iconAnchor: [20, 20],            // center the icon
           popupAnchor: [0, -20]            // popup position

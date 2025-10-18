@@ -1,0 +1,66 @@
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-13 23:58:56
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Job Timothy
+    [email] => timothyosubertjobinge@gmail.com
+    [phone] => 0752915250
+    [gender] => Male
+    [plate] => UBB 142Q
+    [residence] => MILE4
+    [password] => syY7v68#v]
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => IMG-20230618-WA0001.jpg
+            [full_path] => IMG-20230618-WA0001.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp\tmp\phpFD90.tmp
+            [error] => 0
+            [size] => 44348
+        )
+
+)
+
+Sanitized data:
+- Username: Job Timothy
+- Email: timothyosubertjobinge@gmail.com
+- Phone: 0752915250
+- Gender: Male
+- Plate: UBB 142Q
+- Residence: MILE4
+Generating Rider_ID...
+Generated Rider_ID: R000001
+Phone as integer: 752915250
+Processing photo upload...
+Creating upload directory: ../upload_rider
+Photo path: ../upload_rider/Job_Timothy_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000001
+- Username: Job Timothy
+- Email: timothyosubertjobinge@gmail.com
+- Phone_Number: 752915250
+- Gender: Male
+- Profile_Photo: ../upload_rider/Job_Timothy_profile.jpg
+- Motorcycle_Plate_Number: UBB 142Q
+- Residence: MILE4
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000001
+Database connection closed
+=== RIDER REGISTRATION COMPLETED ===
+
