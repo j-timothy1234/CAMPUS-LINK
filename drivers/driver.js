@@ -98,8 +98,8 @@ document.getElementById("driverForm").addEventListener("submit", function (event
     alert("Driver registered successfully!");
     document.getElementById("driverForm").reset();
     document.getElementById("photoPreview").classList.add("d-none");
-    // Redirect to login page in the login folder
-    window.location.href = "../login/login.html";
+    // Redirect to driver_login.php in the same folder
+    window.location.href = "driver_login.html";
 
     } else {
 

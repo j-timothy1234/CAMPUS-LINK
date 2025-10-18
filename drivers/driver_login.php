@@ -1,32 +1,35 @@
 <?php
-// login.php
-require_once __DIR__ . '/../db_connect.php';
+// driver_login.php - CLEANED VERSION
+// Turn off ALL output buffering and ensure no whitespace before PHP
+ob_clean();
 
-// Enable maximum error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// Include files FIRST
+require_once __DIR__ . '/../db_connect.php';
+require_once 'session_config.php';
+
+// Enable error reporting but don't display to users
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
-// Start session
-session_start();
-
+// Set JSON header IMMEDIATELY
 header('Content-Type: application/json');
 
-// Log for debugging
-file_put_contents('login_debug.log', "=== LOGIN ATTEMPT ===\n", FILE_APPEND);
-file_put_contents('login_debug.log', "POST data: " . print_r($_POST, true) . "\n", FILE_APPEND);
+// Ensure no output before this point
+if (ob_get_level()) ob_clean();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
+        // Get input data
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        
-        file_put_contents('login_debug.log', "Email: $email, Password provided: " . (!empty($password) ? "YES" : "NO") . "\n", FILE_APPEND);
 
+        // Basic validation
         if (empty($email) || empty($password)) {
             throw new Exception("Email and password are required.");
         }
 
+        // Get database connection
         $conn = (new Database())->getConnection();
         
         if (!$conn) {
@@ -38,22 +41,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt = $conn->prepare($sql);
         
         if (!$stmt) {
-            throw new Exception("SQL preparation failed: " . $conn->error);
+            throw new Exception("SQL preparation failed.");
         }
         
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        file_put_contents('login_debug.log', "Found drivers: " . $result->num_rows . "\n", FILE_APPEND);
 
         if ($result->num_rows === 1) {
             $driver = $result->fetch_assoc();
-            file_put_contents('login_debug.log', "Driver found: " . $driver['Username'] . "\n", FILE_APPEND);
             
             // Verify password
             if (password_verify($password, $driver['Password'])) {
-                file_put_contents('login_debug.log', "Password verified successfully\n", FILE_APPEND);
+                
+                // Regenerate session for security
+                session_regenerate_id(true);
                 
                 // Create session
                 $_SESSION['driver_id'] = $driver['Driver_ID'];
@@ -64,8 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['loggedin'] = true;
                 $_SESSION['login_time'] = time();
                 
-                file_put_contents('login_debug.log', "Session created for: " . $driver['Username'] . "\n", FILE_APPEND);
-                
+                // Return success response
                 echo json_encode([
                     "status" => "success", 
                     "message" => "Login successful!",
@@ -73,11 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ]);
                 
             } else {
-                file_put_contents('login_debug.log', "Password verification FAILED\n", FILE_APPEND);
                 throw new Exception("Invalid email or password.");
             }
         } else {
-            file_put_contents('login_debug.log', "No driver found with email: $email\n", FILE_APPEND);
             throw new Exception("Invalid email or password.");
         }
         
@@ -85,18 +84,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $conn->close();
 
     } catch (Exception $e) {
-        file_put_contents('login_debug.log', "ERROR: " . $e->getMessage() . "\n", FILE_APPEND);
+        // Log error but don't output to user
+        error_log("Driver Login Error: " . $e->getMessage());
+        
+        // Return clean error response
         echo json_encode([
             "status" => "error", 
             "message" => $e->getMessage()
         ]);
     }
 } else {
-    file_put_contents('login_debug.log', "Invalid request method: " . $_SERVER["REQUEST_METHOD"] . "\n", FILE_APPEND);
+    // Invalid request method
     echo json_encode([
         "status" => "error", 
         "message" => "Invalid request method."
     ]);
 }
 
-file_put_contents('login_debug.log', "=== LOGIN COMPLETED ===\n\n", FILE_APPEND);
+// Ensure no output after JSON
+exit();

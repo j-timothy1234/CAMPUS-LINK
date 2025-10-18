@@ -54,6 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $password = $_POST['password'];
         $profile_photo = $_FILES['photo'];
 
+        // ===== GENERATE DRIVER_ID =====
+        $driver_id_result = $conn->query("SELECT MAX(CAST(SUBSTRING(Driver_ID, 2) AS UNSIGNED)) as max_id FROM drivers");
+        if ($driver_id_result && $driver_id_result->num_rows > 0) {
+            $driver_id_row = $driver_id_result->fetch_assoc();
+            $next_id = ($driver_id_row['max_id'] ?? 0) + 1;
+        } else {
+            $next_id = 1;
+        }
+        $driver_id = "D" . str_pad($next_id, 6, "0", STR_PAD_LEFT);
+
         // Convert gender to uppercase to match ENUM
         $gender = strtoupper($gender);
 
@@ -94,23 +104,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Hash Password for Security
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert Data into Database
+        // Insert Data into Database - NOW INCLUDES Driver_ID
         $sql = "INSERT INTO drivers 
-                (Username, Email, Phone_Number, Gender, Profile_Photo, Car_Plate_Number, Residence, Password) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                (Driver_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Car_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             throw new Exception("SQL preparation failed: " . $conn->error);
         }
 
-        // Bind parameters - note: phone_number is integer (i), others are string (s)
-        $stmt->bind_param("ssisssss", $username, $email, $phone_number, $gender, $photoPath, $car_plate_number, $residence, $hashedPassword);
+        // Bind parameters - INCLUDING Driver_ID
+        $stmt->bind_param("sssisssss", $driver_id, $username, $email, $phone_number, $gender, $photoPath, $car_plate_number, $residence, $hashedPassword);
 
         if ($stmt->execute()) {
             echo json_encode([
                 "status" => "success", 
-                "message" => "Driver registered successfully."
+                "message" => "Driver registered successfully. Your Driver ID: " . $driver_id
             ]);
         } else {
             throw new Exception("Database error: " . $stmt->error);
