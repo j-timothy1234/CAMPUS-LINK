@@ -92,11 +92,14 @@ document.getElementById("driverForm").addEventListener("submit", function (event
   .then(response => response.json())
   .then(data => {
 
-    if (data.status === "success") {
-      alert("Driver registered successfully!");
-      document.getElementById("driverForm").reset();
-      document.getElementById("photoPreview").classList.add("d-none");
-      window.location.href = "../driverDashboard/driverDashboard.html";
+    // In driver.js, update the success handler:
+  if (data.status === "success") {
+    
+    alert("Driver registered successfully!");
+    document.getElementById("driverForm").reset();
+    document.getElementById("photoPreview").classList.add("d-none");
+    // Redirect to login page instead of direct dashboard
+    window.location.href = "../login/login.html";
 
     } else {
 
