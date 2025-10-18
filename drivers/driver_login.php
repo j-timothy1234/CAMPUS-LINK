@@ -1,39 +1,39 @@
 <?php
 // login.php
-// Driver login handler with session creation
-
 require_once __DIR__ . '/../db_connect.php';
-require_once __DIR__ . '/session_config.php';
 
-// Set response header to JSON
+// Enable maximum error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Start session
+session_start();
+
 header('Content-Type: application/json');
 
-// Check if request is POST
+// Log for debugging
+file_put_contents('login_debug.log', "=== LOGIN ATTEMPT ===\n", FILE_APPEND);
+file_put_contents('login_debug.log', "POST data: " . print_r($_POST, true) . "\n", FILE_APPEND);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
-        // Get and validate input data
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $password = $_POST['password']; // Password will be verified, not stored
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
         
-        // Validate required fields
+        file_put_contents('login_debug.log', "Email: $email, Password provided: " . (!empty($password) ? "YES" : "NO") . "\n", FILE_APPEND);
+
         if (empty($email) || empty($password)) {
             throw new Exception("Email and password are required.");
         }
-        
-        // Validate email format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Invalid email format.");
-        }
 
-        // Get database connection
         $conn = (new Database())->getConnection();
         
-        // Check connection
         if (!$conn) {
             throw new Exception("Database connection failed.");
         }
 
-        // Prepare SQL to find driver by email
+        // Check if driver exists
         $sql = "SELECT * FROM drivers WHERE Email = ?";
         $stmt = $conn->prepare($sql);
         
@@ -41,31 +41,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             throw new Exception("SQL preparation failed: " . $conn->error);
         }
         
-        // Bind parameters and execute
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         
-        // Check if driver exists
+        file_put_contents('login_debug.log', "Found drivers: " . $result->num_rows . "\n", FILE_APPEND);
+
         if ($result->num_rows === 1) {
             $driver = $result->fetch_assoc();
+            file_put_contents('login_debug.log', "Driver found: " . $driver['Username'] . "\n", FILE_APPEND);
             
-            // Verify password against hashed password in database
+            // Verify password
             if (password_verify($password, $driver['Password'])) {
+                file_put_contents('login_debug.log', "Password verified successfully\n", FILE_APPEND);
                 
-                // Regenerate session ID for security (prevent session fixation)
-                session_regenerate_id(true);
-                
-                // Create session variables with driver data
+                // Create session
                 $_SESSION['driver_id'] = $driver['Driver_ID'];
                 $_SESSION['username'] = $driver['Username'];
                 $_SESSION['email'] = $driver['Email'];
                 $_SESSION['profile_photo'] = $driver['Profile_Photo'];
                 $_SESSION['user_type'] = 'driver';
                 $_SESSION['loggedin'] = true;
-                $_SESSION['login_time'] = time(); // Track login time for timeout
+                $_SESSION['login_time'] = time();
                 
-                // Send success response
+                file_put_contents('login_debug.log', "Session created for: " . $driver['Username'] . "\n", FILE_APPEND);
+                
                 echo json_encode([
                     "status" => "success", 
                     "message" => "Login successful!",
@@ -73,30 +73,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ]);
                 
             } else {
-                // Invalid password
+                file_put_contents('login_debug.log', "Password verification FAILED\n", FILE_APPEND);
                 throw new Exception("Invalid email or password.");
             }
         } else {
-            // Driver not found
+            file_put_contents('login_debug.log', "No driver found with email: $email\n", FILE_APPEND);
             throw new Exception("Invalid email or password.");
         }
         
-        // Close database connections
         $stmt->close();
         $conn->close();
 
     } catch (Exception $e) {
-        // Log error and send error response
-        error_log("Driver Login Error: " . $e->getMessage());
+        file_put_contents('login_debug.log', "ERROR: " . $e->getMessage() . "\n", FILE_APPEND);
         echo json_encode([
             "status" => "error", 
             "message" => $e->getMessage()
         ]);
     }
 } else {
-    // Invalid request method
+    file_put_contents('login_debug.log', "Invalid request method: " . $_SERVER["REQUEST_METHOD"] . "\n", FILE_APPEND);
     echo json_encode([
         "status" => "error", 
         "message" => "Invalid request method."
     ]);
 }
+
+file_put_contents('login_debug.log', "=== LOGIN COMPLETED ===\n\n", FILE_APPEND);

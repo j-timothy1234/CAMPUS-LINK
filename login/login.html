@@ -71,8 +71,8 @@
       .then(data => {
         if (data.status === 'success') {
           alert(data.message);
-          // Redirect to driver dashboard
-          window.location.href = data.redirect;
+          // Redirect to driver dashboard in the driverDashboard
+          window.location.href = "../driverDashboard/driverDashboard.php";
         } else {
           alert('Error: ' + data.message);
         }

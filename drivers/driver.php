@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // Define upload directory and unique filename
-        $uploadDir = "../uploads";
+        $uploadDir = "../uploads_driver";
         if (!file_exists($uploadDir)) {
             if (!mkdir($uploadDir, 0777, true)) {
                 throw new Exception("Failed to create upload directory.");

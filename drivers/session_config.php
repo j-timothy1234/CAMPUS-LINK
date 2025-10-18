@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Set session configuration for security
-ini_set('session.gc_maxlifetime', 1800); // 30 minutes session lifetime
+ini_set('session.gc_maxlifetime', 1800); // 30 mins session lifetime
 ini_set('session.cookie_httponly', 1); // Prevent JavaScript access to cookies
 ini_set('session.use_strict_mode', 1); // Use strict session mode
 
