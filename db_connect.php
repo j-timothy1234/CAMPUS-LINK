@@ -7,6 +7,11 @@ error_reporting(E_ALL);
 
 /**
  * Database connection class using MySQLi (OOP)
+ * 
+ * git commit -m "Updated project files"
+ * git push origin main
+ * 
+ * 
  */
 class Database {
     // Database connection parameters
