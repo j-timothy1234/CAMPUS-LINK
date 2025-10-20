@@ -49,28 +49,46 @@
 
   <script>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      const formData = new FormData(this);
-      
-      fetch('driver_login.php', {
+    event.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    console.log('Sending login request...');
+    
+    fetch('driver_login.php', {
         method: 'POST',
         body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          alert(data.message);
-          window.location.href = data.redirect;
-        } else {
-          alert('Error: ' + data.message);
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response OK:', response.ok);
+        return response.text(); // Use .text() first to see raw response
+    })
+    .then(rawData => {
+        console.log('RAW RESPONSE:', rawData);
+        
+        try {
+            const data = JSON.parse(rawData);
+            console.log('Parsed JSON:', data);
+            
+            if (data.status === 'success') {
+                alert(data.message);
+                console.log('Redirecting to:', data.redirect);
+                window.location.href = data.redirect;
+            } else {
+                alert('Error: ' + data.message);
+            }
+        } catch (e) {
+            console.error('JSON Parse Error:', e);
+            console.error('Raw data that failed to parse:', rawData);
+            alert('Server returned invalid JSON. Check console for details.');
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('An unexpected error occurred. Please try again.');
-      });
+    })
+    .catch(error => {
+        console.error('Fetch Error:', error);
+        alert('Network error occurred.');
     });
+});
   </script>
 </body>
 </html>

@@ -13,6 +13,7 @@ error_reporting(E_ALL);
  * 
  * 
  */
+
 class Database {
     // Database connection parameters
     private $servername = "localhost";

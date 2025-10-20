@@ -3,8 +3,12 @@
 // Session configuration for CampusLink Driver System
 
 // Start session if not yet started
+// Start session if not yet started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    
+    // Set basic session timeout (this can be changed after session start)
+    ini_set('session.gc_maxlifetime', 1800); // 30 minutes
 }
 
 // Set session configuration for security
