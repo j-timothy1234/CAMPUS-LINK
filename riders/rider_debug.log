@@ -129,3 +129,132 @@ Verification query found 1 rows with Rider_ID: R000001
 Database connection closed
 === RIDER REGISTRATION COMPLETED ===
 
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 03:25:41
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Timothy Osubert
+    [email] => timothyosubertjobinge@gmail.com
+    [phone] => 0763243453
+    [gender] => Male
+    [plate] => UFG 892M
+    [residence] => MILE FOUR
+    [password] => *ZC9~:M937x4jJz
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => tim.jpg
+            [full_path] => tim.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php450F.tmp
+            [error] => 0
+            [size] => 78473
+        )
+
+)
+
+Sanitized data:
+- Username: Timothy Osubert
+- Email: timothyosubertjobinge@gmail.com
+- Phone: 0763243453
+- Gender: Male
+- Plate: UFG 892M
+- Residence: MILE FOUR
+Generating Rider_ID...
+Generated Rider_ID: R000001
+Phone as integer: 763243453
+Processing photo upload...
+Creating upload directory: ../upload_rider
+Photo path: ../upload_rider/Timothy_Osubert_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000001
+- Username: Timothy Osubert
+- Email: timothyosubertjobinge@gmail.com
+- Phone_Number: 763243453
+- Gender: Male
+- Profile_Photo: ../upload_rider/Timothy_Osubert_profile.jpg
+- Motorcycle_Plate_Number: UFG 892M
+- Residence: MILE FOUR
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000001
+Database connection closed
+=== RIDER REGISTRATION STARTED ===
+=== RIDER REGISTRATION COMPLETED ===
+
+Timestamp: 2025-10-20 03:26:06
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Timothy Osubert
+    [email] => timothyosubertjobinge@gmail.com
+    [phone] => 0763243453
+    [gender] => Male
+    [plate] => UFG 892M
+    [residence] => MILE FOUR
+    [password] => *ZC9~:M937x4jJz
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => tim.jpg
+            [full_path] => tim.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\phpA282.tmp
+            [error] => 0
+            [size] => 78473
+        )
+
+)
+
+Sanitized data:
+- Username: Timothy Osubert
+- Email: timothyosubertjobinge@gmail.com
+- Phone: 0763243453
+- Gender: Male
+- Plate: UFG 892M
+- Residence: MILE FOUR
+Generating Rider_ID...
+Generated Rider_ID: R000002
+Phone as integer: 763243453
+Processing photo upload...
+Photo path: ../upload_rider/Timothy_Osubert_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000002
+- Username: Timothy Osubert
+- Email: timothyosubertjobinge@gmail.com
+- Phone_Number: 763243453
+- Gender: Male
+- Profile_Photo: ../upload_rider/Timothy_Osubert_profile.jpg
+- Motorcycle_Plate_Number: UFG 892M
+- Residence: MILE FOUR
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+EXCEPTION: Duplicate entry 'timothyosubertjobinge@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
