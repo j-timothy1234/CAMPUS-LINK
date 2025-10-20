@@ -71,8 +71,13 @@
       .then(data => {
         if (data.status === 'success') {
           alert(data.message);
-          // Redirect to driver dashboard in the driverDashboard
-          window.location.href = "../driverDashboard/driverDashboard.php";
+          // Use server-provided redirect if available (recommended)
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          } else {
+            // Fallback: try to redirect based on known user types
+            window.location.href = "../riderDashboard/riderDashboard.php";
+          }
         } else {
           alert('Error: ' + data.message);
         }

@@ -107,8 +107,9 @@ document.getElementById("riderForm").addEventListener("submit", function (event)
       if (preview) {
         preview.classList.add("hidden");
       }
-      // Redirect to rider dashboard - FIXED PATH
-      window.location.href = "../riderDashboard/riderDashboard.html";
+         // After registration, redirect rider to the riders' login page
+         // so they can enter email and password to log in
+         window.location.href = "rider_login.html";
     } else {
       alert("Error: " + data.message);
     }

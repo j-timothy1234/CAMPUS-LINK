@@ -245,4 +245,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 file_put_contents('rider_debug.log', "=== RIDER REGISTRATION COMPLETED ===\n\n", FILE_APPEND);
-?>

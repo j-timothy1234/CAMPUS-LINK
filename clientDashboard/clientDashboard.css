@@ -1,0 +1,302 @@
+body {
+  font-family:'Times New Roman', Times, serif;
+  background: whitesmoke;
+}
+
+/* Sidebar styling */
+.sidebar {
+  min-width: 220px;
+  transition: all 0.3s ease;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1045;
+  background: #212529;
+  overflow-y: auto;
+}
+
+#wrapper {
+  display: flex;
+}
+#wrapper.toggled #sidebar {
+  margin-left: -220px;
+}
+
+.sidebar .nav-link {
+  padding: 10px;
+  font-size: 20px;
+}
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  border-radius: 5px;
+}
+
+/* Collapsible behavior for small screens */
+@media (max-width: 991px) {
+  #sidebar {
+    margin-left: -220px;
+  }
+  #wrapper.toggled #sidebar {
+    margin-left: 0;
+  }
+  main.flex-grow-1 {
+    margin-left: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #sidebar {
+    margin-left: 0;
+  }
+  main.flex-grow-1 {
+    margin-left: 220px;
+  }
+}
+
+@media (max-width: 991px) {
+  #menu-toggle {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 2000; /* higher than sidebar */
+  }
+  #wrapper.toggled #menu-toggle {
+    left: 238px; /* 220px sidebar + 18px gap */
+    transition: left 0.3s;
+  }
+}
+
+h5 {
+
+  color: #005eb8;
+
+}
+
+#current-date {
+  font-size: 2.5rem;
+  color: #22a6b3;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: right; /* optional - aligns nicely on top bar */
+  padding-right: 10px;
+}
+
+/* Rider greeting section styling */
+.rider-header {
+  background: linear-gradient(135deg, #22a6b3, #f0932b);
+  color: white;
+  border-radius: 10px;
+  margin: 1rem auto;
+  max-width: 900px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  animation: fadeDown 1s ease;
+}
+
+.rider-header h2 {
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.rider-header p {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+/* Animation for header */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive header */
+@media (max-width: 768px) {
+  .rider-header h2 {
+    font-size: 1.5rem;
+  }
+  .rider-header p {
+    font-size: 0.95rem;
+  }
+}
+
+h2{
+
+  justify-content:center;
+  align-items:center;
+  padding:10px;
+  margin:10px;
+
+}
+
+/* Map styling */
+#map {
+
+  width: 100%;
+  height: 500px;
+  background: #f1f1f1;
+  border: 3px solid blue;
+  border-radius: 10px;
+  margin:10px;
+  padding:10px;
+
+}
+
+/* Map styling for small screens */
+@media (max-width: 768px) {
+
+  #map {
+
+    width: 100%;
+    height: 350px;
+    background: #f1f1f1;
+    border: 3px solid blue;
+    border-radius: 8px;
+
+  }
+
+}
+
+/* Logo and company name vertical alignment */
+
+.logo {
+
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  background: #fff;
+  padding: 3px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+.company-name {
+  margin: 0;
+}
+
+/* Footer */
+footer {
+
+  align-items: center;
+  justify-content: center;
+
+}
+
+.footer-link {
+
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.footer-link:hover {
+
+  color: #ffd700;
+  text-decoration: underline;
+
+}
+
+/* Display Picture Card Styling */
+.display-card {
+  background-color: #eb4d4b;
+  border: none;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.display-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Rider image styling */
+.display-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+}
+
+/* Equal card width + alignment */
+.profile-card {
+
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  border-radius: 10px;
+  color: #fff;
+
+}
+
+/* Ratings Card Styling */
+.ratings-card {
+
+  background-color: #f0932b;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px 0;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  color: #fff;
+
+}
+
+.ratings-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Total Trips Card Styling */
+.trips-card {
+  background-color: #22a6b3;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px 0;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.trips-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Individual card colors */
+.profile-card {
+  background-color: #eb4d4b;
+}
+.trips-card {
+  background-color: #f0932b;
+}
+.ratings-card {
+  background-color: #22a6b3;
+}
+
+h4{
+  font-size:xx-large;
+}
+
+.store-img {
+
+  width: 120px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 3px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
