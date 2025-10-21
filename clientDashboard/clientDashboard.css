@@ -1,8 +1,8 @@
 /* clientDashboard.css */
 /* Global Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: whitesmoke;
 }
 
 /* Top Navigation Bar */
@@ -19,7 +19,7 @@ body {
 }
 
 .welcome-message {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: white !important; /* White text */
     font-weight: bold;
 }
