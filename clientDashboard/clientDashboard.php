@@ -1,7 +1,7 @@
 <?php
 // clientDashboard.php
 // Include session configuration and check authentication
-require_once __DIR__ . '/../includes/session_config.php';
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Check if client is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
