@@ -1,255 +1,295 @@
 <?php
-// driverDashboard.php
-// Protected driver dashboard with session authentication
+// clientDashboard.php
+// Include session configuration and check authentication
+require_once __DIR__ . '/../includes/session_config.php';
 
-// Include session configuration
-require_once __DIR__ . '/../drivers/session_config.php';
-
-// Check if user is logged in and is a driver
-if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'driver') {
-    header("Location: ../drivers/driver_login.html"); // Adjust if needed
+// Check if client is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
+    header("Location: ../login/client_login.html");
     exit();
 }
 
-// Check session timeout (30 minutes)
-if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time'] > 1800)) {
-    // Session expired, destroy it and redirect to login
-    session_unset();
-    session_destroy();
-    header("Location: ../login/login.html");
-    exit();
-}
-
-// Update session time to extend timeout with each activity
-$_SESSION['login_time'] = time();
-
-// Get driver data from session
+// Get client data from session
 $username = htmlspecialchars($_SESSION['username']);
-$driver_id = $_SESSION['driver_id'];
-$profile_photo = $_SESSION['profile_photo'];
-
+$client_id = $_SESSION['client_id'];
+$profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$email = $_SESSION['email'] ?? '';
+$phone = $_SESSION['phone'] ?? '';
+$gender = $_SESSION['gender'] ?? '';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Driver Dashboard - Campus Link</title>
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-  <!-- AOS CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <link rel="icon" type="image/x-icon" href="images/logo.png">
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script src="driverDashboard.js" defer></script>
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="driverDashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - CampusLink</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="clientDashboard.css">
 </head>
-
 <body>
-<div class="d-flex" id="wrapper">
-  <!-- Sidebar -->
-  <aside class="bg-dark text-white sidebar p-3" id="sidebar">
-    <div class="mb-4 d-flex align-items-center flex-column text-center">
-      <img src="images/logo.png" class="logo" alt="CampusLink Logo">
-      <h5 class="company-name fw-bold mt-2">Campus Link</h5>
-    </div>
-
-    <ul class="nav flex-column">
-      <li class="nav-item"><a href="#" class="nav-link text-white active">
-        <i class="fas fa-home me-2"></i> Home</a></li>
-      <li class="nav-item"><a href="#maps" class="nav-link text-white">
-        <i class="fas fa-map me-2"></i> Maps</a></li>
-      <li class="nav-item"><a href="#trips" class="nav-link text-white">
-        <i class="fas fa-history me-2"></i> Trips</a></li>
-      <li class="nav-item"><a href="#notifications" class="nav-link text-white">
-        <i class="fas fa-bell me-2"></i> Notifications</a></li>
-      <li class="nav-item"><a href="#ratings" class="nav-link text-white">
-        <i class="fas fa-star me-2"></i> Ratings</a></li>
-      <li class="nav-item"><a href="logout.php" class="nav-link text-white">
-        <i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-    </ul>
-  </aside>
-
-  <!-- Page Content -->
-  <main class="flex-grow-1">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-3">
-      <button class="btn btn-outline-primary d-lg-none" id="menu-toggle">
-        <i class="fas fa-bars"></i></button>
-
-      <!-- Driver Greeting Section -->
-      <header class="driver-header text-center py-4">
-        <!-- Dynamic welcome message with driver's name from session -->
-        <h2 id="welcome-text">Welcome back, <?php echo $username; ?> 👋</h2>
-        <p id="current-date" class="text-muted"></p>
-      </header>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <!-- Profile Picture - Left -->
+            <div class="navbar-brand d-flex align-items-center">
+                <img src="<?php echo $profile_photo; ?>" alt="Profile" class="profile-pic rounded-circle me-2">
+            </div>
+            
+            <!-- Welcome Message & Time - Center -->
+            <div class="navbar-text mx-auto text-center">
+                <span class="welcome-message fw-bold text-white">
+                    Welcome, <?php echo $username; ?>! | 
+                    <span id="liveTime" class="fw-normal"></span>
+                </span>
+            </div>
+            
+            <!-- Empty div for balance -->
+            <div></div>
+        </div>
     </nav>
 
-    <div class="container-fluid p-4">
-      <!-- Stats Cards -->
-      <div class="row mb-4">
-        <!-- Display Picture Card with actual uploaded photo -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card text-center shadow-sm display-card">
-            <!-- Dynamic profile photo from session (uploaded during registration) -->
-            <img src="<?php echo $profile_photo; ?>" class="display-img img-fluid rounded-circle mt-3"
-              alt="Driver Profile Photo" style="width: 150px; height: 150px; object-fit: cover;">
-
-            <div class="card-body">
-              <p class="card-text text-white fw-semibold">Display Picture</p>
-              <!-- Display driver ID from session -->
-              <p class="card-text text-white">Driver ID: <?php echo $driver_id; ?></p>
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-lg-2 col-md-3 sidebar bg-light">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-layer="order-now">
+                            <i class="fas fa-motorcycle me-2"></i>ORDER NOW
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-layer="book-travel">
+                            <i class="fas fa-calendar me-2"></i>BOOK TRAVEL
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-layer="delivery-services">
+                            <i class="fas fa-shipping-fast me-2"></i>DELIVERY SERVICES
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-layer="personal-info">
+                            <i class="fas fa-user me-2"></i>PERSONAL INFO
+                        </a>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </div>
 
-        <div class="col-md-4">
-          <!-- Ratings Card -->
-          <div class="col-md-10 col-sm-8 mb-3">
-            <div class="card shadow-sm ratings-card">
-              <div class="card-body">
-                <p class="card-text fs-4">4.8 ★</p>
-                <h5 class="card-title fw-bold">Ratings</h5>
-              </div>
+            <!-- Main Content Area with Layered Panels -->
+            <div class="col-lg-10 col-md-9 main-content">
+                
+                <!-- LAYER 1: ORDER NOW (Default Visible Layer) -->
+                <div id="order-now-layer" class="layer-panel active">
+                    <!-- Transport Mode Selection -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 text-center">
+                            <button class="btn btn-outline-primary btn-lg transport-mode" data-mode="motorcycle">
+                                <i class="fas fa-motorcycle me-2"></i>MotorCycle
+                            </button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button class="btn btn-outline-primary btn-lg transport-mode" data-mode="vehicle">
+                                <i class="fas fa-car me-2"></i>Vehicle (Uber)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Order Form (Dynamic based on transport mode) -->
+                    <div id="order-form" class="card mb-4" style="display: none;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">From</label>
+                                    <input type="text" class="form-control" id="from-location" placeholder="Current location">
+                                    <button class="btn btn-sm btn-outline-secondary mt-2" id="detect-location">
+                                        <i class="fas fa-location-arrow"></i> Detect My Location
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">To</label>
+                                    <input type="text" class="form-control" id="to-location" placeholder="Destination">
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-success" id="order-rider">
+                                    <i class="fas fa-bolt"></i> Order Rider
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Section -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Live Location & Journey Map</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="map" style="height: 400px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Transport Animation -->
+                    <div id="transport-animation" class="text-center mb-4" style="display: none;">
+                        <div id="bike-animation" style="display: none;">
+                            <i class="fas fa-motorcycle fa-3x text-primary animate-bike"></i>
+                        </div>
+                        <div id="car-animation" style="display: none;">
+                            <i class="fas fa-car fa-3x text-success animate-car"></i>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Order Button -->
+                    <div class="text-center mb-4">
+                        <button id="confirm-order" class="btn btn-primary btn-lg" style="display: none;">
+                            Confirm Order - <span id="order-price">UGX 0</span>
+                        </button>
+                    </div>
+
+                    <!-- Trip History -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Trip History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Rider Type</th>
+                                            <th>Plate Number</th>
+                                            <th>Transport Agent</th>
+                                            <th>Distance (Km)</th>
+                                            <th>Fare (UGX)</th>
+                                            <th>Date</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="trip-history">
+                                        <!-- Dynamic content from JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Graphs Section -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Motorcycle Trips</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="bikeTripsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Vehicle Trips</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="carTripsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 2: BOOK TRAVEL (Hidden by default) -->
+                <div id="book-travel-layer" class="layer-panel">
+                    <!-- Book Travel content will be loaded here dynamically -->
+                </div>
+
+                <!-- LAYER 3: DELIVERY SERVICES (Hidden by default) -->
+                <div id="delivery-services-layer" class="layer-panel">
+                    <!-- Delivery Services content will be loaded here dynamically -->
+                </div>
+
+                <!-- LAYER 4: PERSONAL INFO (Hidden by default) -->
+                <div id="personal-info-layer" class="layer-panel">
+                    <!-- Personal Info content will be loaded here dynamically -->
+                </div>
             </div>
-          </div>
         </div>
-
-        <div class="col-md-4">
-          <!-- Total Trips Card -->
-          <div class="col-md-10 col-sm-8 mb-3">
-            <div class="card shadow-sm trips-card">
-              <div class="card-body">
-                <p class="card-text fs-4">152</p>
-                <h5 class="card-title fw-bold">Total Trips</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rest of the dashboard content remains the same -->
-      <!-- Map Section -->
-      <section id="maps" class="mb-4">
-        <h2 data-aos="zoom-in">Live Location</h2>
-        <div id="map" class="mb-3"></div>
-        <div class="d-flex justify-content-between">
-          <button class="btn btn-danger" title="Decline Request"> Decline </button>
-          <button class="btn btn-success" title="Accept Request"> Accept </button>
-          <button class="btn btn-primary" title="Call Client"> Call </button>
-        </div>
-      </section>
-
-      <!-- Trips -->
-      <section id="trips" class="mb-4">
-        <h2 data-aos="zoom-in">Trips History</h2>
-        <div class="card mb-2 p-3 shadow-sm d-flex flex-row align-items-center">
-          <img src="client.jpg" class="rounded-circle me-3" width="60" height="60" alt="Client">
-          <div>
-            <p class="mb-0">Trip #001 - Timothy Osubert</p>
-            <p class="mb-0">Distance: 5km | Fare: UGX 8,000 | ⭐⭐⭐⭐</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Notifications -->
-      <section id="notifications" class="mb-4">
-        <h2 data-aos="zoom-in">Notifications</h2>
-        <ul class="list-group">
-          <li class="list-group-item">📢 New Trip Request</li>
-          <li class="list-group-item">🌦️ Weather: Sunny 27°C</li>
-          <li class="list-group-item">💬 Message from Client</li>
-        </ul>
-      </section>
-
-      <!-- Ratings -->
-      <section id="ratings" class="mb-4">
-        <h2 data-aos="zoom-in">My Ratings</h2>
-        <canvas id="ratingsChart"></canvas>
-      </section>
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-dark text-light pt-5">
-      <!-- Footer content remains the same -->
-      <div class="container">
-        <div class="row">
-          <!-- Quick Links -->
-          <div class="col-md-3 mb-3">
-            <h5 data-aos="zoom-in">Quick Links</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="footer-link" title="About">About</a></li>
-              <li><a href="#" class="footer-link" title="Privacy">Privacy</a></li>
-              <li><a href="#" class="footer-link" title="Terms & Conditions">Terms & Conditions</a></li>
-            </ul>
-          </div>
+    <footer class="footer bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Quick Links -->
+                <div class="col-md-3 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Privacy</a></li>
+                        <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+                    </ul>
+                </div>
 
-          <!-- Newsletter -->
-          <div class="col-md-3 mb-3">
-            <h5 data-aos="zoom-in">Newsletter</h5>
-            <form>
-              <div class="mb-2">
-                <input type="email" class="form-control form-control-sm" placeholder="Your email">
-              </div>
-              <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
-            </form>
-          </div>
+                <!-- Newsletter -->
+                <div class="col-md-3 mb-3">
+                    <h5>Newsletter</h5>
+                    <form id="newsletter-form">
+                        <div class="mb-2">
+                            <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+                    </form>
+                </div>
 
-          <!-- App Downloads -->
-          <div class="col-md-3 mb-3">
-            <h5 data-aos="zoom-in">Download App</h5>
-            <a href="#"><img src="images/apple_store.png" alt="Apple Store" title="Download on Apple store" class="store-img mb-2"></a>
-            <br>
-            <a href="#"><img src="images/playstore.png" alt="Google Play Store" title="Download on Play Store" class="store-img"></a>
-          </div>
+                <!-- App Downloads -->
+                <div class="col-md-3 mb-3">
+                    <h5>Download App</h5>
+                    <a href="#" class="d-block mb-2">
+                        <img src="images/apple_store.png" alt="Apple Store" class="store-img" style="max-width: 120px;">
+                    </a>
+                    <a href="#" class="d-block">
+                        <img src="images/playstore.png" alt="Google Play Store" class="store-img" style="max-width: 120px;">
+                    </a>
+                </div>
 
-          <!-- Contact Info -->
-          <div class="col-md-3 mb-3">
-            <h5 data-aos="zoom-in">Contact Us</h5>
-            <ul>
-              <li><a href="tel:+256763343453" class="footer-link" title="Call Us"> +256 763 343 453</a></li>
-              <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us"> jobingetimothyosubert@gmail.com</a></li>
-              <li><a href="https://mbararacity.go.ug/page/about-us" class="footer-link" title="Find Us"> Mbarara-City, Uganda </a></li>
-            </ul>
-          </div>
+                <!-- Contact Info -->
+                <div class="col-md-3 mb-3">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="tel:+256763343453" class="footer-link">+256 763 343 453</a></li>
+                        <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link">jobingetimothyosubert@gmail.com</a></li>
+                        <li><a href="#" class="footer-link">Mbarara City, Uganda</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <p class="mb-0">&copy; 2024 CampusLink. All rights reserved.</p>
+                </div>
+            </div>
         </div>
-
-        <div class="row mt-4">
-          <div class="col text-center">
-            <p class="mb-0">© 2025 CampusLink. All rights reserved.</p>
-          </div>
-        </div>
-      </div>
     </footer>
-  </main>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- AOS JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script>
-  AOS.init();
-</script>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="driverDashboard.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="clientDashboard.js"></script>
 </body>
 </html>
