@@ -7,7 +7,8 @@ while ($true) {
     # Navigate to your project folder
     cd "D:\xampp1\htdocs\CAMPUS-LINK"
 
-    
+    #cd D:\xampp1\htdocs\CAMPUS-LINK\auto-sync
+    #.\auto-sync.ps1
 
     # Pull latest changes from remote
     git pull --rebase origin main
