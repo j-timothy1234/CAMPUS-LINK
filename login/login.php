@@ -1,0 +1,64 @@
+<?php
+require_once __DIR__ . '/../riders/session_config.php';
+
+// If already logged in, redirect to the appropriate dashboard
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $type = $_SESSION['user_type'] ?? null;
+    if ($type === 'rider') {
+        header('Location: ../riderDashboard/riderDashboard.php'); exit();
+    } elseif ($type === 'driver') {
+        header('Location: ../driverDashboard/driverDashboard.php'); exit();
+    } elseif ($type === 'client') {
+        header('Location: ../clientDashboard/clientDashboard.php'); exit();
+    }
+}
+
+$error = $_GET['error'] ?? '';
+
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - CampusLink</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="text-center mb-3">
+      <img src="images/logo.png" alt="CampusLink Logo" class="logo">
+    </div>
+
+    <h3 class="text-center mb-4">Login Into Your Account</h3>
+
+    <?php if ($error === 'invalid_credentials'): ?>
+      <div class="alert alert-danger">Invalid credentials. Please register or try again.</div>
+    <?php endif; ?>
+
+    <form method="post" action="auth.php">
+      <div class="mb-3">
+        <label for="identifier" class="form-label">Email or Username</label>
+        <input type="text" class="form-control" id="identifier" name="email" placeholder="Email or username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+      <div class="text-center">
+        <p>Don't have an Account?</p>
+        <a href="../riders/rider.html">Register as Rider</a> |
+        <a href="../drivers/driver.html">Register as Driver</a> |
+        <a href="../clients/client.html">Register as Client</a>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

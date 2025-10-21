@@ -11,26 +11,7 @@ setInterval(() => {
   zoomIn = !zoomIn;
 }, 2000);
 
-function openLogin() {
-  let width = 450;
-  let height = 600;
-
-  // Adjust size for smaller devices
-  if (window.innerWidth < 576) {
-    width = window.innerWidth - 40;
-    height = window.innerHeight - 80;
-  }
-
-  const left = (screen.width - width) / 2;
-  const top = (screen.height - height) / 2;
-
-  // Pointing to the login folder page
-  window.open(
-    "../login/login.html",
-    "LoginWindow",
-    `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes`
-  );
-}
+// openLogin() removed — navbar now links directly to server-side login page
 
 
 function openClientRegister() {

@@ -23,10 +23,10 @@ if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time'] > 1800))
 // Update session time to extend timeout with each activity
 $_SESSION['login_time'] = time();
 
-// Get driver data from session
-$username = htmlspecialchars($_SESSION['username']);
-$rider_id = $_SESSION['rider_id'];
-$profile_photo = $_SESSION['profile_photo'];
+// Get rider data from session safely (avoid undefined variable warnings)
+$username = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest';
+$rider_id = $_SESSION['rider_id'] ?? 'N/A';
+$profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
 ?>
 
