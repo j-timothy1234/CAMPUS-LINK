@@ -1,19 +1,28 @@
 # auto-sync.ps1
-# Automatically commits and pushes changes to GitHub
+# Automatically commits and pushes changes to GitHub every 2 minutes
 
-cd "D:\xampp1\htdocs\CAMPUS-LINK"
+while ($true) {
+    Write-Host "🔄 Starting auto-sync..." -ForegroundColor Cyan
 
-# Pull latest changes from remote (to stay up-to-date)
-git pull --rebase origin main
+    # Navigate to your project folder
+    cd "D:\xampp1\htdocs\CAMPUS-LINK"
 
-# Stage all modified, new, or deleted files
-git add .
+    # Pull latest changes from remote
+    git pull --rebase origin main
 
-# Commit changes with a timestamp
-$time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-git commit -m "Auto sync: project updated at $time"
+    # Stage all modified, new, or deleted files
+    git add .
 
-# Push changes to GitHub
-git push origin main
+    # Commit changes with a timestamp
+    $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    git commit -m "Auto sync: project updated at $time"
 
-Write-Host "✅ Auto-sync completed at $time"
+    # Push changes to GitHub
+    git push origin main
+
+    Write-Host "✅ Auto-sync completed at $time" -ForegroundColor Green
+    Write-Host "⏳ Waiting 2 minutes before next sync..." -ForegroundColor Yellow
+
+    # Wait for 2 minutes (120 seconds)
+    Start-Sleep -Seconds 120
+}
