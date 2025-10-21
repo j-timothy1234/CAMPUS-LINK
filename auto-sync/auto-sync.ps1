@@ -7,6 +7,8 @@ while ($true) {
     # Navigate to your project folder
     cd "D:\xampp1\htdocs\CAMPUS-LINK"
 
+    
+
     # Pull latest changes from remote
     git pull --rebase origin main
 
