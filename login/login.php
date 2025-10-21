@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../riders/session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // If already logged in, redirect to the appropriate dashboard
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {

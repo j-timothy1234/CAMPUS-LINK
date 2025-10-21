@@ -3,7 +3,8 @@
 // Driver login handler with session creation
 
 require_once __DIR__ . '/../db_connect.php';
-require_once __DIR__ . '/session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Set response header to JSON
 header('Content-Type: application/json');

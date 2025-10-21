@@ -1,7 +1,8 @@
 <?php
 // auth.php - centralized login for clients, drivers and riders
 require_once __DIR__ . '/../db_connect.php';
-require_once __DIR__ . '/../riders/session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Detect if client expects JSON (AJAX) or a normal form POST
 $accept = $_SERVER['HTTP_ACCEPT'] ?? '';

@@ -6,7 +6,8 @@ ob_start();
 
 // Include files
 require_once __DIR__ . '/../db_connect.php';
-require_once 'session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Enable error reporting but don't display to users
 ini_set('display_errors', 0);

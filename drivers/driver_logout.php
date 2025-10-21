@@ -2,8 +2,8 @@
 // logout.php
 // Secure logout handler with session destruction
 
-// Include session configuration
-require_once __DIR__ . '/session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Unset all session variables
 $_SESSION = array();

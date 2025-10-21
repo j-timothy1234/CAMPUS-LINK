@@ -2,8 +2,8 @@
 // driverDashboard.php
 // Protected driver dashboard with session authentication
 
-// Include session configuration
-require_once __DIR__ . '/../drivers/session_config.php';
+// Include session configuration and check authentication
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Check if user is logged in and is a driver
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'driver') {
