@@ -11,6 +11,8 @@ error_reporting(E_ALL);
  * git commit -m "Updated project files"
  * git push origin main
  * 
+ * git commit -m "Initial commit - upload all project files"
+ * 
  * 
  */
 
