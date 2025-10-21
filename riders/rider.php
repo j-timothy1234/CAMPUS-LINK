@@ -3,8 +3,10 @@
 require_once __DIR__ . '/../db_connect.php';
 
 // Enable maximum error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/rider_php_errors.log');
 error_reporting(E_ALL);
 
 // Set response header to JSON
@@ -191,14 +193,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             file_put_contents('rider_debug.log', "Verification query found $row_count rows with Rider_ID: $rider_id\n", FILE_APPEND);
             
             echo json_encode([
-                "status" => "success", 
+                "status" => "success",
                 "message" => "Rider registered successfully. Your Rider ID: " . $rider_id,
+                "redirect" => "rider_login.html",
                 "debug" => [
                     "affected_rows" => $affected_rows,
                     "verified_rows" => $row_count,
                     "rider_id" => $rider_id
                 ]
             ]);
+            exit();
+            
         } else {
             $error = $stmt->error;
             file_put_contents('rider_debug.log', "SQL execution failed: $error\n", FILE_APPEND);

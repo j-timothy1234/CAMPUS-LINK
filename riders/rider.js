@@ -22,12 +22,12 @@ document.getElementById("riderForm").addEventListener("submit", function (event)
   // ===== Validation Regex =====
   const nameRegex = /^[A-Za-z ]+$/; // Only letters and spaces
   const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Must end with @gmail.com
-  const phoneRegex = /^(070|071|074|075|076|077|078)\d{7}$/; // Ugandan 10-digit numbers
+  const phoneRegex = /^(070|071|074|075|076|077|078|079|072)\d{7}$/; // Ugandan 10-digit numbers
 
-  // Motorcycle plate validation: UAA 000M or UA 000AA
+  // Motorcycle plate validation: UAB 000M or UA 000AA
   const plateRegex = /^(U[A-Z]{2} \d{3}[A-Z]{1}|U[A-Z]{1} \d{3}[A-Z]{2})$/;
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/; // Strong password
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#=+?&-{_><~`"'}\|]).{8,}$/; // Strong password
 
   // ===== Input Validation =====
   if (!nameRegex.test(username)) {

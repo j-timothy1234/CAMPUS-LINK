@@ -868,3 +868,807 @@ Verification query found 1 rows with Rider_ID: R000002
 Database connection closed
 === RIDER REGISTRATION COMPLETED ===
 
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 17:01:57
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => J Timothy Osuberrt
+    [email] => osubert3@gmail.com
+    [phone] => 0768936273
+    [gender] => Male
+    [plate] => UPD 347K
+    [residence] => WANTONI
+    [password] => ;S*8%Tu::Lkuw:!
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => log.png
+            [full_path] => log.png
+            [type] => image/png
+            [tmp_name] => D:\xampp1\tmp\php3A28.tmp
+            [error] => 0
+            [size] => 3960
+        )
+
+)
+
+Sanitized data:
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone: 0768936273
+- Gender: Male
+- Plate: UPD 347K
+- Residence: WANTONI
+Generating Rider_ID...
+Generated Rider_ID: R000003
+Phone as integer: 768936273
+Processing photo upload...
+Photo path: ../upload_rider/J_Timothy_Osuberrt_profile.png
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000003
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone_Number: 768936273
+- Gender: Male
+- Profile_Photo: ../upload_rider/J_Timothy_Osuberrt_profile.png
+- Motorcycle_Plate_Number: UPD 347K
+- Residence: WANTONI
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000003
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:16:51
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => J Timothy Osuberrt
+    [email] => osubert3@gmail.com
+    [phone] => 0768936273
+    [gender] => Male
+    [plate] => UPD 347K
+    [residence] => WANTONI
+    [password] => ;S*8%Tu::Lkuw:!
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => get_photo.jpeg
+            [full_path] => get_photo.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\phpBDA7.tmp
+            [error] => 0
+            [size] => 13051
+        )
+
+)
+
+Sanitized data:
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone: 0768936273
+- Gender: Male
+- Plate: UPD 347K
+- Residence: WANTONI
+Generating Rider_ID...
+Generated Rider_ID: R000004
+Phone as integer: 768936273
+Processing photo upload...
+Photo path: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000004
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone_Number: 768936273
+- Gender: Male
+- Profile_Photo: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+- Motorcycle_Plate_Number: UPD 347K
+- Residence: WANTONI
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+EXCEPTION: Duplicate entry 'osubert3@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:17:08
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => J Timothy Osuberrt
+    [email] => osubert3@gmail.com
+    [phone] => 0768936273
+    [gender] => Male
+    [plate] => UPD 347K
+    [residence] => WANTONI
+    [password] => ;S*8%Tu::Lkuw:!
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => get_photo.jpeg
+            [full_path] => get_photo.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php20.tmp
+            [error] => 0
+            [size] => 13051
+        )
+
+)
+
+Sanitized data:
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone: 0768936273
+- Gender: Male
+- Plate: UPD 347K
+- Residence: WANTONI
+Generating Rider_ID...
+Generated Rider_ID: R000004
+Phone as integer: 768936273
+Processing photo upload...
+Photo path: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000004
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone_Number: 768936273
+- Gender: Male
+- Profile_Photo: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+- Motorcycle_Plate_Number: UPD 347K
+- Residence: WANTONI
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+EXCEPTION: Duplicate entry 'osubert3@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:17:38
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => J Timothy Osuberrt
+    [email] => osubert3@gmail.com
+    [phone] => 0768936273
+    [gender] => Male
+    [plate] => UPD 347K
+    [residence] => WANTONI
+    [password] => ;S*8%Tu::Lkuw:!
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => get_photo.jpeg
+            [full_path] => get_photo.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php7522.tmp
+            [error] => 0
+            [size] => 13051
+        )
+
+)
+
+Sanitized data:
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone: 0768936273
+- Gender: Male
+- Plate: UPD 347K
+- Residence: WANTONI
+Generating Rider_ID...
+Generated Rider_ID: R000004
+Phone as integer: 768936273
+Processing photo upload...
+Photo path: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000004
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:17:40
+POST request received
+- Username: J Timothy Osuberrt
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => J Timothy Osuberrt
+    [email] => osubert3@gmail.com
+    [phone] => 0768936273
+    [gender] => Male
+    [plate] => UPD 347K
+    [residence] => WANTONI
+    [password] => ;S*8%Tu::Lkuw:!
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => get_photo.jpeg
+            [full_path] => get_photo.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php7A91.tmp
+            [error] => 0
+            [size] => 13051
+        )
+
+)
+
+Sanitized data:
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone: 0768936273
+- Gender: Male
+- Plate: UPD 347K
+- Residence: WANTONI
+Generating Rider_ID...
+Generated Rider_ID: R000004
+Phone as integer: 768936273
+Processing photo upload...
+Photo path: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+Photo successfully saved
+- Email: osubert3@gmail.com
+- Phone_Number: 768936273
+- Gender: Male
+- Profile_Photo: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+- Motorcycle_Plate_Number: UPD 347K
+- Residence: WANTONI
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000004
+- Username: J Timothy Osuberrt
+- Email: osubert3@gmail.com
+- Phone_Number: 768936273
+- Gender: Male
+- Profile_Photo: ../upload_rider/J_Timothy_Osuberrt_profile.jpeg
+- Motorcycle_Plate_Number: UPD 347K
+- Residence: WANTONI
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+EXCEPTION: Duplicate entry 'osubert3@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
+EXCEPTION: Duplicate entry 'osubert3@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:39:04
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => FELIX BRO
+    [email] => felixbro@gmail.com
+    [phone] => 0740194512
+    [gender] => Male
+    [plate] => UBE 822K
+    [residence] => BANDA
+    [password] => ;^=&3FzfUr-F&3D
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => felix.jpg
+            [full_path] => felix.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\phpFA45.tmp
+            [error] => 0
+            [size] => 98538
+        )
+
+)
+
+Sanitized data:
+- Username: FELIX BRO
+- Email: felixbro@gmail.com
+- Phone: 0740194512
+- Gender: Male
+- Plate: UBE 822K
+- Residence: BANDA
+Generating Rider_ID...
+Generated Rider_ID: R000004
+Phone as integer: 740194512
+Processing photo upload...
+Photo path: ../upload_rider/FELIX_BRO_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000004
+- Username: FELIX BRO
+- Email: felixbro@gmail.com
+- Phone_Number: 740194512
+- Gender: Male
+- Profile_Photo: ../upload_rider/FELIX_BRO_profile.jpg
+- Motorcycle_Plate_Number: UBE 822K
+- Residence: BANDA
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000004
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-20 20:39:09
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => FELIX BRO
+    [email] => felixbro@gmail.com
+    [phone] => 0740194512
+    [gender] => Male
+    [plate] => UBE 822K
+    [residence] => BANDA
+    [password] => ;^=&3FzfUr-F&3D
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => felix.jpg
+            [full_path] => felix.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php22BE.tmp
+            [error] => 0
+            [size] => 98538
+        )
+
+)
+
+Sanitized data:
+- Username: FELIX BRO
+- Email: felixbro@gmail.com
+- Phone: 0740194512
+- Gender: Male
+- Plate: UBE 822K
+- Residence: BANDA
+Generating Rider_ID...
+Generated Rider_ID: R000005
+Phone as integer: 740194512
+Processing photo upload...
+Photo path: ../upload_rider/FELIX_BRO_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000005
+- Username: FELIX BRO
+- Email: felixbro@gmail.com
+- Phone_Number: 740194512
+- Gender: Male
+- Profile_Photo: ../upload_rider/FELIX_BRO_profile.jpg
+- Motorcycle_Plate_Number: UBE 822K
+- Residence: BANDA
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+EXCEPTION: Duplicate entry 'felixbro@gmail.com' for key 'Email'
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:33:50
+POST request received
+Timestamp: 2025-10-21 13:33:50
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:35:18
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:37:30
+POST request received
+POST request received
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:37:30
+POST request received
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:37:30
+POST request received
+=== RIDER REGISTRATION STARTED ===
+Database connection successful
+Timestamp: 2025-10-21 13:37:30
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+POST request received
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+Auto-commit enabled
+Database connection successful
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+Auto-commit enabled
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372508.jpg
+            [full_path] => 1000372508.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:40:03
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Armstrong
+    [email] => mansonshawnariho@gmail.com
+    [phone] => 0771249589
+    [gender] => Male
+    [plate] => UAA 363H
+    [residence] => Ruharo
+    [password] => Sh@wn@18
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 1000372507.jpg
+            [full_path] => 1000372507.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php790C.tmp
+            [error] => 0
+            [size] => 3858456
+        )
+
+)
+
+Sanitized data:
+- Username: Armstrong
+- Email: mansonshawnariho@gmail.com
+- Phone: 0771249589
+- Gender: Male
+- Plate: UAA 363H
+- Residence: Ruharo
+Generating Rider_ID...
+Generated Rider_ID: R000005
+Phone as integer: 771249589
+Processing photo upload...
+Photo path: ../upload_rider/Armstrong_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000005
+- Username: Armstrong
+- Email: mansonshawnariho@gmail.com
+- Phone_Number: 771249589
+- Gender: Male
+- Profile_Photo: ../upload_rider/Armstrong_profile.jpg
+- Motorcycle_Plate_Number: UAA 363H
+- Residence: Ruharo
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000005
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:54:16
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+)
+
+FILES data: Array
+(
+)
+
+EXCEPTION: Missing required fields: username, email, phone, gender, plate, residence, password
+=== RIDER REGISTRATION COMPLETED ===
+
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-21 13:56:09
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Anold
+    [email] => alinethuanoldbaluku@gmail.com
+    [phone] => 0770348821
+    [gender] => Male
+    [plate] => UAA 200B
+    [residence] => Kiyanja
+    [password] => ANOLDjan182004#
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => 20251021_041215.jpg
+            [full_path] => 20251021_041215.jpg
+            [type] => 
+            [tmp_name] => 
+            [error] => 3
+            [size] => 0
+        )
+
+)
+
+EXCEPTION: Please upload a valid profile photo. Error code: 3
+=== RIDER REGISTRATION COMPLETED ===
+
