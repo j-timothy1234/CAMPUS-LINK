@@ -23,6 +23,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
 }
 $csrf_token = $_SESSION['csrf_token'];
+// Prefer thumbnail for header if it exists
+$header_photo = $profile_photo;
+// build possible thumb path (insert _thumb before extension)
+$thumbCandidate = preg_replace('/(\.[^.]+)$/', '_thumb$1', $profile_photo);
+if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
+    $header_photo = $thumbCandidate;
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +60,7 @@ $csrf_token = $_SESSION['csrf_token'];
         <div class="container-fluid">
             <!-- Profile Picture - Left -->
             <div class="navbar-brand d-flex align-items-center">
-                <img src="<?php echo $profile_photo; ?>" alt="Profile" class="profile-pic rounded-circle me-2">
+                <img src="<?php echo $header_photo; ?>" alt="Profile" class="profile-pic rounded-circle me-2">
             </div>
             
             <!-- Welcome Message & Time - Center -->

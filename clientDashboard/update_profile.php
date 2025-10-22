@@ -42,6 +42,26 @@ if (empty($username) || empty($email)) {
     exit();
 }
 
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid email address format']);
+    exit();
+}
+
+// Check email uniqueness (no other client should have this email)
+$checkStmt = $conn->prepare('SELECT Client_ID FROM clients WHERE Email = ? AND Client_ID <> ? LIMIT 1');
+if ($checkStmt) {
+    $checkStmt->bind_param('ss', $email, $client_id);
+    $checkStmt->execute();
+    $res = $checkStmt->get_result();
+    if ($res && $res->num_rows > 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Email already in use by another account']);
+        exit();
+    }
+}
+
 $profile_photo_path = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 $old_photo = $profile_photo_path;
 
