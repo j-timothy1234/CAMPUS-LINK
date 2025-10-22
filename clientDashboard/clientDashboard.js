@@ -290,40 +290,26 @@ class ClientDashboard {
 
     // Trip History
     loadTripHistory() {
-        // Simulated trip history data
-        const tripHistory = [
-            {
-                type: 'Motorcycle',
-                plate: 'UBD 123A',
-                agent: 'John Rider',
-                distance: '8.5 km',
-                fare: 'UGX 12,000',
-                date: '2024-01-15',
-                comment: 'Excellent service!'
-            },
-            {
-                type: 'Vehicle',
-                plate: 'UBA 456B',
-                agent: 'Jane Driver',
-                distance: '15.2 km',
-                fare: 'UGX 25,000',
-                date: '2024-01-14',
-                comment: 'Comfortable ride'
-            }
-        ];
-        
-        const historyContainer = document.getElementById('trip-history');
-        historyContainer.innerHTML = tripHistory.map(trip => `
-            <tr>
-                <td>${trip.type}</td>
-                <td>${trip.plate}</td>
-                <td>${trip.agent}</td>
-                <td>${trip.distance}</td>
-                <td>${trip.fare}</td>
-                <td>${trip.date}</td>
-                <td>${trip.comment}</td>
-            </tr>
-        `).join('');
+        fetch('get_trip_history.php')
+            .then(r => r.json())
+            .then(json => {
+                const historyContainer = document.getElementById('trip-history');
+                if (json.success && Array.isArray(json.trips)) {
+                    historyContainer.innerHTML = json.trips.map(t => `
+                        <tr>
+                            <td>${t.mode || t.service || ''}</td>
+                            <td>${t.agent_id || ''}</td>
+                            <td>${t.agent_id || ''}</td>
+                            <td>${t.estimate || ''}</td>
+                            <td>${t.datetime || t.created_at || ''}</td>
+                            <td>${t.status || ''}</td>
+                            <td></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    historyContainer.innerHTML = '<tr><td colspan="7">No trip history yet</td></tr>';
+                }
+            }).catch(err => console.error(err));
     }
 
     saveTripToHistory() {
@@ -477,68 +463,83 @@ class ClientDashboard {
     initializeBookingAndDelivery() {
         // Travel mode buttons
         document.querySelectorAll('.travel-mode').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('agent-selection').querySelector('tbody').innerHTML = '';
-                // populate dummy agents for demo
-                const agents = [
-                    {profile: 'images/agent1.jpg', plate: 'UBD 123A', name: 'John Rider', work: 'Zone A', trips: 120, rating: 4.8},
-                    {profile: 'images/agent2.jpg', plate: 'UBA 456B', name: 'Jane Driver', work: 'Zone B', trips: 98, rating: 4.6}
-                ];
+            btn.addEventListener('click', (e) => {
+                const mode = e.currentTarget.getAttribute('data-mode');
                 const tbody = document.getElementById('agentTable').querySelector('tbody');
-                agents.forEach((a, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><img src="${a.profile}" class="agent-photo"/></td>
-                        <td>${a.plate}</td>
-                        <td>${a.name}</td>
-                        <td>${a.work}</td>
-                        <td>${a.trips}</td>
-                        <td>${a.rating}</td>
-                        <td><button class="btn btn-sm btn-primary select-agent" data-idx="${idx}">Select</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+                tbody.innerHTML = '';
+                fetch(`get_agents.php?mode=${mode === 'uber' ? 'uber' : 'bike'}`)
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.success && Array.isArray(json.agents)) {
+                            json.agents.forEach((a, idx) => {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
+                                    <td><img src="${a.Profile_Photo || 'images/default_profile.png'}" class="agent-photo"/></td>
+                                    <td>${a.plate || ''}</td>
+                                    <td>${a.Username || ''}</td>
+                                    <td>${a.work || ''}</td>
+                                    <td>${a.trips}</td>
+                                    <td>${a.rating}</td>
+                                    <td><button class="btn btn-sm btn-primary select-agent" data-id="${a.id}" data-mode="${mode}">Select</button></td>
+                                `;
+                                tbody.appendChild(tr);
+                            });
 
-                // wire select buttons
-                tbody.querySelectorAll('.select-agent').forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        document.getElementById('book-travel-details').style.display = 'block';
-                        // simple estimate
-                        document.getElementById('bookEstimate').value = 'UGX 10,000';
-                    });
-                });
+                            tbody.querySelectorAll('.select-agent').forEach(b => {
+                                b.addEventListener('click', (ev) => {
+                                    const agentId = ev.currentTarget.getAttribute('data-id');
+                                    const chosenMode = ev.currentTarget.getAttribute('data-mode');
+                                    this.selectedAgent = agentId;
+                                    this.selectedAgentMode = chosenMode;
+                                    document.getElementById('book-travel-details').style.display = 'block';
+                                    document.getElementById('bookEstimate').value = 'Calculating...';
+                                    // TODO: replace with real estimate calculation
+                                    setTimeout(() => document.getElementById('bookEstimate').value = 'UGX 10,000', 300);
+                                });
+                            });
+                        }
+                    }).catch(err => console.error(err));
             });
         });
 
         // Delivery mode buttons
         document.querySelectorAll('.delivery-mode').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('delivery-agent-selection').querySelector('tbody').innerHTML = '';
-                const agents = [
-                    {profile: 'images/agent1.jpg', plate: 'UBD 789C', name: 'Paul Rider', work: 'Zone C', orders: 50, rating: 4.5},
-                    {profile: 'images/agent2.jpg', plate: 'UBA 111D', name: 'Lucy Driver', work: 'Zone D', orders: 80, rating: 4.7}
-                ];
+            btn.addEventListener('click', (e) => {
+                const mode = e.currentTarget.getAttribute('data-mode');
                 const tbody = document.getElementById('deliveryAgentTable').querySelector('tbody');
-                agents.forEach((a, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><img src="${a.profile}" class="agent-photo"/></td>
-                        <td>${a.plate}</td>
-                        <td>${a.name}</td>
-                        <td>${a.work}</td>
-                        <td>${a.orders}</td>
-                        <td>${a.rating}</td>
-                        <td><button class="btn btn-sm btn-primary select-delivery-agent" data-idx="${idx}">Select</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+                tbody.innerHTML = '';
+                // For delivery, use riders or drivers similarly
+                fetch(`get_agents.php?mode=${mode === 'driver' ? 'uber' : 'bike'}`)
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.success && Array.isArray(json.agents)) {
+                            json.agents.forEach(a => {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
+                                    <td><img src="${a.Profile_Photo || 'images/default_profile.png'}" class="agent-photo"/></td>
+                                    <td>${a.plate || ''}</td>
+                                    <td>${a.Username || ''}</td>
+                                    <td>${a.work || ''}</td>
+                                    <td>${a.trips || a.orders || 0}</td>
+                                    <td>${a.rating}</td>
+                                    <td><button class="btn btn-sm btn-primary select-delivery-agent" data-id="${a.id}" data-mode="${mode}">Select</button></td>
+                                `;
+                                tbody.appendChild(tr);
+                            });
 
-                tbody.querySelectorAll('.select-delivery-agent').forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        document.getElementById('delivery-details').style.display = 'block';
-                        document.getElementById('deliveryEstimate').value = 'UGX 8,000';
-                    });
-                });
+                            tbody.querySelectorAll('.select-delivery-agent').forEach(b => {
+                                b.addEventListener('click', (ev) => {
+                                    const agentId = ev.currentTarget.getAttribute('data-id');
+                                    const chosenMode = ev.currentTarget.getAttribute('data-mode');
+                                    this.selectedAgent = agentId;
+                                    this.selectedAgentMode = chosenMode;
+                                    document.getElementById('delivery-details').style.display = 'block';
+                                    document.getElementById('deliveryEstimate').value = 'Calculating...';
+                                    setTimeout(() => document.getElementById('deliveryEstimate').value = 'UGX 8,000', 300);
+                                });
+                            });
+                        }
+                    }).catch(err => console.error(err));
             });
         });
 
@@ -549,6 +550,52 @@ class ClientDashboard {
                 const pass = document.getElementById('password');
                 if (pass.type === 'password') { pass.type = 'text'; toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>'; }
                 else { pass.type = 'password'; toggleBtn.innerHTML = '<i class="fas fa-eye"></i>'; }
+            });
+        }
+        // Booking creation handlers
+        const confirmBookingBtn = document.getElementById('confirmBooking');
+        if (confirmBookingBtn) {
+            confirmBookingBtn.addEventListener('click', () => {
+                const payload = {
+                    agent_id: this.selectedAgent || '',
+                    service: 'book',
+                    mode: this.selectedAgentMode || 'bike',
+                    datetime: document.getElementById('bookDateTime').value,
+                    pickup: document.getElementById('bookPickup').value,
+                    destination: document.getElementById('bookDestination').value,
+                    estimate: document.getElementById('bookEstimate').value
+                };
+                fetch('create_booking.php', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.success) {
+                            alert('Booking created');
+                            this.loadTripHistory();
+                        } else alert('Booking failed');
+                    }).catch(err => console.error(err));
+            });
+        }
+
+        const confirmDeliveryBtn = document.getElementById('confirmDelivery');
+        if (confirmDeliveryBtn) {
+            confirmDeliveryBtn.addEventListener('click', () => {
+                const payload = {
+                    agent_id: this.selectedAgent || '',
+                    service: 'delivery',
+                    mode: this.selectedAgentMode || 'rider',
+                    datetime: document.getElementById('deliveryDateTime').value,
+                    pickup: document.getElementById('deliveryPickup').value,
+                    destination: document.getElementById('deliveryDropoff').value,
+                    estimate: document.getElementById('deliveryEstimate').value
+                };
+                fetch('create_booking.php', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+                    .then(r => r.json())
+                    .then(json => {
+                        if (json.success) {
+                            alert('Delivery request created');
+                            this.loadTripHistory();
+                        } else alert('Request failed');
+                    }).catch(err => console.error(err));
             });
         }
     }

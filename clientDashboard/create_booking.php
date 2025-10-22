@@ -45,7 +45,7 @@ $stmt = $conn->prepare('INSERT INTO bookings (client_id, agent_id, service, mode
 if (!$stmt) { http_response_code(500); echo json_encode(['success'=>false,'message'=>'DB prepare failed']); exit(); }
 $stmt->bind_param('ssssssss', $client_id, $agent_id, $service, $mode, $datetime, $pickup, $destination, $estimate);
 if ($stmt->execute()) {
-    echo json_encode(['success'=>true,'booking_id'=>$stmt->insert_id]);
+    echo json_encode(['success'=>true,'booking_id'=>$conn->insert_id]);
 } else {
     http_response_code(500);
     echo json_encode(['success'=>false,'message'=>'Failed to create booking']);
