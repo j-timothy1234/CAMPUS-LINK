@@ -13,7 +13,7 @@ error_reporting(E_ALL);
  * 
  * git commit -m "Initial commit - upload all project files"
  * 
- * 
+ *
  */
 
 class Database {
