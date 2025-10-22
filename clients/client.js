@@ -66,7 +66,7 @@ $(document).ready(function () {
       success: function (response) {
         if (response.success) {
           alert("Registration successful! Welcome to CampusLink.");
-          window.location.href = "../homepage/index.html";
+          window.location.href = "../clientDashboard/clientDashboard.php";
           $("#clientForm")[0].reset();
         } else {
           alert("Registration failed: " + response.message);
