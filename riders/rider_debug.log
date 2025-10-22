@@ -1734,3 +1734,65 @@ Parameters bound successfully
 Executing SQL statement...
 SQL executed successfully. Affected rows: 1
 Verification query found 1 rows with Rider_ID: R000006
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-22 15:39:35
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Pascals
+    [email] => pascals@gmail.com
+    [phone] => 0752915250
+    [gender] => Male
+    [plate] => UGH 637H
+    [residence] => Katete
+    [password] => @pascalsTIM1234%
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => A89DA509-D476-449E-A97F-3C84C1153079.jpeg
+            [full_path] => A89DA509-D476-449E-A97F-3C84C1153079.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\php13ED.tmp
+            [error] => 0
+            [size] => 74437
+        )
+
+)
+
+Sanitized data:
+- Username: Pascals
+- Email: pascals@gmail.com
+- Phone: 0752915250
+- Gender: Male
+- Plate: UGH 637H
+- Residence: Katete
+Generating Rider_ID...
+Generated Rider_ID: R000007
+Phone as integer: 752915250
+Processing photo upload...
+Photo path: ../upload_rider/Pascals_profile.jpeg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000007
+- Username: Pascals
+- Email: pascals@gmail.com
+- Phone_Number: 752915250
+- Gender: Male
+- Profile_Photo: ../upload_rider/Pascals_profile.jpeg
+- Motorcycle_Plate_Number: UGH 637H
+- Residence: Katete
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000007
