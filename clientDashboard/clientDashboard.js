@@ -391,8 +391,58 @@ class ClientDashboard {
 
     // Profile Picture Upload
     initializeProfileUpload() {
-        // This would be implemented in the personal info layer
-        console.log('Profile upload initialized');
+        // Attach events when personal info layer elements are present
+        document.addEventListener('click', (e) => {
+            // if the personal info layer is active, wire up the file input
+            if (this.currentLayer === 'personal-info') {
+                const fileInput = document.getElementById('profile_photo');
+                const preview = document.getElementById('profilePreview');
+                const form = document.getElementById('personal-info-form');
+                const message = document.getElementById('personalInfoMessage');
+
+                if (fileInput && !fileInput._bound) {
+                    fileInput.addEventListener('change', (evt) => {
+                        const file = evt.target.files[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            preview.src = ev.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                    fileInput._bound = true;
+                }
+
+                if (form && !form._bound) {
+                    form.addEventListener('submit', (evt) => {
+                        evt.preventDefault();
+                        message.textContent = '';
+                        const submitBtn = document.getElementById('saveProfile');
+                        submitBtn.disabled = true;
+
+                        const data = new FormData(form);
+
+                        fetch('update_profile.php', {
+                            method: 'POST',
+                            body: data,
+                        }).then(r => r.json())
+                        .then(json => {
+                            if (json.success) {
+                                message.innerHTML = '<div class="alert alert-success">Profile updated.</div>';
+                                // Optionally reload page to reflect changes
+                                setTimeout(() => location.reload(), 800);
+                            } else if (json.error) {
+                                message.innerHTML = `<div class="alert alert-danger">${json.error}</div>`;
+                            }
+                        }).catch(err => {
+                            console.error(err);
+                            message.innerHTML = '<div class="alert alert-danger">Update failed.</div>';
+                        }).finally(() => { submitBtn.disabled = false; });
+                    });
+                    form._bound = true;
+                }
+            }
+        });
     }
 
     // Layer-specific content loaders (to be implemented)
@@ -417,13 +467,9 @@ class ClientDashboard {
     }
 
     loadPersonalInfoContent() {
+        // Personal info content already rendered server-side in PHP; just ensure any dynamic wiring runs
         const container = document.getElementById('personal-info-layer');
-        container.innerHTML = `
-            <div class="text-center">
-                <h4>Personal Info - Coming Soon</h4>
-                <p>This feature will be available in the next update.</p>
-            </div>
-        `;
+        // If needed, we could fetch fresh data via AJAX here. For now, the form fields are prefilled by PHP.
     }
 }
 

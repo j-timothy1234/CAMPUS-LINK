@@ -224,7 +224,49 @@ $gender = $_SESSION['gender'] ?? '';
 
                 <!-- LAYER 4: PERSONAL INFO (Hidden by default) -->
                 <div id="personal-info-layer" class="layer-panel">
-                    <!-- Personal Info content will be loaded here dynamically -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Personal Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="personal-info-form" enctype="multipart/form-data">
+                                <input type="hidden" name="client_id" value="<?php echo htmlspecialchars($client_id); ?>">
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3 text-center">
+                                        <img id="profilePreview" src="<?php echo $profile_photo; ?>" alt="Profile" class="profile-pic large rounded-circle mb-2">
+                                        <div>
+                                            <label for="profile_photo" class="form-label btn btn-sm btn-outline-secondary">Update profile photo</label>
+                                            <input type="file" id="profile_photo" name="profile_photo" accept="image/*" style="display:none">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-3">
+                                            <label class="form-label">Username</label>
+                                            <input type="text" class="form-control" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" name="phone" id="phone" value="<?php echo htmlspecialchars($phone); ?>">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">New Password (leave blank to keep current)</label>
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter new password">
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <button type="submit" class="btn btn-primary" id="saveProfile">Save changes</button>
+                                            <a href="logout.php" id="logoutLink" class="btn btn-outline-danger">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="personalInfoMessage" class="mt-3"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
