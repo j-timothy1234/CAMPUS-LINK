@@ -233,12 +233,162 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
 
                 <!-- LAYER 2: BOOK TRAVEL (Hidden by default) -->
                 <div id="book-travel-layer" class="layer-panel">
-                    <!-- Book Travel content will be loaded here dynamically -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Book Travel</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center mb-3">
+                                <button class="btn btn-outline-primary me-2 travel-mode" data-mode="bike">Choose Bike Rider</button>
+                                <button class="btn btn-outline-primary travel-mode" data-mode="uber">Choose Uber</button>
+                            </div>
+
+                            <div id="agent-selection" class="mb-3">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" id="agentTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Profile</th>
+                                                <th>Plate Number</th>
+                                                <th>Name</th>
+                                                <th>Place of Work</th>
+                                                <th>Trips Taken</th>
+                                                <th>Ratings</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Agents populated by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="book-travel-details" style="display:none">
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Select Date & Time</label>
+                                        <input type="datetime-local" id="bookDateTime" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">PickUp Station</label>
+                                        <input type="text" id="bookPickup" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Destination</label>
+                                        <input type="text" id="bookDestination" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="text-center mb-3">
+                                    <label class="form-label">Estimated Fare</label>
+                                    <div><input type="text" id="bookEstimate" class="form-control text-center" readonly></div>
+                                </div>
+
+                                <div class="d-flex justify-content-center gap-3 mb-3">
+                                    <button id="confirmBooking" class="btn btn-success">Confirm Booking</button>
+                                    <button id="callAgent" class="btn btn-outline-secondary">Call Transport Agent</button>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">Agent Orders & Completion (Rider)</div>
+                                            <div class="card-body"><canvas id="agentRiderChart"></canvas></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">Agent Orders & Completion (Driver)</div>
+                                            <div class="card-body"><canvas id="agentDriverChart"></canvas></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <button id="downloadTicket" class="btn btn-outline-primary">Download Ticket</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- LAYER 3: DELIVERY SERVICES (Hidden by default) -->
                 <div id="delivery-services-layer" class="layer-panel">
-                    <!-- Delivery Services content will be loaded here dynamically -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Delivery Services</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center mb-3">
+                                <button class="btn btn-outline-primary me-2 delivery-mode" data-mode="rider">Choose Rider</button>
+                                <button class="btn btn-outline-primary delivery-mode" data-mode="driver">Choose Driver</button>
+                            </div>
+
+                            <div id="delivery-agent-selection" class="mb-3">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" id="deliveryAgentTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Profile</th>
+                                                <th>Plate Number</th>
+                                                <th>Name</th>
+                                                <th>Place of Work</th>
+                                                <th>Orders Taken</th>
+                                                <th>Ratings</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Delivery agents populated by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="delivery-details" style="display:none">
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Select Date & Time</label>
+                                        <input type="datetime-local" id="deliveryDateTime" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">PickUp Station</label>
+                                        <input type="text" id="deliveryPickup" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">DropOff Point</label>
+                                        <input type="text" id="deliveryDropoff" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="text-center mb-3">
+                                    <label class="form-label">Estimated Cost (UGX)</label>
+                                    <div><input type="text" id="deliveryEstimate" class="form-control text-center" readonly></div>
+                                </div>
+
+                                <div class="d-flex justify-content-center gap-3 mb-3">
+                                    <button id="confirmDelivery" class="btn btn-success">Confirm Request</button>
+                                    <button id="callDeliveryAgent" class="btn btn-outline-secondary">Call Transport Agent</button>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">Delivery Agent Orders (Rider)</div>
+                                            <div class="card-body"><canvas id="deliveryRiderChart"></canvas></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">Delivery Agent Orders (Driver)</div>
+                                            <div class="card-body"><canvas id="deliveryDriverChart"></canvas></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- LAYER 4: PERSONAL INFO (Hidden by default) -->
@@ -262,6 +412,10 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                     </div>
                                     <div class="col-md-9">
                                         <div class="mb-3">
+                                            <label class="form-label">Client ID</label>
+                                            <input type="text" class="form-control" id="clientId" value="<?php echo htmlspecialchars($client_id); ?>" readonly>
+                                        </div>
+                                        <div class="mb-3">
                                             <label class="form-label">Username</label>
                                             <input type="text" class="form-control" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
                                         </div>
@@ -274,8 +428,15 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                             <input type="text" class="form-control" name="phone" id="phone" value="<?php echo htmlspecialchars($phone); ?>">
                                         </div>
                                         <div class="mb-3">
+                                            <label class="form-label">Gender</label>
+                                            <input type="text" class="form-control" id="gender" value="<?php echo htmlspecialchars($gender); ?>" readonly>
+                                        </div>
+                                        <div class="mb-3 position-relative">
                                             <label class="form-label">New Password (leave blank to keep current)</label>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter new password">
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter new password">
+                                                <button class="btn btn-outline-secondary" type="button" id="togglePassword"><i class="fas fa-eye"></i></button>
+                                            </div>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <button type="submit" class="btn btn-primary" id="saveProfile">Save changes</button>

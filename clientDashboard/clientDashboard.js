@@ -17,6 +17,7 @@ class ClientDashboard {
         this.initializeMap();
         this.loadTripHistory();
         this.initializeCharts();
+        this.initializeBookingAndDelivery();
     }
 
     // Live Time Update
@@ -470,6 +471,86 @@ class ClientDashboard {
         // Personal info content already rendered server-side in PHP; just ensure any dynamic wiring runs
         const container = document.getElementById('personal-info-layer');
         // If needed, we could fetch fresh data via AJAX here. For now, the form fields are prefilled by PHP.
+    }
+
+    // Book Travel & Delivery Services wiring (basic client-side behavior)
+    initializeBookingAndDelivery() {
+        // Travel mode buttons
+        document.querySelectorAll('.travel-mode').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('agent-selection').querySelector('tbody').innerHTML = '';
+                // populate dummy agents for demo
+                const agents = [
+                    {profile: 'images/agent1.jpg', plate: 'UBD 123A', name: 'John Rider', work: 'Zone A', trips: 120, rating: 4.8},
+                    {profile: 'images/agent2.jpg', plate: 'UBA 456B', name: 'Jane Driver', work: 'Zone B', trips: 98, rating: 4.6}
+                ];
+                const tbody = document.getElementById('agentTable').querySelector('tbody');
+                agents.forEach((a, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${a.profile}" class="agent-photo"/></td>
+                        <td>${a.plate}</td>
+                        <td>${a.name}</td>
+                        <td>${a.work}</td>
+                        <td>${a.trips}</td>
+                        <td>${a.rating}</td>
+                        <td><button class="btn btn-sm btn-primary select-agent" data-idx="${idx}">Select</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // wire select buttons
+                tbody.querySelectorAll('.select-agent').forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        document.getElementById('book-travel-details').style.display = 'block';
+                        // simple estimate
+                        document.getElementById('bookEstimate').value = 'UGX 10,000';
+                    });
+                });
+            });
+        });
+
+        // Delivery mode buttons
+        document.querySelectorAll('.delivery-mode').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('delivery-agent-selection').querySelector('tbody').innerHTML = '';
+                const agents = [
+                    {profile: 'images/agent1.jpg', plate: 'UBD 789C', name: 'Paul Rider', work: 'Zone C', orders: 50, rating: 4.5},
+                    {profile: 'images/agent2.jpg', plate: 'UBA 111D', name: 'Lucy Driver', work: 'Zone D', orders: 80, rating: 4.7}
+                ];
+                const tbody = document.getElementById('deliveryAgentTable').querySelector('tbody');
+                agents.forEach((a, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${a.profile}" class="agent-photo"/></td>
+                        <td>${a.plate}</td>
+                        <td>${a.name}</td>
+                        <td>${a.work}</td>
+                        <td>${a.orders}</td>
+                        <td>${a.rating}</td>
+                        <td><button class="btn btn-sm btn-primary select-delivery-agent" data-idx="${idx}">Select</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                tbody.querySelectorAll('.select-delivery-agent').forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        document.getElementById('delivery-details').style.display = 'block';
+                        document.getElementById('deliveryEstimate').value = 'UGX 8,000';
+                    });
+                });
+            });
+        });
+
+        // Password toggle
+        const toggleBtn = document.getElementById('togglePassword');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                const pass = document.getElementById('password');
+                if (pass.type === 'password') { pass.type = 'text'; toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>'; }
+                else { pass.type = 'password'; toggleBtn.innerHTML = '<i class="fas fa-eye"></i>'; }
+            });
+        }
     }
 }
 
