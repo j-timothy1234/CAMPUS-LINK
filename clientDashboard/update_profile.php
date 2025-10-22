@@ -27,6 +27,15 @@ $email = trim($_POST['email'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $password = $_POST['password'] ?? '';
 
+$csrf = $_POST['csrf_token'] ?? '';
+
+// CSRF verification
+if (empty($csrf) || !hash_equals($_SESSION['csrf_token'] ?? '', $csrf)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid session token (CSRF) - please reload the page and try again.']);
+    exit();
+}
+
 // Basic validation
 if (empty($username) || empty($email)) {
     echo json_encode(['error' => 'Username and email are required']);
@@ -34,23 +43,126 @@ if (empty($username) || empty($email)) {
 }
 
 $profile_photo_path = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$old_photo = $profile_photo_path;
 
-// Handle file upload if present
+// Handle file upload if present with validation and thumbnailing
 if (!empty($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
     $uploadDir = __DIR__ . '/../upload_client';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        if (!mkdir($uploadDir, 0755, true)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Unable to create upload directory.']);
+            exit();
+        }
     }
 
     $tmpPath = $_FILES['profile_photo']['tmp_name'];
-    $ext = pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION);
+    $originalName = $_FILES['profile_photo']['name'];
+    $size = $_FILES['profile_photo']['size'];
+
+    // Validate file size (<= 5MB)
+    $maxSize = 5 * 1024 * 1024;
+    if ($size > $maxSize) {
+        http_response_code(400);
+        echo json_encode(['error' => 'File too large. Max allowed size is 5 MB.']);
+        exit();
+    }
+
+    // Validate MIME type
+    if (!function_exists('finfo_open')) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Server missing required fileinfo extension.']);
+        exit();
+    }
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $tmpPath);
+    finfo_close($finfo);
+    $allowed = ['image/jpeg' => 'jpg', 'image/jpg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
+    if (!isset($allowed[$mime])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid file type. Only JPG, PNG and GIF allowed.']);
+        exit();
+    }
+
+    $ext = $allowed[$mime];
     $safeUsername = preg_replace('/[^A-Za-z0-9_\-]/', '_', $username);
     $newFilename = $safeUsername . '.' . $ext;
     $destPath = $uploadDir . DIRECTORY_SEPARATOR . $newFilename;
 
-    if (move_uploaded_file($tmpPath, $destPath)) {
-        // store web-accessible path
-        $profile_photo_path = 'upload_client/' . $newFilename;
+    if (!move_uploaded_file($tmpPath, $destPath)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to save uploaded file.']);
+        exit();
+    }
+
+    // Create thumbnail (max 200x200) using GD
+    $thumbFilename = $safeUsername . '_thumb.' . $ext;
+    $thumbPath = $uploadDir . DIRECTORY_SEPARATOR . $thumbFilename;
+    $sizeInfo = @getimagesize($destPath);
+    if ($sizeInfo === false) {
+        // invalid image
+        @unlink($destPath);
+        http_response_code(400);
+        echo json_encode(['error' => 'Uploaded file is not a valid image.']);
+        exit();
+    }
+    list($width, $height) = $sizeInfo;
+    $maxDim = 200;
+    $ratio = min($maxDim / $width, $maxDim / $height, 1);
+    $newW = (int)($width * $ratio);
+    $newH = (int)($height * $ratio);
+
+    // Create image resource from file
+    switch ($ext) {
+        case 'jpg':
+            $srcImg = @imagecreatefromjpeg($destPath);
+            break;
+        case 'png':
+            $srcImg = @imagecreatefrompng($destPath);
+            break;
+        case 'gif':
+            $srcImg = @imagecreatefromgif($destPath);
+            break;
+        default:
+            $srcImg = null;
+    }
+
+    if ($srcImg) {
+        $thumbImg = imagecreatetruecolor($newW, $newH);
+        // Preserve transparency for PNG/GIF
+        if (in_array($ext, ['png','gif'])) {
+            imagecolortransparent($thumbImg, imagecolorallocatealpha($thumbImg, 0, 0, 0, 127));
+            imagealphablending($thumbImg, false);
+            imagesavealpha($thumbImg, true);
+        }
+        imagecopyresampled($thumbImg, $srcImg, 0, 0, 0, 0, $newW, $newH, $width, $height);
+
+        // Save thumbnail
+        switch ($ext) {
+            case 'jpg': imagejpeg($thumbImg, $thumbPath, 82); break;
+            case 'png': imagepng($thumbImg, $thumbPath); break;
+            case 'gif': imagegif($thumbImg, $thumbPath); break;
+        }
+
+        imagedestroy($srcImg);
+        imagedestroy($thumbImg);
+    }
+
+    // store web-accessible path
+    $profile_photo_path = 'upload_client/' . $newFilename;
+    $thumb_web = 'upload_client/' . $thumbFilename;
+
+    // Cleanup old files if they exist and are not the default
+    if (!empty($old_photo) && strpos($old_photo, 'upload_client/') === 0) {
+        $oldFull = __DIR__ . '/../' . $old_photo;
+        if (file_exists($oldFull)) {
+            @unlink($oldFull);
+        }
+        // try removing thumb with _thumb
+        $oldThumbFull = preg_replace('/(\.[^.]+)$/', '_thumb$1', $oldFull);
+        if (file_exists($oldThumbFull)) {
+            @unlink($oldThumbFull);
+        }
     }
 }
 

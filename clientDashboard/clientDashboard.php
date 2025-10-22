@@ -17,6 +17,12 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 $email = $_SESSION['email'] ?? '';
 $phone = $_SESSION['phone'] ?? '';
 $gender = $_SESSION['gender'] ?? '';
+
+// Ensure CSRF token exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+}
+$csrf_token = $_SESSION['csrf_token'];
 ?>
 
 <!DOCTYPE html>
@@ -237,6 +243,7 @@ $gender = $_SESSION['gender'] ?? '';
                         <div class="card-body">
                             <form id="personal-info-form" enctype="multipart/form-data">
                                 <input type="hidden" name="client_id" value="<?php echo htmlspecialchars($client_id); ?>">
+                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
                                 <div class="row mb-3">
                                     <div class="col-md-3 text-center">
