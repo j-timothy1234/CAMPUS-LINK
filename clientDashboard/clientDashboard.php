@@ -60,7 +60,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
         <div class="container-fluid">
             <!-- Profile Picture - Left -->
             <div class="navbar-brand d-flex align-items-center">
-                <img src="<?php echo $header_photo; ?>" alt="Profile" class="profile-pic rounded-circle me-2">
+                <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic" class="profile-pic me-2" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;">
             </div>
             
             <!-- Welcome Message & Time - Center -->
