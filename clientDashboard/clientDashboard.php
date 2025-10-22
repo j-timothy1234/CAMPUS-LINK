@@ -300,9 +300,9 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 <div class="col-md-3 mb-3">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link">About Us</a></li>
-                        <li><a href="#" class="footer-link">Privacy</a></li>
-                        <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+                        <li><a href="#" class="footer-link" title="About Us">About Us</a></li>
+                        <li><a href="#" class="footer-link" title="Privacy">Privacy</a></li>
+                        <li><a href="#" class="footer-link" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
                 </div>
 
