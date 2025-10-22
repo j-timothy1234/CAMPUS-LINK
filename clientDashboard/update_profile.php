@@ -14,9 +14,10 @@ header('Content-Type: application/json');
 $db = new Database();
 $conn = $db->getConnection();
 
-$client_id = isset($_POST['client_id']) ? intval($_POST['client_id']) : 0;
-// Ensure the client is updating their own profile
-if ($client_id !== intval($_SESSION['client_id'])) {
+$client_id = isset($_POST['client_id']) ? trim($_POST['client_id']) : '';
+// Ensure the client is updating their own profile (Client_ID like CL_0001)
+$session_client_id = isset($_SESSION['client_id']) ? (string)$_SESSION['client_id'] : '';
+if ($client_id === '' || $client_id !== $session_client_id) {
     echo json_encode(['error' => 'Invalid client id']);
     exit();
 }
@@ -59,14 +60,15 @@ $params = [];
 
 $fields[] = 'Username = ?'; $params[] = $username;
 $fields[] = 'Email = ?'; $params[] = $email;
-$fields[] = 'Phone = ?'; $params[] = $phone;
-$fields[] = 'profile_photo = ?'; $params[] = $profile_photo_path;
+$fields[] = 'Phone_Number = ?'; $params[] = $phone;
+$fields[] = 'Profile_Photo = ?'; $params[] = $profile_photo_path;
 
 if (!empty($password)) {
     $hashed = password_hash($password, PASSWORD_DEFAULT);
     $fields[] = 'Password = ?'; $params[] = $hashed;
 }
 
+// Client_ID is a string (e.g., CL_0001)
 $params[] = $client_id; // for WHERE
 
 $sql = 'UPDATE clients SET ' . implode(', ', $fields) . ' WHERE Client_ID = ?';
@@ -77,7 +79,9 @@ if ($stmt === false) {
 }
 
 // bind params dynamically
-$types = str_repeat('s', count($params) - 1) . 'i';
+// All params are strings (Client_ID is a string like CL_0001)
+$types = str_repeat('s', count($params));
+$bind_names = [];
 $bind_names[] = $types;
 for ($i = 0; $i < count($params); $i++) {
     $bind_name = 'param' . $i;

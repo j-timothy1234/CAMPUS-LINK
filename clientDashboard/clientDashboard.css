@@ -18,6 +18,13 @@ body {
     border: 2px solid white;
 }
 
+.profile-pic.large {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border: 3px solid #e9ecef;
+}
+
 .welcome-message {
     font-size: 1.5rem;
     color: white !important; /* White text */

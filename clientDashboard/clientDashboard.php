@@ -5,7 +5,8 @@ require_once __DIR__ . '/../sessions/session_config.php';
 
 // Check if client is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
-    header("Location: ../login/client_login.html");
+    // Redirect to centralized login page
+    header("Location: ../login/login.php");
     exit();
 }
 
@@ -85,6 +86,11 @@ $gender = $_SESSION['gender'] ?? '';
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-layer="personal-info">
                             <i class="fas fa-user me-2"></i>PERSONAL INFO
+                        </a>
+                    </li>
+                    <li class="nav-item mt-auto">
+                        <a class="nav-link text-danger" href="logout.php">
+                            <i class="fas fa-sign-out-alt me-2"></i>LOGOUT
                         </a>
                     </li>
                 </ul>
