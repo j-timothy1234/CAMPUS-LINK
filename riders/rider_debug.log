@@ -1796,3 +1796,65 @@ Parameters bound successfully
 Executing SQL statement...
 SQL executed successfully. Affected rows: 1
 Verification query found 1 rows with Rider_ID: R000007
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-22 16:00:05
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Phiona
+    [email] => alirwaphiona@gmail.com
+    [phone] => 0752915500
+    [gender] => Female
+    [plate] => UBE 382L
+    [residence] => NYAMITANGA
+    [password] => alirwaPHIONA1234@
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => earth.jpg
+            [full_path] => earth.jpg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\phpDD23.tmp
+            [error] => 0
+            [size] => 95123
+        )
+
+)
+
+Sanitized data:
+- Username: Phiona
+- Email: alirwaphiona@gmail.com
+- Phone: 0752915500
+- Gender: Female
+- Plate: UBE 382L
+- Residence: NYAMITANGA
+Generating Rider_ID...
+Generated Rider_ID: R000008
+Phone as integer: 752915500
+Processing photo upload...
+Photo path: ../upload_rider/Phiona_profile.jpg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000008
+- Username: Phiona
+- Email: alirwaphiona@gmail.com
+- Phone_Number: 752915500
+- Gender: Female
+- Profile_Photo: ../upload_rider/Phiona_profile.jpg
+- Motorcycle_Plate_Number: UBE 382L
+- Residence: NYAMITANGA
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000008

@@ -211,6 +211,86 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 3000);
 
   updateOrderStatus();
+
+  // ====== Notifications polling ======
+  let activeNotification = null;
+
+  async function fetchNotifications() {
+    try {
+      const res = await fetch('../clientDashboard/get_notifications.php');
+      const data = await res.json();
+      if (data.success && data.notifications && data.notifications.length > 0) {
+        // pick the first pending notification
+        if (!activeNotification) {
+          activeNotification = data.notifications[0];
+          showNotificationOverlay(activeNotification);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to fetch notifications', e);
+    }
+  }
+
+  function showNotificationOverlay(n) {
+    // create or reuse overlay element
+    let overlay = document.getElementById('request-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'request-overlay';
+      overlay.style.position = 'absolute';
+      overlay.style.top = '10px';
+      overlay.style.right = '10px';
+      overlay.style.zIndex = 9999;
+      overlay.style.background = 'white';
+      overlay.style.padding = '12px';
+      overlay.style.borderRadius = '8px';
+      overlay.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+      document.body.appendChild(overlay);
+    }
+
+    overlay.innerHTML = `
+      <div><strong>New Request</strong></div>
+      <div>Client: ${n.client_name || n.client_id}</div>
+      <div>Pickup: ${n.pickup}</div>
+      <div>Destination: ${n.destination}</div>
+      <div style="margin-top:8px;">
+        <button id="decline-btn" class="btn btn-danger btn-sm">Decline</button>
+        <button id="accept-btn" class="btn btn-success btn-sm ms-2">Accept</button>
+        <a href="tel:${n.client_phone || '#'}" id="call-btn" class="btn btn-primary btn-sm ms-2">Call</a>
+      </div>
+    `;
+
+    // center map on pickup if coords available
+    if (n.pickup_lat && n.pickup_lng) {
+      map.setView([parseFloat(n.pickup_lat), parseFloat(n.pickup_lng)], 15);
+      L.marker([parseFloat(n.pickup_lat), parseFloat(n.pickup_lng)]).addTo(map).bindPopup('Client pickup').openPopup();
+    }
+
+    document.getElementById('decline-btn').addEventListener('click', () => respondNotification(n.notification_id, 'decline'));
+    document.getElementById('accept-btn').addEventListener('click', () => respondNotification(n.notification_id, 'accept'));
+  }
+
+  async function respondNotification(notification_id, action) {
+    try {
+      const res = await fetch('../clientDashboard/respond_booking.php', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notification_id, action })
+      });
+      const data = await res.json();
+      if (data.success) {
+        // remove overlay
+        const ov = document.getElementById('request-overlay'); if (ov) ov.remove();
+        activeNotification = null;
+        // optionally show status
+        alert(data.message || 'Updated');
+      } else {
+        alert(data.message || 'Failed');
+      }
+    } catch (e) { console.error(e); alert('Request failed'); }
+  }
+
+  // start polling every 5s
+  setInterval(fetchNotifications, 5000);
 });
 
 // Ratings Chart

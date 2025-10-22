@@ -305,6 +305,10 @@ class ClientDashboard {
             if (!this.routeInfoControl) this.addRouteInfoControl();
             this.updateRouteInfo({distanceKm, bearing});
 
+            // store last route coords for booking payloads
+            this.lastStartLatLng = startLatLng;
+            this.lastDestLatLng = destLatLng;
+
             // Update order price display (distanceKm is string)
             const numericKm = parseFloat(distanceKm);
             const price = this.calculatePrice(numericKm, mode === 'motorcycle' ? 'motorcycle' : 'vehicle');
@@ -400,6 +404,33 @@ class ClientDashboard {
         if (confirmation) {
             alert('Order confirmed! Your rider/driver will arrive shortly.');
             this.saveTripToHistory();
+            // send booking to server including coords if available
+            const coordsPayload = {};
+            if (this.lastStartLatLng) {
+                coordsPayload.pickup_lat = this.lastStartLatLng.lat;
+                coordsPayload.pickup_lng = this.lastStartLatLng.lng;
+            } else if (this.userMarker && this.userMarker.getLatLng) {
+                const u = this.userMarker.getLatLng(); coordsPayload.pickup_lat = u.lat; coordsPayload.pickup_lng = u.lng;
+            }
+            if (this.lastDestLatLng) { coordsPayload.dest_lat = this.lastDestLatLng.lat; coordsPayload.dest_lng = this.lastDestLatLng.lng; }
+            const payload = Object.assign({
+                agent_id: this.selectedAgent || '',
+                service: 'book',
+                mode: this.selectedAgentMode || 'bike',
+                datetime: document.getElementById('bookDateTime').value,
+                pickup: document.getElementById('bookPickup').value,
+                destination: document.getElementById('bookDestination').value,
+                estimate: document.getElementById('bookEstimate').value
+            }, coordsPayload);
+
+            fetch('create_booking.php', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+                .then(r => r.json())
+                .then(json => {
+                    if (json.success) {
+                        console.log('Booking created with id', json.booking_id);
+                        this.loadTripHistory();
+                    } else console.error('Booking failed', json);
+                }).catch(err => console.error(err));
         }
     }
 

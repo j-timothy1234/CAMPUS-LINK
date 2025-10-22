@@ -24,6 +24,10 @@ $datetime = $payload['datetime'] ?? null;
 $pickup = $payload['pickup'] ?? '';
 $destination = $payload['destination'] ?? '';
 $estimate = $payload['estimate'] ?? '';
+$pickup_lat = $payload['pickup_lat'] ?? null;
+$pickup_lng = $payload['pickup_lng'] ?? null;
+$dest_lat = $payload['dest_lat'] ?? null;
+$dest_lng = $payload['dest_lng'] ?? null;
 
 // Ensure bookings table exists
 $create = "CREATE TABLE IF NOT EXISTS bookings (
@@ -36,6 +40,10 @@ $create = "CREATE TABLE IF NOT EXISTS bookings (
     pickup TEXT,
     destination TEXT,
     estimate VARCHAR(50),
+    pickup_lat DOUBLE DEFAULT NULL,
+    pickup_lng DOUBLE DEFAULT NULL,
+    dest_lat DOUBLE DEFAULT NULL,
+    dest_lng DOUBLE DEFAULT NULL,
     status VARCHAR(20) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
@@ -43,9 +51,36 @@ $conn->query($create);
 
 $stmt = $conn->prepare('INSERT INTO bookings (client_id, agent_id, service, mode, datetime, pickup, destination, estimate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
 if (!$stmt) { http_response_code(500); echo json_encode(['success'=>false,'message'=>'DB prepare failed']); exit(); }
-$stmt->bind_param('ssssssss', $client_id, $agent_id, $service, $mode, $datetime, $pickup, $destination, $estimate);
+// include coords when available
+if ($pickup_lat !== null && $pickup_lng !== null && $dest_lat !== null && $dest_lng !== null) {
+    $stmt = $conn->prepare('INSERT INTO bookings (client_id, agent_id, service, mode, datetime, pickup, destination, estimate, pickup_lat, pickup_lng, dest_lat, dest_lng) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->bind_param('ssssssssdddd', $client_id, $agent_id, $service, $mode, $datetime, $pickup, $destination, $estimate, $pickup_lat, $pickup_lng, $dest_lat, $dest_lng);
+} else {
+    $stmt->bind_param('ssssssss', $client_id, $agent_id, $service, $mode, $datetime, $pickup, $destination, $estimate);
+}
 if ($stmt->execute()) {
-    echo json_encode(['success'=>true,'booking_id'=>$conn->insert_id]);
+    $booking_id = $conn->insert_id;
+    // create notifications table if it doesn't exist
+    $notif_create_sql = "CREATE TABLE IF NOT EXISTS notifications (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        booking_id INT,
+        agent_id VARCHAR(50),
+        client_id VARCHAR(50),
+        status VARCHAR(20) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+    $conn->query($notif_create_sql);
+
+    // Insert into notifications table only if agent specified
+    if (!empty($agent_id)) {
+        $ins = $conn->prepare('INSERT INTO notifications (booking_id, agent_id, client_id, status) VALUES (?, ?, ?, ?)');
+        if ($ins) {
+            $stat = 'pending';
+            $ins->bind_param('isss', $booking_id, $agent_id, $client_id, $stat);
+            $ins->execute();
+        }
+    }
+    echo json_encode(['success'=>true,'booking_id'=>$booking_id]);
 } else {
     http_response_code(500);
     echo json_encode(['success'=>false,'message'=>'Failed to create booking']);
