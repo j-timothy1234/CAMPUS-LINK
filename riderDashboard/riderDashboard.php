@@ -3,7 +3,7 @@
 // Protected driver dashboard with session authentication
 
 // Include session configuration
-require_once __DIR__ . '/../riders/session_config.php';
+require_once __DIR__ . '/../sessions/session_config.php';
 
 // Check if user is logged in and is a rider
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'rider') {
