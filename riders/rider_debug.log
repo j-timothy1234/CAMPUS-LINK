@@ -1672,3 +1672,65 @@ FILES data: Array
 EXCEPTION: Please upload a valid profile photo. Error code: 3
 === RIDER REGISTRATION COMPLETED ===
 
+=== RIDER REGISTRATION STARTED ===
+Timestamp: 2025-10-22 15:11:53
+POST request received
+Database connection successful
+Auto-commit enabled
+POST data: Array
+(
+    [username] => Kose Joy
+    [email] => kosejoy626@gmail.com
+    [phone] => 0763243453
+    [gender] => Female
+    [plate] => UBG 363G
+    [residence] => Nyamitanga
+    [password] => yj_G86v%w
+)
+
+FILES data: Array
+(
+    [photo] => Array
+        (
+            [name] => BF4F90B0-7FDD-4284-9B48-59231FC80307.jpeg
+            [full_path] => BF4F90B0-7FDD-4284-9B48-59231FC80307.jpeg
+            [type] => image/jpeg
+            [tmp_name] => D:\xampp1\tmp\phpBE64.tmp
+            [error] => 0
+            [size] => 74437
+        )
+
+)
+
+Sanitized data:
+- Username: Kose Joy
+- Email: kosejoy626@gmail.com
+- Phone: 0763243453
+- Gender: Female
+- Plate: UBG 363G
+- Residence: Nyamitanga
+Generating Rider_ID...
+Generated Rider_ID: R000006
+Phone as integer: 763243453
+Processing photo upload...
+Photo path: ../upload_rider/Kose_Joy_profile.jpeg
+Photo successfully saved
+Password hashed successfully
+SQL: INSERT INTO riders 
+                (Rider_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Motorcycle_Plate_Number, Residence, Password) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Values to insert:
+- Rider_ID: R000006
+- Username: Kose Joy
+- Email: kosejoy626@gmail.com
+- Phone_Number: 763243453
+- Gender: Female
+- Profile_Photo: ../upload_rider/Kose_Joy_profile.jpeg
+- Motorcycle_Plate_Number: UBG 363G
+- Residence: Nyamitanga
+- Password: [hashed]
+SQL prepared successfully
+Parameters bound successfully
+Executing SQL statement...
+SQL executed successfully. Affected rows: 1
+Verification query found 1 rows with Rider_ID: R000006

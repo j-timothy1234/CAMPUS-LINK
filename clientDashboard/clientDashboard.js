@@ -221,26 +221,141 @@ class ClientDashboard {
     calculateRoute() {
         const fromLocation = document.getElementById('from-location').value;
         const toLocation = document.getElementById('to-location').value;
-        
-        if (!fromLocation || !toLocation) {
-            alert('Please enter both from and to locations.');
+
+        if (!toLocation) {
+            alert('Please enter destination.');
             return;
         }
-        
-        // Simulate route calculation and price estimation
-        const distance = Math.random() * 20 + 5; // Random distance between 5-25 km
-        const price = this.calculatePrice(distance, this.currentTransportMode);
-        
-        document.getElementById('order-price').textContent = `UGX ${price.toLocaleString()}`;
-        
-        // Simulate route drawing on map
-        this.drawSimulatedRoute();
+
+        // Determine start coordinates: prefer detected position if available
+        const startPromise = new Promise((resolve, reject) => {
+            if (this.userMarker && this.userMarker.getLatLng) {
+                resolve(this.userMarker.getLatLng());
+            } else if (fromLocation) {
+                this.geocodeAddress(fromLocation).then(coords => resolve(coords)).catch(reject);
+            } else {
+                // fallback to map center
+                resolve(this.map.getCenter());
+            }
+        });
+
+        // Geocode destination then route
+        Promise.all([startPromise, this.geocodeAddress(toLocation)])
+            .then(([startLatLng, destLatLng]) => {
+                this.calculateAndDrawRoute(startLatLng, destLatLng, this.currentTransportMode || 'motorcycle');
+            }).catch(err => {
+                console.error('Routing error', err);
+                alert('Unable to calculate route. Please refine the addresses and try again.');
+            });
+    }
+
+    // Geocode an address string to a Leaflet latlng using Nominatim
+    geocodeAddress(query) {
+        return new Promise((resolve, reject) => {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+            fetch(url)
+                .then(r => r.json())
+                .then(results => {
+                    if (!results || results.length === 0) return reject('No results');
+                    const first = results[0];
+                    const lat = parseFloat(first.lat);
+                    const lon = parseFloat(first.lon);
+                    resolve(L.latLng(lat, lon));
+                }).catch(err => reject(err));
+        });
+    }
+
+    // Calculate route using OSRM and draw it on the map
+    calculateAndDrawRoute(startLatLng, destLatLng, mode) {
+        // Remove previous route layers
+        if (this.routeLayer) { this.map.removeLayer(this.routeLayer); this.routeLayer = null; }
+        if (this.routeMarker) { this.map.removeLayer(this.routeMarker); this.routeMarker = null; }
+
+        const start = `${startLatLng.lng},${startLatLng.lat}`;
+        const end = `${destLatLng.lng},${destLatLng.lat}`;
+        // OSRM uses driving profile. For motorcycle we'll use driving profile as fallback.
+        const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${start};${end}?overview=full&geometries=geojson&steps=false`;
+
+        fetch(osrmUrl).then(r => r.json()).then(data => {
+            if (!data || !data.routes || data.routes.length === 0) throw new Error('No route');
+            const route = data.routes[0];
+            const geojson = route.geometry;
+
+            // Draw route polyline
+            this.routeLayer = L.geoJSON(geojson, {style: {color: '#007bff', weight: 5, opacity: 0.8}}).addTo(this.map);
+
+            // Add start and end markers with icons depending on mode
+            const startIcon = L.divIcon({className: 'start-icon', html: `<i class="fas fa-map-marker-alt" style="color:green;font-size:18px"></i>`});
+            const endIcon = L.divIcon({className: 'end-icon', html: `<i class="fas ${mode === 'vehicle' ? 'fa-car' : 'fa-motorcycle'}" style="color:#d9534f;font-size:18px"></i>`});
+            L.marker([startLatLng.lat, startLatLng.lng], {icon: startIcon}).addTo(this.map);
+            this.routeMarker = L.marker([destLatLng.lat, destLatLng.lng], {icon: endIcon}).addTo(this.map);
+
+            // Fit map to route
+            const bounds = this.routeLayer.getBounds();
+            this.map.fitBounds(bounds.pad(0.2));
+
+            // Distance in meters
+            const distanceMeters = route.distance || 0;
+            const distanceKm = (distanceMeters / 1000).toFixed(2);
+
+            // Bearing from start to end
+            const bearing = this.calculateBearing(startLatLng.lat, startLatLng.lng, destLatLng.lat, destLatLng.lng);
+
+            // Update info control
+            if (!this.routeInfoControl) this.addRouteInfoControl();
+            this.updateRouteInfo({distanceKm, bearing});
+
+            // Update order price display (distanceKm is string)
+            const numericKm = parseFloat(distanceKm);
+            const price = this.calculatePrice(numericKm, mode === 'motorcycle' ? 'motorcycle' : 'vehicle');
+            const priceEl = document.getElementById('order-price');
+            if (priceEl) priceEl.textContent = `UGX ${price.toLocaleString()}`;
+
+        }).catch(err => {
+            console.error(err);
+            alert('Routing failed.');
+        });
+    }
+
+    // Compute bearing in degrees from start to end
+    calculateBearing(lat1, lon1, lat2, lon2) {
+        const toRad = Math.PI / 180;
+        const toDeg = 180 / Math.PI;
+        const dLon = (lon2 - lon1) * toRad;
+        const y = Math.sin(dLon) * Math.cos(lat2 * toRad);
+        const x = Math.cos(lat1 * toRad) * Math.sin(lat2 * toRad) - Math.sin(lat1 * toRad) * Math.cos(lat2 * toRad) * Math.cos(dLon);
+        let brng = Math.atan2(y, x) * toDeg;
+        brng = (brng + 360) % 360;
+        return brng.toFixed(1);
+    }
+
+    // Add a small Leaflet control for route info in bottom-left
+    addRouteInfoControl() {
+        const InfoControl = L.Control.extend({
+            onAdd: function(map) {
+                const div = L.DomUtil.create('div', 'route-info p-2 bg-white');
+                div.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+                div.style.borderRadius = '6px';
+                div.style.fontSize = '13px';
+                div.innerHTML = '<div id="routeInfoContent">Distance: -- km<br> Bearing: --°</div>';
+                return div;
+            }
+        });
+        this.routeInfoControl = new InfoControl({position: 'bottomleft'});
+        this.routeInfoControl.addTo(this.map);
+    }
+
+    updateRouteInfo({distanceKm, bearing}) {
+        const el = document.getElementById('routeInfoContent');
+        if (el) el.innerHTML = `Distance: <strong>${distanceKm} km</strong><br/>Bearing: <strong>${bearing}°</strong>`;
     }
 
     calculatePrice(distance, mode) {
+        // distance can be given in km (number) or if not numeric, fallback random
+        const distKm = (typeof distance === 'number' && !isNaN(distance)) ? distance : (Math.random() * 20 + 5);
         const baseRate = mode === 'motorcycle' ? 1500 : 3000;
         const perKmRate = mode === 'motorcycle' ? 800 : 1500;
-        return Math.round(baseRate + (distance * perKmRate));
+        return Math.round(baseRate + (distKm * perKmRate));
     }
 
     drawSimulatedRoute() {

@@ -30,13 +30,18 @@ $thumbCandidate = preg_replace('/(\.[^.]+)$/', '_thumb$1', $profile_photo);
 if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
     $header_photo = $thumbCandidate;
 }
+
 ?>
 
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Client Dashboard - CampusLink</title>
     
     <!-- Bootstrap CSS -->
@@ -53,31 +58,49 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="clientDashboard.css">
+
 </head>
+
 <body>
+
     <!-- Top Navigation Bar -->
     <nav class="navbar navbar-dark bg-primary navbar-expand-lg fixed-top">
+
         <div class="container-fluid">
+
             <!-- Profile Picture - Left -->
             <div class="navbar-brand d-flex align-items-center">
-                <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic" class="profile-pic me-2" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #fff;">
+
+                <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic"
+                    class="profile-pic me-2" style="width:56px;height:56px;border-radius:50%;
+                    object-fit:cover;border:2px solid #fff;">
+
             </div>
             
             <!-- Welcome Message & Time - Center -->
             <div class="navbar-text mx-auto text-center">
+
                 <span class="welcome-message fw-bold text-white">
+
                     Welcome, <?php echo $username; ?>! | 
                     <span id="liveTime" class="fw-normal"></span>
+
                 </span>
+
             </div>
             
             <!-- Empty div for balance -->
+
             <div></div>
+
         </div>
+
     </nav>
 
     <div class="container-fluid" style="margin-top: 80px;">
+
         <div class="row">
+            
             <!-- Sidebar Navigation -->
             <div class="col-lg-2 col-md-3 sidebar bg-light">
                 <ul class="nav flex-column">
