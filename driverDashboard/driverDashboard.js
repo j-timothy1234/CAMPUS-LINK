@@ -214,13 +214,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ====== Notifications polling ======
   let activeNotification = null;
+  let wsConnected = false;
+  let wsFallbackInterval = null;
+
+  // attempt WebSocket connection using token endpoint
+  async function initSocket() {
+    try {
+      const tokenRes = await fetch('../clientDashboard/ws_token.php');
+      const tokenJson = await tokenRes.json();
+      if (!tokenJson.success) throw new Error('token failed');
+      const token = tokenJson.token;
+      const agentId = tokenJson.agent_id;
+      const role = tokenJson.role;
+      const wsUrl = `ws://127.0.0.1:8081/?token=${token}&role=${role}&agent_id=${agentId}`;
+      const ws = new WebSocket(wsUrl);
+      ws.addEventListener('open', () => {
+        wsConnected = true;
+        console.log('WS connected');
+        if (wsFallbackInterval) { clearInterval(wsFallbackInterval); wsFallbackInterval = null; }
+      });
+      ws.addEventListener('message', (ev) => {
+        try {
+          const msg = JSON.parse(ev.data);
+          if (msg.type === 'booking_request') {
+            if (!activeNotification) { activeNotification = msg.data; showNotificationOverlay(activeNotification); }
+          }
+        } catch (e) { console.error('WS message error', e); }
+      });
+      ws.addEventListener('close', () => { wsConnected = false; console.log('WS closed'); startPolling(); });
+      ws.addEventListener('error', (e) => { console.warn('WS error', e); wsConnected = false; startPolling(); });
+    } catch (e) {
+      console.warn('WS init failed, falling back to polling', e);
+      startPolling();
+    }
+  }
+
+  function startPolling() {
+    if (wsFallbackInterval) return;
+    wsFallbackInterval = setInterval(fetchNotifications, 5000);
+    fetchNotifications();
+  }
 
   async function fetchNotifications() {
     try {
       const res = await fetch('../clientDashboard/get_notifications.php');
       const data = await res.json();
       if (data.success && data.notifications && data.notifications.length > 0) {
-        // pick the first pending notification
         if (!activeNotification) {
           activeNotification = data.notifications[0];
           showNotificationOverlay(activeNotification);
@@ -289,8 +328,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) { console.error(e); alert('Request failed'); }
   }
 
-  // start polling every 5s
-  setInterval(fetchNotifications, 5000);
+  // initialize websocket and fall back to polling
+  initSocket();
 });
 
 // Ratings Chart

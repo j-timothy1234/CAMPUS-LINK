@@ -750,4 +750,27 @@ class ClientDashboard {
 // Initialize dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     new ClientDashboard();
+    // also init client websocket to get accept/decline notifications
+    (async function initClientWS(){
+        try {
+            const res = await fetch('ws_token.php');
+            const j = await res.json();
+            if (!j.success) return;
+            const token = j.token; const role = j.role; const agentId = j.agent_id;
+            const wsUrl = `ws://127.0.0.1:8081/?token=${token}&role=${role}&agent_id=${agentId}`;
+            const ws = new WebSocket(wsUrl);
+            ws.addEventListener('message', (ev)=>{
+                try { const msg = JSON.parse(ev.data); if (msg.type === 'booking_request') return; // clients ignore booking_request
+                    // clients might get other messages later
+                    if (msg.type === 'booking_update') {
+                        alert('Booking update: ' + (msg.data.message||''));
+                        // refresh trip history
+                        document.querySelectorAll('#trip-history');
+                        // simple refresh
+                        window.location.reload();
+                    }
+                } catch(e){console.error(e)}
+            });
+        } catch (e) { console.warn('Client WS not available', e); }
+    })();
 });

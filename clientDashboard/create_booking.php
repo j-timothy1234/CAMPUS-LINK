@@ -80,6 +80,31 @@ if ($stmt->execute()) {
             $ins->execute();
         }
     }
+    // Attempt to notify WebSocket relay (if running locally)
+    try {
+        $notifyPayload = [
+            'booking_id' => $booking_id,
+            'agent_id' => $agent_id,
+            'client_id' => $client_id,
+            'pickup' => $pickup,
+            'destination' => $destination,
+            'pickup_lat' => $pickup_lat,
+            'pickup_lng' => $pickup_lng,
+            'dest_lat' => $dest_lat,
+            'dest_lng' => $dest_lng
+        ];
+        $ch = curl_init('http://127.0.0.1:8082/notify');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($notifyPayload));
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
+        curl_exec($ch);
+        curl_close($ch);
+    } catch (
+    Exception $e) {
+        // ignore - WS server may be offline
+    }
     echo json_encode(['success'=>true,'booking_id'=>$booking_id]);
 } else {
     http_response_code(500);

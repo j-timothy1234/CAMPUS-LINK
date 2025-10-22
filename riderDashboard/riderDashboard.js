@@ -212,8 +212,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateOrderStatus();
 
-  // ====== Notifications polling (same as driver) ======
+  // ====== Notifications via WebSocket with polling fallback ======
   let activeNotification = null;
+  let wsConnected = false;
+  let wsFallbackInterval = null;
+
+  async function initSocket() {
+    try {
+      const tokenRes = await fetch('../clientDashboard/ws_token.php');
+      const tokenJson = await tokenRes.json();
+      if (!tokenJson.success) throw new Error('token failed');
+      const token = tokenJson.token;
+      const agentId = tokenJson.agent_id;
+      const role = tokenJson.role;
+      const wsUrl = `ws://127.0.0.1:8081/?token=${token}&role=${role}&agent_id=${agentId}`;
+      const ws = new WebSocket(wsUrl);
+      ws.addEventListener('open', () => { wsConnected = true; if (wsFallbackInterval) { clearInterval(wsFallbackInterval); wsFallbackInterval = null; } });
+      ws.addEventListener('message', (ev) => {
+        try { const msg = JSON.parse(ev.data); if (msg.type === 'booking_request') { if (!activeNotification) { activeNotification = msg.data; showNotificationOverlay(activeNotification); } } } catch(e){console.error(e)}
+      });
+      ws.addEventListener('close', () => { wsConnected = false; startPolling(); });
+      ws.addEventListener('error', () => { wsConnected = false; startPolling(); });
+    } catch (e) {
+      console.warn('WS init failed, falling back to polling', e);
+      startPolling();
+    }
+  }
+
+  function startPolling() {
+    if (wsFallbackInterval) return;
+    wsFallbackInterval = setInterval(fetchNotifications, 5000);
+    fetchNotifications();
+  }
 
   async function fetchNotifications() {
     try {
@@ -229,7 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error('Failed to fetch notifications', e);
     }
   }
-
   function showNotificationOverlay(n) {
     let overlay = document.getElementById('request-overlay');
     if (!overlay) {
