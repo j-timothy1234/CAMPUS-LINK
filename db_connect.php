@@ -17,7 +17,7 @@ error_reporting(E_ALL);
  */
 
 class Database {
-    // Database connection parameters
+    //Database Class Definition
     private $servername = "localhost";
     private $username = "root";
     private $password = "job1234joy#";
@@ -27,9 +27,9 @@ class Database {
     /**
      * Constructor: Establishes the database connection
      */
-    
+
     public function __construct() {
-        // Configure MySQLi to throw exceptions on errors
+        // Configure MySQLi to throw exceptions on errors, Constructor - Connection Setup
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             // Attempt to create a new MySQLi connection
