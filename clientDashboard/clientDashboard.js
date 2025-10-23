@@ -42,12 +42,16 @@ class ClientDashboard {
 
     // Event Listeners
     initializeEventListeners() {
-        // Sidebar Navigation
+        // Sidebar Navigation: only intercept links that have a data-layer attribute
         document.querySelectorAll('.sidebar .nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
                 const targetLayer = link.getAttribute('data-layer');
-                this.switchLayer(targetLayer);
+                // If the link is intended to switch a UI layer, prevent default and handle
+                if (targetLayer) {
+                    e.preventDefault();
+                    this.switchLayer(targetLayer);
+                }
+                // Otherwise (e.g., Logout link without data-layer) let the browser follow the href
             });
         });
 
