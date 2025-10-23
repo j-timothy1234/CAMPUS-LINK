@@ -329,6 +329,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // initialize websocket and fall back to polling
+  // start polling immediately so notifications appear even if WS doesn't push
+  startPolling();
   initSocket();
 });
 

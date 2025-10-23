@@ -313,6 +313,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) { console.error(e); alert('Request failed'); }
   }
 
+  // start polling immediately to ensure notifications appear
+  startPolling();
+  // keep an interval fallback as well
   setInterval(fetchNotifications, 5000);
 });
 
