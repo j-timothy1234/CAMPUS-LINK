@@ -217,18 +217,33 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
         <h2 data-aos="zoom-in">Trips History</h2>
 
-        <div class="card mb-2 p-3 shadow-sm d-flex flex-row align-items-center">
-
-          <img src="client.jpg" class="rounded-circle me-3" width="60" height="60" alt="Client">
-
-          <div>
-
-            <p class="mb-0">Trip #001 - Timothy Osubert</p>
-            <p class="mb-0">Distance: 5km | Fare: UGX 8,000 | ⭐⭐⭐⭐</p>
-
-          </div>
-
-        </div>
+        <?php
+        // Fetch recent bookings for this rider
+        require_once __DIR__ . '/../db_connect.php';
+        $db = new Database(); $conn = $db->getConnection();
+        $stmt = $conn->prepare('SELECT b.id, b.agent_id, b.pickup, b.destination, b.estimate, b.status, b.created_at, a.Username as agent_name FROM bookings b LEFT JOIN drivers a ON a.Driver_ID = b.agent_id WHERE b.client_id = ? ORDER BY b.created_at DESC LIMIT 10');
+        $stmt->bind_param('s', $rider_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res && $res->num_rows > 0) {
+            while ($row = $res->fetch_assoc()) {
+                $tripId = htmlspecialchars($row['id']);
+                $agentName = htmlspecialchars($row['agent_name'] ?? $row['agent_id']);
+                $pickup = htmlspecialchars($row['pickup'] ?? '');
+                $destination = htmlspecialchars($row['destination'] ?? '');
+                $estimate = htmlspecialchars($row['estimate'] ?? '');
+                $status = htmlspecialchars($row['status'] ?? '');
+                $created = htmlspecialchars($row['created_at'] ?? '');
+                echo "<div class=\"card mb-2 p-3 shadow-sm d-flex flex-row align-items-center\">";
+                echo "<img src=\"images/client.jpg\" class=\"rounded-circle me-3\" width=\"60\" height=\"60\" alt=\"Agent\">";
+                echo "<div><p class=\"mb-0\">Trip #{$tripId} - {$agentName}</p>";
+                echo "<p class=\"mb-0\">{$pickup} → {$destination} | Fare: {$estimate} | Status: {$status} | {$created}</p></div>";
+                echo "</div>";
+            }
+        } else {
+            echo '<div class="card mb-2 p-3 shadow-sm"><div>No recent trips yet</div></div>';
+        }
+        ?>
 
       </section>
 
