@@ -289,7 +289,8 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
                   </div>
 
                   <div class="popup-body">
-                    <p><strong>Our Mission:</strong> Connecting campuses with reliable transport agents for safe, affordable mobility solutions.</p>
+                    <p><strong>Our Mission:</strong> Connecting students & the community with reliable
+                    transport agents for safe & affordable mobility solutions.</p>
                     <p><strong>Services:</strong> Instant rides, scheduled travel, and delivery services for students and community.</p>
                     <p><strong>Safety First:</strong> All our transport agents are thoroughly verified and rated by users.</p>
                   </div>
