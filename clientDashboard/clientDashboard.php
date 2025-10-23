@@ -483,38 +483,6 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 <!-- Quick Links -->
                 <div class="col-md-3 mb-3">
                     <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link" title="About Us">About Us</a></li>
-                        <li><a href="#" class="footer-link" title="Privacy">Privacy</a></li>
-                        <li><a href="#" class="footer-link" title="Terms & Conditions">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-
-                <!-- Newsletter -->
-                <div class="col-md-3 mb-3">
-                    <h5>Newsletter</h5>
-                    <form id="newsletter-form">
-                        <div class="mb-2">
-                            <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
-                    </form>
-                </div>
-
-                <!-- App Downloads -->
-                <div class="col-md-3 mb-3">
-                    <h5>Download App</h5>
-                    <a href="#" class="d-block mb-2">
-                        <img src="images/apple_store.png" alt="Apple Store" class="store-img" style="max-width: 120px;">
-                    </a>
-                    <a href="#" class="d-block">
-                        <img src="images/playstore.png" alt="Google Play Store" class="store-img" style="max-width: 120px;">
-                    </a>
-                </div>
-
-                <!-- Contact Info -->
-                <div class="col-md-3 mb-3">
-                    <h5>Contact Us</h5>
 
                     <ul class="list-unstyled">
             <li class="footer-link-item">
@@ -569,6 +537,50 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
           </ul>
 
                 </div>
+
+                <!-- Newsletter -->
+                <div class="col-md-3 mb-3">
+                    <h5>Newsletter</h5>
+                    <form id="newsletter-form">
+                        <div class="mb-2">
+                            <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+                    </form>
+                </div>
+
+                <!-- App Downloads -->
+                <div class="col-md-3 mb-3">
+                    <h5>Download App</h5>
+                    <a href="#" class="d-block mb-2">
+                        <img src="images/apple_store.png" alt="Apple Store" class="store-img" style="max-width: 120px;">
+                    </a>
+                    <a href="#" class="d-block">
+                        <img src="images/playstore.png" alt="Google Play Store" class="store-img" style="max-width: 120px;">
+                    </a>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-md-3 mb-3">
+                    <h5>Contact Us</h5>
+
+                    <ul>
+
+                        <li><a href="tel:+256763343453" class="footer-link" title="Call Us">+256 763 343 453
+                        </a></li>
+
+                        <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us"> jobingetimothyosubert@gmail.com
+                        </a></li>
+
+                        <li><a href="https://www.google.com/maps/search/kihumuro+campus/@-0.5955312,30.599584,18z?entry=ttu&g_ep=EgoyMDI1MTAyMC4wIKXMDSoASAFQAw%3D%3D" 
+                            class="footer-link" title="Find Us on Maps" target="_blank" rel="noopener noreferrer">
+                            Mbarara-City, Uganda
+                        </a></li>
+
+                    </ul>   
+
+                </div>
+
             </div>
             
             <div class="row mt-4">
@@ -586,5 +598,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
     
     <!-- Custom JavaScript -->
     <script src="clientDashboard.js"></script>
+
 </body>
+
 </html>
