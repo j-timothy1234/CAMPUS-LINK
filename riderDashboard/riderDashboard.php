@@ -370,8 +370,10 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
               <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us">
                 jobingetimothyosubert@gmail.com</a></li>
 
-              <li><a href="https://mbararacity.go.ug/page/about-us" class="footer-link" title="Find Us">
-                Mbarara-City, Uganda </a></li>
+              <li><a href="https://www.google.com/maps/search/kihumuro+campus/@-0.5955312,30.599584,18z?entry=ttu&g_ep=EgoyMDI1MTAyMC4wIKXMDSoASAFQAw%3D%3D" 
+                class="footer-link" title="Find Us on Maps" target="_blank" rel="noopener noreferrer">
+                Mbarara-City, Uganda
+              </a></li>
 
             </ul>
 
