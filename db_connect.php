@@ -27,6 +27,7 @@ class Database {
     /**
      * Constructor: Establishes the database connection
      */
+    
     public function __construct() {
         // Configure MySQLi to throw exceptions on errors
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
