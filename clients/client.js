@@ -17,8 +17,8 @@ $(document).ready(function () {
       return;
     }
 
-    // Email: Small letters and must end with @gmail.com
-    if (!/^[a-z0-9._%+-]+@gmail\.com$/.test(email)) {
+    // Email: small letters and must end with @gmail.com
+    if (!/^[a-z0-9]+@gmail\.com$/.test(email)) {
       alert("Email must be a valid @gmail.com address.");
       return;
     }
