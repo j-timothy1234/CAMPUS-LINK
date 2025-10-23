@@ -298,6 +298,137 @@ footer {
 
 }
 
+/* Footer Link Items */
+.footer-link-item {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.footer-link {
+    color: white !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    padding: 5px 0;
+    display: block;
+}
+
+.footer-link:hover {
+    color: #0d6efd !important;
+}
+
+/* Popup Content */
+.popup-content {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: white;
+    color: #333;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 300px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+.footer-link-item:hover .popup-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Popup Header */
+.popup-header {
+    background: #0d6efd;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-header h6 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.popup-close {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.popup-close:hover {
+    color: #ffdddd;
+}
+
+/* Popup Body */
+.popup-body {
+    padding: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.popup-body p {
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.popup-body strong {
+    color: #0d6efd;
+}
+
+/* Popup Arrow */
+.popup-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 250px;
+        left: -50px;
+    }
+    
+    .popup-content::after {
+        left: 60px;
+    }
+}
+
+/* Scrollbar Styling */
+.popup-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popup-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+    background: #0d6efd;
+    border-radius: 3px;
+}
+
+.popup-body::-webkit-scrollbar-thumb:hover {
+    background: #0b5ed7;
+}
+
 .store-img {
 
   width: 120px;
