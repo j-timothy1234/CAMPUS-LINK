@@ -94,7 +94,7 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
       <li class="nav-item"><a href="#ratings" class="nav-link text-white">
         <i class="fas fa-star me-2"></i> Ratings</a></li>
 
-      <li class="nav-item"><a href="logout.php" class="nav-link text-white">
+      <li class="nav-item"><a href="..drivers/driver_login.php" class="nav-link text-white">
         <i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
 
     </ul>
