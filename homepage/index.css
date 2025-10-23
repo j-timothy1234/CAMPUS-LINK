@@ -343,6 +343,7 @@ footer {
 
 /* Popup Body */
 .popup-body {
+    margin:15px;
     padding: 15px;
     max-height: 200px;
     overflow-y: auto;
