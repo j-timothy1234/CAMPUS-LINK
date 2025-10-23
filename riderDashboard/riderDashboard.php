@@ -271,60 +271,98 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
             <h5 data-aos="zoom-in">Quick Links</h5>
 
             <ul class="list-unstyled">
+
             <li class="footer-link-item">
+
               <a href="#" class="footer-link" title="About" data-content="about">About Us</a>
+
                 <div class="popup-content" id="about-popup">
+
                   <div class="popup-header">
+
                     <h6>About CampusLink</h6>
                     <span class="popup-close">&times;</span>
+
                   </div>
 
                   <div class="popup-body">
-                    <p><strong>Our Mission:</strong> Connecting campuses with reliable transport agents for safe, affordable mobility solutions.</p>
-                    <p><strong>Services:</strong> Instant rides, scheduled travel, and delivery services for students and community.</p>
-                    <p><strong>Safety First:</strong> All our transport agents are thoroughly verified and rated by users.</p>
+
+                    <p><strong>Our Mission:</strong> Connecting campuses with reliable transport agents
+                      for safe, affordable mobility solutions.</p>
+
+                    <p><strong>Services:</strong> Instant rides, scheduled travel, and delivery services
+                     for students and community.</p>
+
+                    <p><strong>Safety First:</strong> All our transport agents are thoroughly verified
+                      and rated by users.</p>
+
                   </div>
+
                 </div>
+
             </li>
     
             <li class="footer-link-item">
+
               <a href="#" class="footer-link" title="Privacy" data-content="privacy">Privacy</a>
+
                 <div class="popup-content" id="privacy-popup">
+
                   <div class="popup-header">
+
                     <h6>Privacy Policy</h6>
                     <span class="popup-close">&times;</span>
+
                   </div>
 
                   <div class="popup-body">
-                    <p><strong>Data Collection:</strong> We collect only necessary information for service delivery.</p>
-                    <p><strong>Location Data:</strong> Used only when you request rides for accurate service.</p>
-                    <p><strong>Data Protection:</strong> All your information is encrypted and securely stored.</p>
-                    <p><strong>Your Rights:</strong> You can access, correct, or delete your data anytime.</p>
+
+                    <p><strong>Data Collection:</strong> We collect only necessary information for
+                      service delivery.</p>
+                    <p><strong>Location Data:</strong> Used only when you request rides for accurate
+                      service.</p>
+                    <p><strong>Data Protection:</strong> All your information is encrypted and securely
+                     stored.</p>
+                    <p><strong>Your Rights:</strong> You can access, correct, or delete your data
+                      anytime.</p>
+
                   </div>
+
                 </div>
+
             </li>
     
             <li class="footer-link-item">
-              <a href="#" class="footer-link" title="Terms & Conditions" data-content="terms">Terms & Conditions</a>
+
+              <a href="#" class="footer-link" title="Terms & Conditions" data-content="terms">
+                Terms & Conditions</a>
+
                 <div class="popup-content" id="terms-popup">
+
                   <div class="popup-header">
+
                     <h6>Terms & Conditions</h6>
                     <span class="popup-close">&times;</span>
+
                   </div>
 
                   <div class="popup-body">
 
-                    <p><strong>User Responsibilities:</strong> Provide accurate info and respect transport agents.</p>
-                    <p><strong>Booking Policy:</strong> Cancel within 3 minutes for instant ride refunds.</p>
-                    <p><strong>Safety:</strong> Verify agent details and share ride info with trusted contacts.</p>
-                    <p><strong>Payments:</strong> All rides must be prepaid or cash confirmed before service.</p>
+                    <p><strong>User Responsibilities:</strong> Provide accurate info and respect
+                      transport agents.</p>
+                    <p><strong>Booking Policy:</strong> Cancel within 3 minutes for instant ride
+                      refunds.</p>
+                    <p><strong>Safety:</strong> Verify agent details and share ride info with trusted
+                      contacts.</p>
+                    <p><strong>Payments:</strong> All rides must be prepaid or cash confirmed before
+                      service.</p>
 
                   </div>
 
                 </div>
 
             </li>
-            
+
           </ul>
 
           </div>
@@ -353,13 +391,13 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
             <h5 data-aos="zoom-in">Download App</h5>
 
-            <a href="#"><img src="images/apple_store.png" alt="Apple Store" title="Download on Apple store"
-              class="store-img mb-2"></a>
+            <a href="#"><img src="images/apple_store.png" alt="Apple Store" title="Download on Apple
+              store" class="store-img mb-2"></a>
 
             <br>
 
-            <a href="#"><img src="images/playstore.png" alt="Google Play Store" title="Download on Play Store"
-              class="store-img"></a>
+            <a href="#"><img src="images/playstore.png" alt="Google Play Store" title="Download on Play
+              Store" class="store-img"></a>
 
           </div>
 
@@ -370,7 +408,8 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
             <ul>
 
-              <li><a href="tel:+256763343453" class="footer-link" title="Call Us"> +256 763 343 453</a></li>
+              <li><a href="tel:+256763343453" class="footer-link" title="Call Us"> +256 763 343 453</a>
+              </li>
 
               <li><a href="mailto:jobingetimothyosubert@gmail.com" class="footer-link" title="Email Us">
                 jobingetimothyosubert@gmail.com</a></li>
