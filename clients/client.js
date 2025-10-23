@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     // Username: letters, Spaces, Special characters ie Job Tim, J-Tim
     if (!/^[A-Za-z][A-Za-z\s\-']*[A-Za-z]$/.test(username)) {
-      alert("Username must start and end with a letter, and can contain spaces, hyphens, or apostrophes (e.g., Job Timothy, J-Timothy, O'Connor).");
+      alert("Username must start and end with a letter, and can contain spaces, hyphens, or apostrophes(e.g., Job Timothy, J-Timothy, O'Connor).");
       return;
     }
 
