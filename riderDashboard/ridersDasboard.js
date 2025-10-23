@@ -73,3 +73,72 @@ new Chart(ctx, {
   }
 });
 
+// Enhanced popup functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Close popup when clicking close button
+    document.querySelectorAll('.popup-close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const popup = this.closest('.popup-content');
+            popup.style.opacity = '0';
+            popup.style.visibility = 'hidden';
+        });
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.footer-link-item')) {
+            document.querySelectorAll('.popup-content').forEach(popup => {
+                popup.style.opacity = '0';
+                popup.style.visibility = 'hidden';
+            });
+        }
+    });
+
+    // Mobile touch support
+    let touchTimer;
+    document.querySelectorAll('.footer-link').forEach(link => {
+        link.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const popup = this.nextElementSibling;
+            
+            // Close other popups
+            document.querySelectorAll('.popup-content').forEach(p => {
+                if (p !== popup) {
+                    p.style.opacity = '0';
+                    p.style.visibility = 'hidden';
+                }
+            });
+            
+            // Toggle current popup
+            if (popup.style.visibility === 'visible') {
+                popup.style.opacity = '0';
+                popup.style.visibility = 'hidden';
+            } else {
+                popup.style.opacity = '1';
+                popup.style.visibility = 'visible';
+            }
+        });
+    });
+
+    // Keyboard accessibility
+    document.querySelectorAll('.footer-link').forEach(link => {
+        link.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const popup = this.nextElementSibling;
+                
+                document.querySelectorAll('.popup-content').forEach(p => {
+                    if (p !== popup) {
+                        p.style.opacity = '0';
+                        p.style.visibility = 'hidden';
+                    }
+                });
+                
+                popup.style.opacity = '1';
+                popup.style.visibility = 'visible';
+            }
+        });
+    });
+});
+
