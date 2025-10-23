@@ -435,6 +435,128 @@
 
   </script>
 
+  <!-- Navbar animation and styles -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navigation scroll animation
+      class NavbarAnimator {
+        constructor() {
+          this.navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+          this.init();
+        }
+
+        init() {
+          this.addClickAnimations();
+          this.addScrollSpy();
+        }
+
+        addClickAnimations() {
+          this.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+              const targetId = link.getAttribute('href');
+              // Only prevent default for in-page anchors
+              if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                // Remove active class from all links
+                this.navLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                link.classList.add('active');
+                // Scroll to section
+                this.scrollToSection(targetId);
+              } else {
+                // external link: still animate briefly for UX but allow navigation
+                // trigger a short animation without blocking navigation
+                this.animateLink(link);
+                return; // allow default navigation
+              }
+
+              // Trigger animation for in-page clicks
+              this.animateLink(link);
+            });
+          });
+        }
+
+        animateLink(link) {
+          // Reset animation
+          link.style.animation = 'none';
+          // Trigger reflow
+          void link.offsetWidth;
+          // Apply animation
+          link.style.animation = 'slideInFromTop 0.6s ease forwards';
+        }
+
+        scrollToSection(sectionId) {
+          const targetSection = document.querySelector(sectionId);
+          if (targetSection) {
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            const targetPosition = targetSection.offsetTop - navbarHeight;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        }
+
+        addScrollSpy() {
+          // Highlight nav links based on scroll position
+          window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+            this.navLinks.forEach(link => {
+              const sectionId = link.getAttribute('href');
+              if (sectionId && sectionId.startsWith('#')) {
+                const section = document.querySelector(sectionId);
+                if (section) {
+                  const sectionTop = section.offsetTop - navbarHeight - 100;
+                  const sectionBottom = sectionTop + section.offsetHeight;
+
+                  if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    this.navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                  }
+                }
+              }
+            });
+          });
+        }
+      }
+
+      // Additional CSS Keyframes & hover styles
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideInFromTop {
+            0% { transform: translateY(-100%); opacity: 0; }
+            60% { transform: translateY(10%); opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInFromTopSmooth {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        /* Base entrance animation for nav links */
+        .navbar-nav .nav-link {
+            animation: slideInFromTopSmooth 0.5s ease forwards;
+            transition: background-color 0.18s ease, color 0.18s ease;
+            border-radius: 6px;
+        }
+        /* Stagger the animations */
+        .navbar-nav .nav-link:nth-child(1) { animation-delay: 0.08s; }
+        .navbar-nav .nav-link:nth-child(2) { animation-delay: 0.16s; }
+        .navbar-nav .nav-link:nth-child(3) { animation-delay: 0.24s; }
+        .navbar-nav .nav-link:nth-child(4) { animation-delay: 0.32s; }
+        .navbar-nav .nav-link:nth-child(5) { animation-delay: 0.40s; }
+        /* Faded white background on hover */
+        .navbar-nav .nav-link:hover {
+            background: rgba(255,255,255,0.85) !important;
+            color: #111 !important;
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Instantiate animator
+      new NavbarAnimator();
+    });
+  </script>
   <!-- Custom JS -->
   <script src="index.js"></script>
 
