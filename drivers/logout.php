@@ -1,25 +1,25 @@
 <?php
-// logout.php
-// Secure logout handler with session destruction
+// drivers/logout.php
+// Destroys driver session and redirects to central login page
 
-// Include session configuration and check authentication
 require_once __DIR__ . '/../sessions/session_config.php';
 
-// Unset all session variables
-$_SESSION = array();
+// Clear session variables
+$_SESSION = [];
 
-// Delete session cookie
-if (ini_get("session.use_cookies")) {
+// Destroy session cookie if present
+if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
+        $params['path'], $params['domain'], $params['secure'], $params['httponly']
     );
 }
 
-// Destroy the session completely
+// Unset and destroy session
+session_unset();
 session_destroy();
 
-// Redirect to login page with success message
-header("Location: ../login/login.html?message=logout_success");
+// Redirect to centralized login page
+header('Location: ../login/login.php');
 exit();
+
