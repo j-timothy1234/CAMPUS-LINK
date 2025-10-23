@@ -17,14 +17,15 @@ $conn = $db->getConnection();
 $agent_id = $_SESSION['driver_id'] ?? $_SESSION['rider_id'] ?? null;
 if (!$agent_id) { echo json_encode(['success'=>true,'notifications'=>[]]); exit(); }
 
-$sql = "SELECT n.id as notification_id, n.booking_id, n.status as notify_status, b.client_id, b.pickup, b.destination, b.pickup_lat, b.pickup_lng, b.dest_lat, b.dest_lng, c.Username as client_name, c.Phone_Number as client_phone
-        FROM notifications n
-        JOIN bookings b ON b.id = n.booking_id
-        LEFT JOIN clients c ON c.Client_ID = b.client_id
-        WHERE n.agent_id = ? AND n.status = 'pending' ORDER BY n.created_at DESC";
+$sql = "SELECT n.id as notification_id, n.booking_id, n.agent_id, n.status as notify_status, b.client_id, b.pickup, b.destination, b.pickup_lat, b.pickup_lng, b.dest_lat, b.dest_lng, c.Username as client_name, c.Phone_Number as client_phone
+    FROM notifications n
+    JOIN bookings b ON b.id = n.booking_id
+    LEFT JOIN clients c ON c.Client_ID = b.client_id
+    WHERE (n.agent_id = ? OR n.agent_id = ?) AND n.status = 'pending' ORDER BY n.created_at DESC";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('s', $agent_id);
+$broadcastKey = 'broadcast:' . ($_SESSION['user_type'] === 'driver' ? 'driver' : 'rider');
+$stmt->bind_param('ss', $agent_id, $broadcastKey);
 $stmt->execute();
 $res = $stmt->get_result();
 $rows = [];

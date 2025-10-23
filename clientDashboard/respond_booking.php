@@ -32,6 +32,25 @@ if ($res->num_rows === 0) { http_response_code(404); echo json_encode(['success'
 $notif = $res->fetch_assoc();
 
 if ($action === 'accept') {
+    // If notification was a broadcast (agent_id starts with 'broadcast:'), claim it by updating agent_id to this agent
+    $currentAgentId = $_SESSION['driver_id'] ?? $_SESSION['rider_id'] ?? null;
+    if ($notif['agent_id'] && strpos($notif['agent_id'], 'broadcast:') === 0 && $currentAgentId) {
+        $claim = $conn->prepare('UPDATE notifications SET agent_id = ? WHERE id = ? AND agent_id = ?');
+        $claim->bind_param('sis', $currentAgentId, $notification_id, $notif['agent_id']);
+        $claim->execute();
+        // reload notification to confirm we successfully claimed it
+        $r2 = $conn->prepare('SELECT * FROM notifications WHERE id = ?');
+        $r2->bind_param('i', $notification_id);
+        $r2->execute();
+        $nr = $r2->get_result()->fetch_assoc();
+        if ($nr['agent_id'] !== $currentAgentId) {
+            echo json_encode(['success'=>false,'message'=>'Notification already claimed by another agent']);
+            exit();
+        }
+        // update local notif variable to reflect claimed agent
+        $notif['agent_id'] = $currentAgentId;
+    }
+
     // update booking status and notification status
     $up = $conn->prepare('UPDATE bookings SET status = ? WHERE id = ?');
     $status = 'accepted';

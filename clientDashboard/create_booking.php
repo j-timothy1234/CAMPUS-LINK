@@ -71,14 +71,24 @@ if ($stmt->execute()) {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
     $conn->query($notif_create_sql);
 
-    // Insert into notifications table only if agent specified
-    if (!empty($agent_id)) {
-        $ins = $conn->prepare('INSERT INTO notifications (booking_id, agent_id, client_id, status) VALUES (?, ?, ?, ?)');
-        if ($ins) {
-            $stat = 'pending';
-            $ins->bind_param('isss', $booking_id, $agent_id, $client_id, $stat);
-            $ins->execute();
+    // Determine agent target: if client didn't pick a specific agent, broadcast to appropriate role
+    if (empty($agent_id)) {
+        // infer role from mode/service
+        $m = strtolower($mode ?? '');
+        if (strpos($m, 'bike') !== false || strpos($m, 'motor') !== false || strpos($m, 'rider') !== false) {
+            $agent_id = 'broadcast:rider';
+        } else {
+            // default to driver for other modes like 'uber', 'vehicle', 'driver'
+            $agent_id = 'broadcast:driver';
         }
+    }
+
+    // Insert a notification record for the (specific or broadcast) agent
+    $ins = $conn->prepare('INSERT INTO notifications (booking_id, agent_id, client_id, status) VALUES (?, ?, ?, ?)');
+    if ($ins) {
+        $stat = 'pending';
+        $ins->bind_param('isss', $booking_id, $agent_id, $client_id, $stat);
+        $ins->execute();
     }
     // Attempt to notify WebSocket relay (if running locally)
     try {
