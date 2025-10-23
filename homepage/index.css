@@ -292,7 +292,7 @@ footer {
 .popup-content {
     position: absolute;
     bottom: 100%;
-    left: 0;
+    left: 10px;
     background: white;
     color: #333;
     padding: 0;
