@@ -313,13 +313,18 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
                   </div>
 
                   <div class="popup-body">
+
                     <p><strong>User Responsibilities:</strong> Provide accurate info and respect transport agents.</p>
                     <p><strong>Booking Policy:</strong> Cancel within 3 minutes for instant ride refunds.</p>
                     <p><strong>Safety:</strong> Verify agent details and share ride info with trusted contacts.</p>
                     <p><strong>Payments:</strong> All rides must be prepaid or cash confirmed before service.</p>
+
                   </div>
+
                 </div>
+
             </li>
+            
           </ul>
 
           </div>
