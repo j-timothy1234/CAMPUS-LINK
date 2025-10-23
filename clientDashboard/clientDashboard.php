@@ -125,7 +125,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                         </a>
                     </li>
                     <li class="nav-item mt-auto">
-                        <a class="nav-link text-danger" href="../loginlogout.php">
+                        <a class="nav-link text-danger" href="../login/login.php">
                             <i class="fas fa-sign-out-alt me-2"></i>LOGOUT
                         </a>
                     </li>
@@ -601,4 +601,4 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
 
 </body>
 
-</
+</html>
