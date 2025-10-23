@@ -1,6 +1,4 @@
 <?php
-// session_config.php
-// Session configuration for CampusLink Driver System
 
 // Session configuration for security
 // Set ini settings and cookie params BEFORE starting the session so they take effect
