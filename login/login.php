@@ -28,6 +28,12 @@ $error = $_GET['error'] ?? '';
   <link rel="stylesheet" href="login.css">
 </head>
 <body>
+  <!-- Back to homepage arrow -->
+  <a href="../homepage/index.html" aria-label="Back to homepage" id="back-home-arrow" title="Back to homepage"
+     style="position:fixed;top:12px;left:12px;z-index:1050;background:#fff;border-radius:6px;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,0.12);text-decoration:none;color:#333;border:1px solid #ddd;">
+    <!-- simple left arrow using HTML entity -->
+    &larr; Home
+  </a>
   <div class="login-container">
     <div class="text-center mb-3">
       <img src="images/logo.png" alt="CampusLink Logo" class="logo">
