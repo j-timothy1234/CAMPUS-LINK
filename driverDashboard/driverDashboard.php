@@ -196,7 +196,7 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
             <h5>Live Location & Journey Map</h5>
           </div>
           <div class="card-body">
-            <div id="map" style="height: 400px;"></div>
+            <div id="map" style="height: 500px;"></div>
             <div class="d-flex justify-content-between mt-3">
               <button class="btn btn-danger" title="Decline Request"> Decline </button>
               <button class="btn btn-success" title="Accept Request"> Accept </button>

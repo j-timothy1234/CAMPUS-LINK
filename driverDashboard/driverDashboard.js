@@ -77,6 +77,29 @@ document.addEventListener("DOMContentLoaded", () => {
           console.warn('Layered sidebar init failed', e);
         }
 
+        // Ensure map resizes when the maps layer becomes visible
+        const originalShowLayer = showLayer;
+        function showLayerWithMap(name) {
+          originalShowLayer(name);
+          try {
+            if (name === 'maps' && typeof map !== 'undefined' && map.invalidateSize) {
+              // small timeout to allow CSS transition to finish
+              setTimeout(() => { try { map.invalidateSize(); } catch (e) { console.warn('map invalidate failed', e); } }, 220);
+            }
+          } catch (e) { console.warn(e); }
+        }
+
+        // Replace event handlers to use the wrapper that also fixes map sizing
+        document.querySelectorAll('#sidebar a[data-layer]').forEach(link => {
+          link.removeEventListener('click', () => {});
+          link.addEventListener('click', function (e) {
+            const layer = this.getAttribute('data-layer');
+            if (!layer) return; // allow normal navigation for links without data-layer (e.g., logout)
+            e.preventDefault();
+            showLayerWithMap(layer);
+          });
+        });
+
 
         // =======================================================
         // LEAFLET LIVE LOCATION TRACKER WITH BIKE ICON, SPEED & DIRECTION
