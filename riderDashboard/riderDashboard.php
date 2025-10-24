@@ -194,29 +194,26 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
       </div>
 
       <!-- Rest of the dashboard content remains the same -->
-      <!-- Map Section -->
-
-      <section id="maps" class="mb-4">
-
-        <h2 data-aos="zoom-in">Live Location</h2>
-
-        <div id="map" class="mb-3"></div>
-
-        <div class="d-flex justify-content-between">
-
-          <button class="btn btn-danger" title="Decline Request"> Decline </button>
-          <button class="btn btn-success" title="Accept Request"> Accept </button>
-          <button class="btn btn-primary" title="Call Client"> Call </button>
-
+      <!-- MAP LAYER -->
+      <div id="maps-layer" class="layer-panel mb-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>Live Location & Journey Map</h5>
+          </div>
+          <div class="card-body">
+            <div id="map" style="height: 400px;"></div>
+            <div class="d-flex justify-content-between mt-3">
+              <button class="btn btn-danger" title="Decline Request"> Decline </button>
+              <button class="btn btn-success" title="Accept Request"> Accept </button>
+              <button class="btn btn-primary" title="Call Client"> Call </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-      </section>
-
-      <!-- Trips -->
-      <section id="trips" class="mb-4">
-
+      <!-- TRIPS LAYER -->
+      <div id="trips-layer" class="layer-panel mb-4">
         <h2 data-aos="zoom-in">Trips History</h2>
-
         <?php
         // Fetch recent bookings for this rider
         require_once __DIR__ . '/../db_connect.php';
@@ -245,30 +242,23 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
         }
         ?>
 
-      </section>
+      </div>
 
-      <!-- Notifications -->
-      <section id="notifications" class="mb-4">
-
+      <!-- NOTIFICATIONS LAYER -->
+      <div id="notifications-layer" class="layer-panel mb-4">
         <h2 data-aos="zoom-in">Notifications</h2>
-
         <ul class="list-group">
-
           <li class="list-group-item">📢 New Trip Request</li>
           <li class="list-group-item">🌦️ Weather: Sunny 27°C</li>
           <li class="list-group-item">💬 Message from Client</li>
-
         </ul>
+      </div>
 
-      </section>
-
-      <!-- Ratings -->
-      <section id="ratings" class="mb-4">
-
+      <!-- RATINGS LAYER -->
+      <div id="ratings-layer" class="layer-panel mb-4">
         <h2 data-aos="zoom-in">My Ratings</h2>
         <canvas id="ratingsChart"></canvas>
-
-      </section>
+      </div>
 
     </div>
 

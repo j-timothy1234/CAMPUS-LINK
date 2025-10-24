@@ -41,16 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
           const layerLinks = document.querySelectorAll('#sidebar a[data-layer]');
 
           function showLayer(name) {
-            const ids = ['maps', 'trips', 'notifications', 'ratings'];
+            // panels are named like `${name}-layer` (maps-layer, trips-layer, ...)
+            const names = ['maps', 'trips', 'notifications', 'ratings'];
             if (name === 'home') {
               // hide all panels for a clean home view and scroll to top
-              ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+              names.forEach(n => { const el = document.getElementById(`${n}-layer`); if (el) el.style.display = 'none'; });
               window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-              ids.forEach(id => {
-                const el = document.getElementById(id);
+              names.forEach(n => {
+                const el = document.getElementById(`${n}-layer`);
                 if (!el) return;
-                el.style.display = (id === name) ? '' : 'none';
+                el.style.display = (n === name) ? '' : 'none';
               });
             }
 

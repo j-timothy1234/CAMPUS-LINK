@@ -41,15 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
           const layerLinks = document.querySelectorAll('#sidebar a[data-layer]');
 
           function showLayer(name) {
-            const ids = ['maps', 'trips', 'notifications', 'ratings'];
+            const names = ['maps', 'trips', 'notifications', 'ratings'];
             if (name === 'home') {
-              ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+              names.forEach(n => { const el = document.getElementById(`${n}-layer`); if (el) el.style.display = 'none'; });
               window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-              ids.forEach(id => {
-                const el = document.getElementById(id);
+              names.forEach(n => {
+                const el = document.getElementById(`${n}-layer`);
                 if (!el) return;
-                el.style.display = (id === name) ? '' : 'none';
+                el.style.display = (n === name) ? '' : 'none';
               });
             }
 
