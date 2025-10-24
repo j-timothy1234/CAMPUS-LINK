@@ -82,19 +82,19 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
     <ul class="nav flex-column">
 
-      <li class="nav-item"><a href="#" class="nav-link text-white active">
+      <li class="nav-item"><a href="#" data-layer="home" class="nav-link text-white active">
         <i class="fas fa-home me-2"></i> Home</a></li>
 
-      <li class="nav-item"><a href="#maps" class="nav-link text-white">
+      <li class="nav-item"><a href="#" data-layer="maps" class="nav-link text-white">
         <i class="fas fa-map me-2"></i> Maps</a></li>
 
-      <li class="nav-item"><a href="#trips" class="nav-link text-white">
+      <li class="nav-item"><a href="#" data-layer="trips" class="nav-link text-white">
         <i class="fas fa-history me-2"></i> Trips</a></li>
 
-      <li class="nav-item"><a href="#notifications" class="nav-link text-white">
+      <li class="nav-item"><a href="#" data-layer="notifications" class="nav-link text-white">
         <i class="fas fa-bell me-2"></i> Notifications</a></li>
         
-      <li class="nav-item"><a href="#ratings" class="nav-link text-white">
+      <li class="nav-item"><a href="#" data-layer="ratings" class="nav-link text-white">
         <i class="fas fa-star me-2"></i> Ratings</a></li>
 
       <li class="nav-item"><a href="../riders/logout.php" class="nav-link text-white">
