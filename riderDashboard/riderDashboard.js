@@ -82,16 +82,18 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (e) { console.warn(e); }
           }
 
-          // Replace handlers to use the wrapper that also fixes map sizing
-          document.querySelectorAll('#sidebar a[data-layer]').forEach(link => {
-            link.removeEventListener('click', () => {});
-            link.addEventListener('click', function (e) {
-              const layer = this.getAttribute('data-layer');
-              if (!layer) return; // leave normal navigation for links without data-layer
+          // Use event delegation on the sidebar so taps work reliably (mobile/touch)
+          const sidebarEl = document.getElementById('sidebar');
+          if (sidebarEl) {
+            sidebarEl.addEventListener('click', function (e) {
+              const a = e.target.closest && e.target.closest('a[data-layer]');
+              if (!a) return; // not a layer link
+              const layer = a.getAttribute('data-layer');
+              if (!layer) return; // allow normal navigation for links without data-layer
               e.preventDefault();
               showLayerWithMapR(layer);
-            });
-          });
+            }, { passive: false });
+          }
 
 
         // =======================================================
