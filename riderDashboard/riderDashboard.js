@@ -34,6 +34,43 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDateTime();
         setInterval(updateDateTime, 1000);
 
+        // -----------------------------
+        // JLayered sidebar behavior (rider)
+        // -----------------------------
+        try {
+          const layerLinks = document.querySelectorAll('#sidebar a[data-layer]');
+
+          function showLayer(name) {
+            const ids = ['maps', 'trips', 'notifications', 'ratings'];
+            if (name === 'home') {
+              ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.style.display = (id === name) ? '' : 'none';
+              });
+            }
+
+            layerLinks.forEach(l => {
+              if (l.getAttribute('data-layer') === name) l.classList.add('active'); else l.classList.remove('active');
+            });
+          }
+
+          layerLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+              const layer = this.getAttribute('data-layer');
+              if (!layer) return; // leave normal navigation for links without data-layer
+              e.preventDefault();
+              showLayer(layer);
+            });
+          });
+
+          const initial = document.querySelector('#sidebar a[data-layer].active');
+          if (initial) showLayer(initial.getAttribute('data-layer')); else showLayer('home');
+        } catch (e) { console.warn('Layered sidebar init failed', e); }
+
 
         // =======================================================
         // LEAFLET LIVE LOCATION TRACKER WITH BIKE ICON, SPEED & DIRECTION

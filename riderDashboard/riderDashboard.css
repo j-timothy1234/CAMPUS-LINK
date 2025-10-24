@@ -24,13 +24,29 @@ body {
 }
 
 .sidebar .nav-link {
-  padding: 10px;
-  font-size: 20px;
+  padding: 12px 20px;
+  font-size: 18px;
+  color: white !important;
+  border-radius: 6px;
+  transition: all 0.25s ease;
 }
 .sidebar .nav-link.active {
   background-color: #0d6efd;
-  border-radius: 5px;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(13,110,253,0.15);
 }
+
+/* Make icons align like client dashboard */
+.sidebar .nav-link i { width: 20px; text-align: center; margin-right: 8px; }
+
+/* Layer panels (JLayered-style) */
+.layer-panel { display: none; animation: fadeIn 0.28s ease-in; }
+.layer-panel.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Main content padding to match client layout */
+.main-content { padding: 20px; min-height: calc(100vh - 80px); }
 
 /* Collapsible behavior for small screens */
 @media (max-width: 991px) {
