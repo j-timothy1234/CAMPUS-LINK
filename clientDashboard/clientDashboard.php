@@ -80,11 +80,6 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                             <i class="fas fa-camera"></i>
                         </button>
 
-                        <div class="upload-spinner">
-                            <div class="spinner-border spinner-border-sm text-light" role="status">
-                                <span class="visually-hidden">Uploading...</span>
-                            </div>
-                        </div>
                 </div>
 
                 <input type="file" id="headerProfilePicInput"
