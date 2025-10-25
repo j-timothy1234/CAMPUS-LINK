@@ -847,3 +847,227 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ========================================
+// PROFILE PICTURE UPLOAD FUNCTIONALITY
+// ========================================
+
+(function initializeProfileUpload() {
+    'use strict';
+
+    // DOM Elements
+    const headerProfilePicInput = document.getElementById('headerProfilePicInput');
+    const navProfilePic = document.getElementById('navProfilePic');
+    const headerUploadTrigger = document.getElementById('headerUploadTrigger');
+    const headerProfileContainer = document.getElementById('headerProfileContainer');
+
+    if (!headerProfilePicInput || !navProfilePic || !headerUploadTrigger || !headerProfileContainer) {
+        console.warn('Header profile upload elements not found');
+        return;
+    }
+
+    let originalImageSrc = navProfilePic.src;
+
+    // Event Listeners
+    headerUploadTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        headerProfilePicInput.click();
+    });
+
+    navProfilePic.addEventListener('click', function(e) {
+        e.preventDefault();
+        headerProfilePicInput.click();
+    });
+
+    headerProfilePicInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!validateFile(file)) {
+            headerProfilePicInput.value = '';
+            return;
+        }
+
+        originalImageSrc = navProfilePic.src;
+        previewImage(file, navProfilePic);
+        uploadProfilePicture(file);
+    });
+
+    function validateFile(file) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            showNotification('Please select a valid image file (JPG, PNG, GIF, or WebP)', 'danger');
+            return false;
+        }
+
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+            showNotification('Image size should not exceed 5MB', 'danger');
+            return false;
+        }
+
+        return true;
+    }
+
+    function previewImage(file, imgElement) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            imgElement.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function uploadProfilePicture(file) {
+        const formData = new FormData();
+        formData.append('profile_photo', file);
+
+        headerProfileContainer.classList.add('uploading');
+        showNotification('Uploading your profile picture...', 'info');
+
+        fetch('upload_profile_client.php', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            headerProfileContainer.classList.remove('uploading');
+
+            if (data.success) {
+                updateAllProfileImages(data.file_path);
+                originalImageSrc = data.file_path;
+                showNotification('Profile picture updated successfully!', 'success');
+            } else {
+                navProfilePic.src = originalImageSrc;
+                showNotification(data.message || 'Upload failed. Please try again.', 'danger');
+            }
+            
+            headerProfilePicInput.value = '';
+        })
+        .catch(error => {
+            headerProfileContainer.classList.remove('uploading');
+            navProfilePic.src = originalImageSrc;
+            console.error('Upload error:', error);
+            showNotification('An error occurred during upload. Please try again.', 'danger');
+            headerProfilePicInput.value = '';
+        });
+    }
+
+    function updateAllProfileImages(newImagePath) {
+        const cacheBustedPath = newImagePath + '?t=' + new Date().getTime();
+        
+        if (navProfilePic) navProfilePic.src = cacheBustedPath;
+
+        const profilePreview = document.getElementById('profilePreview');
+        if (profilePreview) profilePreview.src = cacheBustedPath;
+
+        const allProfilePics = document.querySelectorAll('.profile-pic');
+        allProfilePics.forEach(pic => {
+            if (pic.id !== 'navProfilePic' && pic.id !== 'profilePreview') {
+                pic.src = cacheBustedPath;
+            }
+        });
+    }
+
+    function showNotification(message, type) {
+        let toastContainer = document.getElementById('toastContainer');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toastContainer';
+            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+            toastContainer.style.zIndex = '9999';
+            document.body.appendChild(toastContainer);
+        }
+
+        const typeColorMap = {
+            'success': 'success',
+            'danger': 'danger',
+            'info': 'info',
+            'warning': 'warning'
+        };
+        const bgColor = typeColorMap[type] || 'info';
+
+        const typeIconMap = {
+            'success': 'fa-check-circle',
+            'danger': 'fa-exclamation-circle',
+            'info': 'fa-info-circle',
+            'warning': 'fa-exclamation-triangle'
+        };
+        const icon = typeIconMap[type] || 'fa-info-circle';
+
+        const toastEl = document.createElement('div');
+        toastEl.className = `toast align-items-center text-white bg-${bgColor} border-0`;
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        
+        toastEl.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas ${icon} me-2"></i>
+                    ${escapeHtml(message)}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+
+        toastContainer.appendChild(toastEl);
+
+        if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
+            const bsToast = new bootstrap.Toast(toastEl, {
+                autohide: true,
+                delay: type === 'danger' ? 5000 : 3000
+            });
+            bsToast.show();
+
+            toastEl.addEventListener('hidden.bs.toast', function() {
+                toastEl.remove();
+            });
+        } else {
+            alert(message);
+            toastEl.remove();
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Drag and drop support
+    headerProfileContainer.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.opacity = '0.7';
+    });
+
+    headerProfileContainer.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.opacity = '1';
+    });
+
+    headerProfileContainer.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.opacity = '1';
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            if (validateFile(file)) {
+                originalImageSrc = navProfilePic.src;
+                previewImage(file, navProfilePic);
+                uploadProfilePicture(file);
+            }
+        }
+    });
+
+    console.log('Profile upload functionality initialized');
+
+})();
