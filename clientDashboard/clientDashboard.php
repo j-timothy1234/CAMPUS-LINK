@@ -3,6 +3,8 @@
 // Include session configuration and check authentication
 require_once __DIR__ . '/../sessions/session_config.php';
 
+require_once __DIR__ . '/../db_connect.php';
+
 // Checking if client is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
     // Redirect to centralized login page
@@ -88,7 +90,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 <input type="file" id="headerProfilePicInput"
                     accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                     style="display: none;">
-                    
+
             </div>
             
             <!-- Welcome Message & Time - Center -->
