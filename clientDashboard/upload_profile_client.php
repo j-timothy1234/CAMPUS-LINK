@@ -4,6 +4,10 @@
  * File: upload_profile_client.php
  */
 
+// Enable error reporting temporarily
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // Include session configuration
 require_once __DIR__ . '/../sessions/session_config.php';
 
