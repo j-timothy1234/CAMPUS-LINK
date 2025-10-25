@@ -12,8 +12,8 @@ $(document).ready(function () {
     const confirmPassword = $("#confirmPassword").val();
 
     // Username: letters, Spaces, Special characters ie Job Tim, J-Tim
-    if (!/^[A-Z][A-Za-z\s\-']*[A-Za-z]$/.test(username)) {
-      alert("Username must start and end with a letter, and can contain spaces, hyphens, or apostrophes(e.g., Job Timothy, J-Timothy, O'Connor).");
+    if (!/^[A-Z][A-Za-z\s\-']*[A-Za-z0-9]$/.test(username)) {
+      alert("Username must start with a Capital letter and end with a number, and can contain spaces,hyphens, or apostrophes(e.g., Job Timothy, J-Timothy, O'Connor).");
       return;
     }
 
