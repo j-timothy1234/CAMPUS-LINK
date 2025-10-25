@@ -3,14 +3,14 @@
 // Include session configuration and check authentication
 require_once __DIR__ . '/../sessions/session_config.php';
 
-// Check if client is logged in
+// Checking if client is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
     // Redirect to centralized login page
     header("Location: ../login/login.php");
     exit();
 }
 
-// Get client data from session
+// Getting client data from session
 $username = htmlspecialchars($_SESSION['username']);
 $client_id = $_SESSION['client_id'];
 $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
@@ -22,6 +22,7 @@ $gender = $_SESSION['gender'] ?? '';
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
 }
+
 $csrf_token = $_SESSION['csrf_token'];
 // Prefer thumbnail for header if it exists
 $header_photo = $profile_photo;
@@ -103,33 +104,51 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
             
             <!-- Sidebar Navigation -->
             <div class="col-lg-2 col-md-3 sidebar bg-light">
+
                 <ul class="nav flex-column">
+
                     <li class="nav-item">
+
                         <a class="nav-link active" href="#" data-layer="order-now">
                             <i class="fas fa-motorcycle me-2"></i>ORDER NOW
                         </a>
+
                     </li>
+
                     <li class="nav-item">
+
                         <a class="nav-link" href="#" data-layer="book-travel">
                             <i class="fas fa-calendar me-2"></i>BOOK TRAVEL
                         </a>
+
                     </li>
+
                     <li class="nav-item">
+
                         <a class="nav-link" href="#" data-layer="delivery-services">
                             <i class="fas fa-shipping-fast me-2"></i>DELIVERY SERVICES
                         </a>
+
                     </li>
+
                     <li class="nav-item">
+
                         <a class="nav-link" href="#" data-layer="personal-info">
                             <i class="fas fa-user me-2"></i>PERSONAL INFO
                         </a>
+
                     </li>
+
                     <li class="nav-item mt-auto">
+
                         <a class="nav-link text-danger" href="logout.php">
                             <i class="fas fa-sign-out-alt me-2"></i>LOGOUT
                         </a>
+
                     </li>
+
                 </ul>
+
             </div>
 
             <!-- Main Content Area with Layered Panels -->
@@ -139,78 +158,127 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 <div id="order-now-layer" class="layer-panel active">
                     <!-- Transport Mode Selection -->
                     <div class="row mb-4">
+
                         <div class="col-md-6 text-center">
+
                             <button class="btn btn-outline-primary btn-lg transport-mode" data-mode="motorcycle">
                                 <i class="fas fa-motorcycle me-2"></i>MotorCycle
                             </button>
+
                         </div>
+
                         <div class="col-md-6 text-center">
+
                             <button class="btn btn-outline-primary btn-lg transport-mode" data-mode="vehicle">
                                 <i class="fas fa-car me-2"></i>Vehicle (Uber)
                             </button>
+
                         </div>
+
                     </div>
 
                     <!-- Order Form (Dynamic based on transport mode) -->
                     <div id="order-form" class="card mb-4" style="display: none;">
+
                         <div class="card-body">
+
                             <div class="row">
+
                                 <div class="col-md-6">
+
                                     <label class="form-label">From</label>
-                                    <input type="text" class="form-control" id="from-location" placeholder="Current location">
+
+                                    <input type="text" class="form-control" id="from-location"
+                                        placeholder="Current location">
+
                                     <button class="btn btn-sm btn-outline-secondary mt-2" id="detect-location">
                                         <i class="fas fa-location-arrow"></i> Detect My Location
                                     </button>
+
                                 </div>
+
                                 <div class="col-md-6">
+
                                     <label class="form-label">To</label>
-                                    <input type="text" class="form-control" id="to-location" placeholder="Destination">
+
+                                    <input type="text" class="form-control" id="to-location"
+                                        placeholder="Destination">
+
                                 </div>
+
                             </div>
+
                             <div class="text-center mt-3">
+
                                 <button class="btn btn-success" id="order-rider">
                                     <i class="fas fa-bolt"></i> Order Rider
                                 </button>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <!-- Map Section -->
                     <div class="card mb-4">
+
                         <div class="card-header">
+
                             <h5>Live Location & Journey Map</h5>
+
                         </div>
+
                         <div class="card-body">
+
                             <div id="map" style="height: 400px;"></div>
+
                         </div>
+
                     </div>
 
                     <!-- Transport Animation -->
                     <div id="transport-animation" class="text-center mb-4" style="display: none;">
+
                         <div id="bike-animation" style="display: none;">
+
                             <i class="fas fa-motorcycle fa-3x text-primary animate-bike"></i>
+
                         </div>
+
                         <div id="car-animation" style="display: none;">
+
                             <i class="fas fa-car fa-3x text-success animate-car"></i>
+
                         </div>
+
                     </div>
 
                     <!-- Confirm Order Button -->
                     <div class="text-center mb-4">
-                        <button id="confirm-order" class="btn btn-primary btn-lg" style="display: none;">
+
+                        <button id="confirm-order" class="btn btn-primary btn-lg"
+                            style="display: none;">
                             Confirm Order - <span id="order-price">UGX 0</span>
                         </button>
+
                     </div>
 
                     <!-- Trip History -->
                     <div class="card">
+
                         <div class="card-header">
                             <h5>Trip History</h5>
                         </div>
+
                         <div class="card-body">
+
                             <div class="table-responsive">
+
                                 <table class="table table-hover">
+
                                     <thead>
+
                                         <tr>
                                             <th>Rider Type</th>
                                             <th>Plate Number</th>
@@ -220,13 +288,19 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                             <th>Date</th>
                                             <th>Comment</th>
                                         </tr>
+
                                     </thead>
+
                                     <tbody id="trip-history">
                                         <!-- Dynamic content from JavaScript -->
                                     </tbody>
+
                                 </table>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <!-- Graphs Section -->
@@ -241,6 +315,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
