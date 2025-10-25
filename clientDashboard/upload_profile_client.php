@@ -29,9 +29,24 @@ function sendResponse($success, $message, $data = []) {
     exit;
 }
 
-// Check if user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'clients') {
-    sendResponse(false, 'Unauthorized access. Please log in.');
+// DEBUG: Log session data (remove after fixing)
+error_log("Session data: " . print_r($_SESSION, true));
+
+// Check if user is logged in and is a client
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    sendResponse(false, 'Session expired. Please log in again.');
+}
+
+if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'client') {
+    sendResponse(false, 'Invalid user type. Client access only.');
+}
+
+if (!isset($_SESSION['client_id'])) {
+    sendResponse(false, 'Client ID not found in session.');
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    sendResponse(false, 'Invalid request method.');
 }
 
 // Check if request method is POST
