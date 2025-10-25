@@ -26,7 +26,7 @@ function sendResponse($success, $message, $data = []) {
 }
 
 // Check if user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'clients') {
     sendResponse(false, 'Unauthorized access. Please log in.');
 }
 
@@ -46,11 +46,11 @@ if (!file_exists($upload_dir)) {
 }
 
 // Check if file was uploaded
-if (!isset($_FILES['profile_photo']) || empty($_FILES['profile_photo']['name'])) {
+if (!isset($_FILES['Profile_photo']) || empty($_FILES['Profile_photo']['name'])) {
     sendResponse(false, 'No file uploaded. Please select an image.');
 }
 
-$file = $_FILES['profile_photo'];
+$file = $_FILES['Profile_photo'];
 
 // Check for upload errors
 if ($file['error'] !== UPLOAD_ERR_OK) {
@@ -122,7 +122,7 @@ $relative_path = '/../upload_client/' . $new_filename;
 require_once __DIR__ . '/../db_connection.php';
 
 // Get old profile picture path before update
-$stmt = $conn->prepare("SELECT profile_photo FROM clients WHERE client_id = ?");
+$stmt = $conn->prepare("SELECT Profile_photo FROM clients WHERE client_id = ?");
 if (!$stmt) {
     sendResponse(false, 'Database error: ' . $conn->error);
 }
@@ -131,7 +131,7 @@ $stmt->bind_param("i", $client_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $old_data = $result->fetch_assoc();
-$old_profile_photo = $old_data['profile_photo'] ?? null;
+$old_profile_photo = $old_data['Profile_photo'] ?? null;
 $stmt->close();
 
 // Move uploaded file to destination
@@ -150,7 +150,7 @@ try {
 */
 
 // Update database with new profile picture path
-$stmt = $conn->prepare("UPDATE clients SET profile_photo = ? WHERE client_id = ?");
+$stmt = $conn->prepare("UPDATE clients SET Profile_photo = ? WHERE client_id = ?");
 if (!$stmt) {
     @unlink($upload_path); // Delete uploaded file
     sendResponse(false, 'Database error: ' . $conn->error);
@@ -160,7 +160,7 @@ $stmt->bind_param("si", $relative_path, $client_id);
 
 if ($stmt->execute()) {
     // Update session variable
-    $_SESSION['profile_photo'] = $relative_path;
+    $_SESSION['Profile_photo'] = $relative_path;
     
     // Delete old profile picture file (if exists and not default)
     if ($old_profile_photo && 
