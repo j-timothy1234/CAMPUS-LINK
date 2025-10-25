@@ -58,8 +58,7 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <script src="riderDashboard.js" defer></script>
-  <script src="ridersDashboard.js" defer></script>
+  <!-- Dashboard scripts are included at the end of the body to ensure dependencies (Leaflet, Chart.js) are loaded first -->
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="riderDashboard.css">
