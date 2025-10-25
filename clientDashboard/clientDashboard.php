@@ -315,7 +315,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -326,7 +326,9 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    
                 </div>
 
                 <!-- LAYER 2: BOOK TRAVEL (Hidden by default) -->
