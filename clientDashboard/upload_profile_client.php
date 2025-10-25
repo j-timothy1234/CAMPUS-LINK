@@ -11,6 +11,8 @@ error_reporting(E_ALL);
 // Include session configuration
 require_once __DIR__ . '/../sessions/session_config.php';
 
+require_once __DIR__ . '/../db_connect.php';
+
 // Set JSON response header
 header('Content-Type: application/json');
 
