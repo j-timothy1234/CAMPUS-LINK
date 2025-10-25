@@ -895,9 +895,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function validateFile(file) {
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        const allowedTypes = ['images/jpeg', 'images/jpg', 'images/png', 'images/gif', 'images/webp'];
         if (!allowedTypes.includes(file.type)) {
-            showNotification('Please select a valid image file (JPG, PNG, GIF, or WebP)', 'danger');
+            showNotification('Please select a valid image file (JPG, JPEG, PNG, GIF, or WebP)', 'danger');
             return false;
         }
 
