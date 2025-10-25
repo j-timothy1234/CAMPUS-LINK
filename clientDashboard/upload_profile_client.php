@@ -69,7 +69,7 @@ if (!isset($_FILES['profile_photo']) || empty($_FILES['profile_photo']['name']))
     sendResponse(false, 'No file uploaded. Please select an image.');
 }
 
-$file = $_FILES['Profile_photo'];
+$file = $_FILES['profile_photo'];
 
 // Check for upload errors
 if ($file['error'] !== UPLOAD_ERR_OK) {
@@ -92,12 +92,12 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
 
 // Validate file type using MIME type
 $allowed_mime_types = [
-    'image/jpeg',
-    'image/jpg', 
-    'image/pjpeg',
-    'image/png',
-    'image/gif',
-    'image/webp'
+    'images/jpeg',
+    'images/jpg', 
+    'images/jpeg',
+    'images/png',
+    'images/gif',
+    'images/webp'
 ];
 
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -105,7 +105,7 @@ $mime_type = finfo_file($finfo, $file['tmp_name']);
 finfo_close($finfo);
 
 if (!in_array($mime_type, $allowed_mime_types)) {
-    sendResponse(false, 'Invalid file type. Only JPG, PNG, GIF, and WebP images
+    sendResponse(false, 'Invalid file type. Only JPG, JPEG, PNG, GIF, and WebP images
     are allowed.');
 }
 
@@ -150,7 +150,7 @@ $stmt->bind_param("i", $client_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $old_data = $result->fetch_assoc();
-$old_profile_photo = $old_data['Profile_photo'] ?? null;
+$old_profile_photo = $old_data['profile_photo'] ?? null;
 $stmt->close();
 
 // Move uploaded file to destination
@@ -179,7 +179,7 @@ $stmt->bind_param("si", $relative_path, $client_id);
 
 if ($stmt->execute()) {
     // Update session variable
-    $_SESSION['Profile_photo'] = $relative_path;
+    $_SESSION['profile_photo'] = $relative_path;
     
     // Delete old profile picture file (if exists and not default)
     if ($old_profile_photo && 
