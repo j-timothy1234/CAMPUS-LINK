@@ -115,7 +115,7 @@ $new_filename = 'client_' . $client_id . '_' . uniqid() . '_' . time() . '.' . $
 $upload_path = $upload_dir . $new_filename;
 
 // Relative path for database storage
-$relative_path = 'upload_client/' . $new_filename;
+$relative_path = '/../upload_client/' . $new_filename;
 
 // Database connection (adjust path to your database connection file)
 require_once __DIR__ . '/../database/db_connection.php';
@@ -165,10 +165,10 @@ if ($stmt->execute()) {
     if ($old_profile_photo && 
         $old_profile_photo !== $relative_path && 
         !empty($old_profile_photo) &&
-        strpos($old_profile_photo, 'upload_client/') === 0 &&
+        strpos($old_profile_photo, '/../upload_client/') === 0 &&
         strpos($old_profile_photo, 'default') === false) {
         
-        $old_file_path = __DIR__ . '/../' . $old_profile_photo;
+        $old_file_path = __DIR__ . '/../upload_client/' . $old_profile_photo;
         if (file_exists($old_file_path)) {
             @unlink($old_file_path);
             
