@@ -62,7 +62,7 @@ if ($checkStmt) {
     }
 }
 
-$profile_photo_path = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$profile_photo_path = $_SESSION['profile_photo'] ?? 'images/logo.png';
 $old_photo = $profile_photo_path;
 
 // Handle file upload if present with validation and thumbnailing
@@ -97,10 +97,10 @@ if (!empty($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UP
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $tmpPath);
     finfo_close($finfo);
-    $allowed = ['image/jpeg' => 'jpg', 'image/jpg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
+    $allowed = ['images/jpeg' => 'jpeg', 'images/jpg' => 'jpg', 'images/png' => 'png', 'images/gif' => 'gif'];
     if (!isset($allowed[$mime])) {
         http_response_code(400);
-        echo json_encode(['error' => 'Invalid file type. Only JPG, PNG and GIF allowed.']);
+        echo json_encode(['error' => 'Invalid file type. Only JPG, JPEG, PNG and GIF allowed.']);
         exit();
     }
 
@@ -134,6 +134,9 @@ if (!empty($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UP
 
     // Create image resource from file
     switch ($ext) {
+        case 'jpeg':
+            $srcImg = @imagecreatefromjpeg($destPath);
+            break;
         case 'jpg':
             $srcImg = @imagecreatefromjpeg($destPath);
             break;

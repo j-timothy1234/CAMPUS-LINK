@@ -94,7 +94,6 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
 $allowed_mime_types = [
     'images/jpeg',
     'images/jpg', 
-    'images/jpeg',
     'images/png',
     'images/gif',
     'images/webp'
@@ -138,13 +137,13 @@ $upload_path = $upload_dir . $new_filename;
 $relative_path = '/../upload_client/' . $new_filename;
 
 // Database connection (adjust path to your database connection file)
-require_once __DIR__ . '/../db_connection.php';
+require_once __DIR__ . '/../db_connect.php';
 
 // Get old profile picture path before update
-$stmt = $conn->prepare("SELECT Profile_photo FROM clients WHERE client_id = ?");
-if (!$stmt) {
-    sendResponse(false, 'Database error: ' . $conn->error);
-}
+//$stmt = $conn->prepare("SELECT Profile_photo FROM clients WHERE client_id = ?");
+//if (!$stmt) {
+ //   sendResponse(false, 'Database error: ' . $conn->error);
+//}
 
 $stmt->bind_param("i", $client_id);
 $stmt->execute();
