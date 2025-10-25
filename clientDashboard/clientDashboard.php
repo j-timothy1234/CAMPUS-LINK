@@ -15,7 +15,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
 // Getting client data from session
 $username = htmlspecialchars($_SESSION['username']);
 $client_id = $_SESSION['client_id'];
-$profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$profile_photo = $_SESSION['profile_photo'] ?? 'images/logo.png';
 $email = $_SESSION['email'] ?? '';
 $phone = $_SESSION['phone'] ?? '';
 $gender = $_SESSION['gender'] ?? '';
