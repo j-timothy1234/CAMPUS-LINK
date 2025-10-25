@@ -71,10 +71,24 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
 
             <!-- Profile Picture - Left -->
             <div class="navbar-brand d-flex align-items-center">
+                <div class="profile-pic-container position-relative" id="headerProfileContainer">
+                    <img src="<?php echo htmlspecialchars($header_photo); ?>" alt="Profile" 
+                        id="navProfilePic" class="profile-pic me-2" title="Click to change profile picture">
+                        <button type="button" class="btn-upload-overlay" id="headerUploadTrigger" title="Change Profile Picture">
+                            <i class="fas fa-camera"></i>
+                        </button>
 
-                <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic"
-                    class="profile-pic me-2">
+                        <div class="upload-spinner">
+                            <div class="spinner-border spinner-border-sm text-light" role="status">
+                                <span class="visually-hidden">Uploading...</span>
+                            </div>
+                        </div>
+                </div>
 
+                <input type="file" id="headerProfilePicInput"
+                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                    style="display: none;">
+                    
             </div>
             
             <!-- Welcome Message & Time - Center -->
