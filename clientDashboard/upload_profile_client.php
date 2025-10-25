@@ -86,7 +86,8 @@ $mime_type = finfo_file($finfo, $file['tmp_name']);
 finfo_close($finfo);
 
 if (!in_array($mime_type, $allowed_mime_types)) {
-    sendResponse(false, 'Invalid file type. Only JPG, PNG, GIF, and WebP images are allowed.');
+    sendResponse(false, 'Invalid file type. Only JPG, PNG, GIF, and WebP images
+    are allowed.');
 }
 
 // Validate file extension
@@ -118,7 +119,7 @@ $upload_path = $upload_dir . $new_filename;
 $relative_path = '/../upload_client/' . $new_filename;
 
 // Database connection (adjust path to your database connection file)
-require_once __DIR__ . '/../database/db_connection.php';
+require_once __DIR__ . '/../db_connection.php';
 
 // Get old profile picture path before update
 $stmt = $conn->prepare("SELECT profile_photo FROM clients WHERE client_id = ?");
