@@ -272,6 +272,8 @@ function createThumbnail($source_path, $extension) {
     
     switch ($extension) {
         case 'jpg':
+            imagejpeg($thumb, $thumb_path, 85);
+            break;
         case 'jpeg':
             imagejpeg($thumb, $thumb_path, 85);
             break;
