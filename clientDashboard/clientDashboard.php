@@ -73,8 +73,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
             <div class="navbar-brand d-flex align-items-center">
 
                 <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic"
-                    class="profile-pic me-2" style="width:56px;height:56px;border-radius:50%;
-                    object-fit:cover;border:2px solid #fff;">
+                    class="profile-pic me-2">
 
             </div>
             
@@ -328,7 +327,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                         </div>
 
                     </div>
-                    
+
                 </div>
 
                 <!-- LAYER 2: BOOK TRAVEL (Hidden by default) -->
