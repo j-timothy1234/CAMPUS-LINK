@@ -83,7 +83,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 </div>
 
                 <input type="file" id="headerProfilePicInput"
-                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                    accept="images/jpeg,images/jpg,images/png,images/gif,images/webp"
                     style="display: none;">
 
             </div>
