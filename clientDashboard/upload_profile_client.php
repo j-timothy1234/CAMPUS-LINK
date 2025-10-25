@@ -65,7 +65,7 @@ if (!file_exists($upload_dir)) {
 }
 
 // Check if file was uploaded
-if (!isset($_FILES['Profile_photo']) || empty($_FILES['Profile_photo']['name'])) {
+if (!isset($_FILES['profile_photo']) || empty($_FILES['profile_photo']['name'])) {
     sendResponse(false, 'No file uploaded. Please select an image.');
 }
 
