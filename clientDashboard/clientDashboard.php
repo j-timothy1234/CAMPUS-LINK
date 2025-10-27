@@ -120,7 +120,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link active" href="#" data-layer="order-now">
-                            <i class="fas fa-house me-2"></i>HOME
+                            <i class="fas fa-house-user me-2"></i>HOME
                         </a>
 
                     </li>
@@ -128,7 +128,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link" href="#" data-layer="book-travel">
-                            <i class="fas fa-calendar me-2"></i>BOOK TRAVEL
+                            <i class="fas fa-globe me-2"></i>BOOK TRAVEL
                         </a>
 
                     </li>
