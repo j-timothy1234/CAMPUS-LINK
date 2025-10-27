@@ -332,10 +332,22 @@ body {
 
 .store-img {
     transition: transform 0.3s ease;
+    width: 120px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 3px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .store-img:hover {
     transform: scale(1.05);
+    width: 120px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 3px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 /* Form Controls */

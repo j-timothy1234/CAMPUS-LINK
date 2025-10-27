@@ -382,10 +382,11 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
         </div>
 
         <div class="row mt-4">
+          <hr>
 
           <div class="col text-center">
 
-            <p class="mb-0">© 2025 CampusLink. All rights reserved.</p>
+            <p class="mb-0">Copyright - &copy; 2025 CampusLink. All rights reserved.</p>
 
           </div>
 

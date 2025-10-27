@@ -120,7 +120,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link active" href="#" data-layer="order-now">
-                            <i class="fas fa-motorcycle me-2"></i>ORDER NOW
+                            <i class="fas fa-house me-2"></i>HOME
                         </a>
 
                     </li>
@@ -674,7 +674,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
             <div class="row mt-4">
                 <hr>
                 <div class="col text-center">
-                    <p class="mb-0">&copy; 2024 CampusLink. All rights reserved.</p>
+                    <p class="mb-0">Copyright - &copy; 2025 CampusLink. All rights reserved.</p>
                 </div>
             </div>
         </div>
