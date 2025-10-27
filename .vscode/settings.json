@@ -16,25 +16,19 @@
             "username": "root",
             "askForPassword": true
         }
-    ]
-}
-
-{
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
-}
-
-{
-  "codeQL.cli.executablePath": "path/to/codeql/codeql.exe",
-  "codeQL.runningQueries.numberOfThreads": 4,
-  "codeQL.runningTests.numberOfThreads": 4
+    ],
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "codeQL.cli.executablePath": "C:\\codeql\\codeql\\codeql.cmd",
+    "codeQL.runningQueries.numberOfThreads": 4,
+    "codeQL.runningTests.numberOfThreads": 4
 }
