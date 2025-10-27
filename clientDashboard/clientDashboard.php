@@ -144,7 +144,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link" href="#" data-layer="personal-info">
-                            <i class="fas fa-user me-2"></i>PERSONAL INFO
+                            <i class="fas fa-user-circle me-2"></i>PERSONAL INFO
                         </a>
 
                     </li>
