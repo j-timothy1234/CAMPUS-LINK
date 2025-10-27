@@ -32,3 +32,9 @@
     "typescriptreact"
   ]
 }
+
+{
+  "codeQL.cli.executablePath": "path/to/codeql/codeql.exe",
+  "codeQL.runningQueries.numberOfThreads": 4,
+  "codeQL.runningTests.numberOfThreads": 4
+}
