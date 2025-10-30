@@ -2,7 +2,7 @@
 // driverDashboard.php
 // Protected driver dashboard with session authentication
 
-// Include session configuration and check authentication
+// Included session configuration and check authentication
 require_once __DIR__ . '/../sessions/session_config.php';
 
 // Check if user is logged in and is a driver
@@ -39,7 +39,7 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Driver Dashboard - Campus Link</title>
+  <title> Driver Dashboard - Campus Link </title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -192,24 +192,35 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
       <!-- MAP LAYER -->
       <div id="maps-layer" class="layer-panel mb-4">
         <div class="card mb-4">
+
           <div class="card-header">
             <h5>Live Location & Journey Map</h5>
           </div>
+
           <div class="card-body">
+
             <div id="map" style="height: 500px;"></div>
             <div class="d-flex justify-content-between mt-3">
+
               <button class="btn btn-danger" title="Decline Request"> Decline </button>
               <button class="btn btn-success" title="Accept Request"> Accept </button>
               <button class="btn btn-primary" title="Call Client"> Call </button>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
 
       <!-- TRIPS LAYER -->
       <div id="trips-layer" class="layer-panel mb-4">
+
         <h2 data-aos="zoom-in">Trips History</h2>
+
         <?php
+
         // Fetch recent bookings for this driver
         require_once __DIR__ . '/../db_connect.php';
         $db = new Database(); $conn = $db->getConnection();
@@ -217,7 +228,9 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
         $stmt->bind_param('s', $driver_id);
         $stmt->execute();
         $res = $stmt->get_result();
+
         if ($res && $res->num_rows > 0) {
+
             while ($row = $res->fetch_assoc()) {
                 $tripId = htmlspecialchars($row['id']);
                 $clientName = htmlspecialchars($row['client_name'] ?? $row['client_id']);
@@ -232,9 +245,11 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
                 echo "<p class=\"mb-0\">{$pickup} → {$destination} | Fare: {$estimate} | Status: {$status} | {$created}</p></div>";
                 echo "</div>";
             }
+
         } else {
             echo '<div class="card mb-2 p-3 shadow-sm"><div>No recent trips yet</div></div>';
         }
+
         ?>
 
       </div>
@@ -242,17 +257,24 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
       <!-- NOTIFICATIONS LAYER -->
       <div id="notifications-layer" class="layer-panel mb-4">
         <h2 data-aos="zoom-in">Notifications</h2>
+
         <ul class="list-group">
+
           <li class="list-group-item">📢 New Trip Request</li>
           <li class="list-group-item">🌦️ Weather: Sunny 27°C</li>
           <li class="list-group-item">💬 Message from Client</li>
+
         </ul>
+
       </div>
 
       <!-- RATINGS LAYER -->
       <div id="ratings-layer" class="layer-panel mb-4">
+
         <h2 data-aos="zoom-in">My Ratings</h2>
+
         <canvas id="ratingsChart"></canvas>
+
       </div>
 
     </div>
@@ -271,56 +293,96 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
             <h5 data-aos="zoom-in">Quick Links</h5>
 
             <ul class="list-unstyled">
-            <li class="footer-link-item">
-              <a href="#" class="footer-link" title="About" data-content="about">About Us</a>
-                <div class="popup-content" id="about-popup">
-                  <div class="popup-header">
-                    <h6>About CampusLink</h6>
-                    <span class="popup-close">&times;</span>
+
+              <li class="footer-link-item">
+
+                <a href="#" class="footer-link" title="About" data-content="about">About Us</a>
+
+                  <div class="popup-content" id="about-popup">
+
+                    <div class="popup-header">
+
+                      <h6>About CampusLink</h6>
+                      <span class="popup-close">&times;</span>
+
+                    </div>
+
+                    <div class="popup-body">
+
+                      <p><strong>Our Mission:</strong> Connecting students & the community with
+                        reliable transport agents for safe & affordable mobility solutions.</p>
+                      <p><strong>Services:</strong> Instant rides, scheduled travel, and delivery
+                        services for students and community.</p>
+                      <p><strong>Safety First:</strong> All our transport agents are thoroughly
+                        verified and rated by users.</p>
+
+                    </div>
+
                   </div>
 
-                  <div class="popup-body">
-                    <p><strong>Our Mission:</strong> Connecting students & the community with reliable
-                    transport agents for safe & affordable mobility solutions.</p>
-                    <p><strong>Services:</strong> Instant rides, scheduled travel, and delivery services for students and community.</p>
-                    <p><strong>Safety First:</strong> All our transport agents are thoroughly verified and rated by users.</p>
-                  </div>
-                </div>
-            </li>
+              </li>
     
             <li class="footer-link-item">
+
               <a href="#" class="footer-link" title="Privacy" data-content="privacy">Privacy</a>
+
                 <div class="popup-content" id="privacy-popup">
+
                   <div class="popup-header">
+
                     <h6>Privacy Policy</h6>
                     <span class="popup-close">&times;</span>
+
                   </div>
 
                   <div class="popup-body">
-                    <p><strong>Data Collection:</strong> We collect only necessary information for service delivery.</p>
-                    <p><strong>Location Data:</strong> Used only when you request rides for accurate service.</p>
-                    <p><strong>Data Protection:</strong> All your information is encrypted and securely stored.</p>
-                    <p><strong>Your Rights:</strong> You can access, correct, or delete your data anytime.</p>
+
+                    <p><strong>Data Collection:</strong> We collect only necessary information for
+                      service delivery.</p>
+                    <p><strong>Location Data:</strong> Used only when you request rides for accurate
+                      service.</p>
+                    <p><strong>Data Protection:</strong> All your information is encrypted and
+                      securely stored.</p>
+                    <p><strong>Your Rights:</strong> You can access, correct, or delete your data
+                      anytime.</p>
+
                   </div>
+
                 </div>
-            </li>
+
+              </li>
     
-            <li class="footer-link-item">
-              <a href="#" class="footer-link" title="Terms & Conditions" data-content="terms">Terms & Conditions</a>
-                <div class="popup-content" id="terms-popup">
-                  <div class="popup-header">
-                    <h6>Terms & Conditions</h6>
-                    <span class="popup-close">&times;</span>
-                  </div>
+              <li class="footer-link-item">
+
+                <a href="#" class="footer-link" title="Terms & Conditions" data-content="terms">
+                  Terms & Conditions</a>
+
+                  <div class="popup-content" id="terms-popup">
+
+                    <div class="popup-header">
+
+                      <h6>Terms & Conditions</h6>
+                      <span class="popup-close">&times;</span>
+
+                    </div>
 
                   <div class="popup-body">
-                    <p><strong>User Responsibilities:</strong> Provide accurate info and respect transport agents.</p>
-                    <p><strong>Booking Policy:</strong> Cancel within 3 minutes for instant ride refunds.</p>
-                    <p><strong>Safety:</strong> Verify agent details and share ride info with trusted contacts.</p>
-                    <p><strong>Payments:</strong> All rides must be prepaid or cash confirmed before service.</p>
+
+                    <p><strong>User Responsibilities:</strong> Provide accurate info and respect
+                      transport agents.</p>
+                    <p><strong>Booking Policy:</strong> Cancel within 3 minutes for instant ride
+                      refunds.</p>
+                    <p><strong>Safety:</strong> Verify agent details and share ride info with trusted
+                      contacts.</p>
+                    <p><strong>Payments:</strong> All rides must be prepaid or cash confirmed before
+                      service.</p>
+
                   </div>
+
                 </div>
+
             </li>
+            
           </ul>
 
           </div>
