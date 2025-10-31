@@ -18,11 +18,15 @@ error_reporting(E_ALL);
 
 class Database {
     //Database Class Definition
-    private $servername = "localhost";
+    private $servername = "172.19.25.65";
     private $username = "root";
     private $password = "job1234joy#";
     private $database = "campusLink";
     public $conn; // Holds the MySQLi connection object
+
+    /**code -r .
+     * Developer: Reload Window
+     */
 
     /**
      * Constructor: Establishes the database connection

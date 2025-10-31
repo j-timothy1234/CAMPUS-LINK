@@ -3,8 +3,6 @@
 // Include session configuration and check authentication
 require_once __DIR__ . '/../sessions/session_config.php';
 
-require_once __DIR__ . '/../db_connect.php';
-
 // Checking if client is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
     // Redirect to centralized login page
@@ -15,7 +13,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_type'] !== 'client') {
 // Getting client data from session
 $username = htmlspecialchars($_SESSION['username']);
 $client_id = $_SESSION['client_id'];
-$profile_photo = $_SESSION['profile_photo'] ?? 'images/logo.png';
+$profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 $email = $_SESSION['email'] ?? '';
 $phone = $_SESSION['phone'] ?? '';
 $gender = $_SESSION['gender'] ?? '';
@@ -73,18 +71,9 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
 
             <!-- Profile Picture - Left -->
             <div class="navbar-brand d-flex align-items-center">
-                <div class="profile-pic-container position-relative" id="headerProfileContainer">
-                    <img src="<?php echo htmlspecialchars($header_photo); ?>" alt="Profile" 
-                        id="navProfilePic" class="profile-pic me-2" title="Click to change profile picture">
-                        <button type="button" class="btn-upload-overlay" id="headerUploadTrigger" title="Change Profile Picture">
-                            <i class="fas fa-camera"></i>
-                        </button>
 
-                </div>
-
-                <input type="file" id="headerProfilePicInput"
-                    accept="images/jpeg,images/jpg,images/png,images/gif,images/webp"
-                    style="display: none;">
+                <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic"
+                    class="profile-pic me-2">
 
             </div>
             
@@ -120,7 +109,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link active" href="#" data-layer="order-now">
-                            <i class="fas fa-house-user me-2"></i>HOME
+                            <i class="fas fa-motorcycle me-2"></i>ORDER NOW
                         </a>
 
                     </li>
@@ -128,7 +117,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link" href="#" data-layer="book-travel">
-                            <i class="fas fa-globe me-2"></i>BOOK TRAVEL
+                            <i class="fas fa-calendar me-2"></i>BOOK TRAVEL
                         </a>
 
                     </li>
@@ -144,7 +133,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                     <li class="nav-item">
 
                         <a class="nav-link" href="#" data-layer="personal-info">
-                            <i class="fas fa-user-circle me-2"></i>PERSONAL INFO
+                            <i class="fas fa-user me-2"></i>PERSONAL INFO
                         </a>
 
                     </li>
@@ -674,7 +663,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
             <div class="row mt-4">
                 <hr>
                 <div class="col text-center">
-                    <p class="mb-0">Copyright - &copy; 2025 CampusLink. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2024 CampusLink. All rights reserved.</p>
                 </div>
             </div>
         </div>
