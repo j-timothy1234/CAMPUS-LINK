@@ -62,7 +62,7 @@ if ($checkStmt) {
     }
 }
 
-$profile_photo_path = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$profile_photo_path = $_SESSION['profile_photo'] ?? 'images/logo.png';
 $old_photo = $profile_photo_path;
 
 // Handle file upload if present with validation and thumbnailing
