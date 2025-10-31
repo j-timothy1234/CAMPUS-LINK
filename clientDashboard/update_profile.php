@@ -232,8 +232,11 @@ $_SESSION['username'] = $username;
 $_SESSION['email'] = $email;
 $_SESSION['phone'] = $phone;
 $_SESSION['profile_photo'] = $profile_photo_path;
+if (isset($thumb_web)) {
+    $_SESSION['header_photo'] = $thumb_web;
+}
 
-echo json_encode(['success' => true, 'redirect' => 'clientDashboard.php']);
+echo json_encode(['success' => true, 'message' => 'Profile updated successfully!', 'newPhotoPath' => $profile_photo_path]);
 exit();
 
 ?>

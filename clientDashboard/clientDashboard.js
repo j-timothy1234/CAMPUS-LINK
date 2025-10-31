@@ -629,13 +629,13 @@ class ClientDashboard {
             .then(data => {
                 if (data.success) {
                     messageEl.innerHTML = '<div class="alert alert-success">Profile picture updated!</div>';
-                    // Update images on the page without reloading
-                    const newPhotoPath = preview.src; // The Data URL from the preview
-                    document.getElementById('navProfilePic').src = newPhotoPath;
-                    document.getElementById('profilePreview').src = newPhotoPath; // Update the one on the personal info tab too
+                    // Use the path returned from the server to update images, adding a timestamp to break cache
+                    const newPhotoPath = data.newPhotoPath + '?t=' + new Date().getTime();
+                    document.getElementById('navProfilePic').src = newPhotoPath; 
+                    document.getElementById('profilePreview').src = newPhotoPath; // Update the one on the personal info tab
+                    document.getElementById('uploadPreview').src = newPhotoPath; // Update the modal preview itself
                     setTimeout(() => {
                         bootstrap.Modal.getInstance(modal).hide();
-                        location.reload(); // Reload to get the correct server path for the image
                     }, 1500);
                 } else {
                     messageEl.innerHTML = `<div class="alert alert-danger">${data.error || 'An unknown error occurred.'}</div>`;
