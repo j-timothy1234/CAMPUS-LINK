@@ -69,13 +69,12 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
 
         <div class="container-fluid">
 
-            <!-- Profile Picture - Left -->
-            <div class="navbar-brand d-flex align-items-center">
-
+            <!-- Profile Picture - Left (Clickable) -->
+            <a href="#" class="navbar-brand d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#uploadPhotoModal" title="Update Profile Picture">
                 <img src="<?php echo $header_photo; ?>" alt="Profile" id="navProfilePic"
                     class="profile-pic me-2">
 
-            </div>
+            </a>
             
             <!-- Welcome Message & Time - Center -->
             <div class="navbar-text mx-auto text-center">
@@ -547,6 +546,37 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                             <div id="personalInfoMessage" class="mt-3"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Picture Upload Modal -->
+    <div class="modal fade" id="uploadPhotoModal" tabindex="-1" aria-labelledby="uploadPhotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadPhotoModalLabel">Update Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadPhotoForm" enctype="multipart/form-data">
+                        <!-- Hidden fields from the main form for context -->
+                        <input type="hidden" name="client_id" value="<?php echo htmlspecialchars($client_id); ?>">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                        <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+
+                        <div class="mb-3 text-center">
+                            <img id="uploadPreview" src="<?php echo $profile_photo; ?>" alt="Profile Preview" class="profile-pic large rounded-circle mb-3">
+                            <input type="file" class="form-control" id="new_profile_photo" name="profile_photo" accept="image/*" required>
+                        </div>
+                        <div id="uploadPhotoMessage" class="mt-3"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitUploadPhoto">Upload & Save</button>
                 </div>
             </div>
         </div>

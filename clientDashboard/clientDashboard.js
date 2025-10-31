@@ -80,6 +80,9 @@ class ClientDashboard {
 
         // Profile Picture Upload
         this.initializeProfileUpload();
+
+        // Initialize the new modal-based profile picture upload
+        this.initializeModalProfileUpload();
     }
 
     // JLayeredPane-inspired Layer Switching
@@ -579,6 +582,70 @@ class ClientDashboard {
                     form._bound = true;
                 }
             }
+        });
+    }
+
+    // New function for the modal-based profile picture upload
+    initializeModalProfileUpload() {
+        const modal = document.getElementById('uploadPhotoModal');
+        if (!modal) return;
+
+        const fileInput = document.getElementById('new_profile_photo');
+        const preview = document.getElementById('uploadPreview');
+        const submitBtn = document.getElementById('submitUploadPhoto');
+        const messageEl = document.getElementById('uploadPhotoMessage');
+        const form = document.getElementById('uploadPhotoForm');
+
+        // Handle file preview in the modal
+        fileInput.addEventListener('change', (evt) => {
+            const file = evt.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle form submission
+        submitBtn.addEventListener('click', () => {
+            messageEl.innerHTML = '';
+            if (!fileInput.files || fileInput.files.length === 0) {
+                messageEl.innerHTML = '<div class="alert alert-warning">Please select a photo to upload.</div>';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...';
+
+            const formData = new FormData(form);
+
+            fetch('update_profile.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageEl.innerHTML = '<div class="alert alert-success">Profile picture updated!</div>';
+                    // Update images on the page without reloading
+                    const newPhotoPath = preview.src; // The Data URL from the preview
+                    document.getElementById('navProfilePic').src = newPhotoPath;
+                    document.getElementById('profilePreview').src = newPhotoPath; // Update the one on the personal info tab too
+                    setTimeout(() => {
+                        bootstrap.Modal.getInstance(modal).hide();
+                        location.reload(); // Reload to get the correct server path for the image
+                    }, 1500);
+                } else {
+                    messageEl.innerHTML = `<div class="alert alert-danger">${data.error || 'An unknown error occurred.'}</div>`;
+                }
+            }).catch(error => {
+                messageEl.innerHTML = `<div class="alert alert-danger">Request failed: ${error}</div>`;
+            }).finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Upload & Save';
+            });
         });
     }
 
