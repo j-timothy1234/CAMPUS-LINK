@@ -13,7 +13,8 @@ $this_server_host = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . ($_S
 define('THIS_SERVER', rtrim($this_server_host, '/'));
 
 // --- Security Configuration ---
-define('SYNC_API_KEY', 'your-very-secret-and-long-api-key-here'); // Change this to a long random string
+ // Shared secret for server-to-server sync
+define('SYNC_API_KEY', 'XCpjKokX_UNccNrPWs60Ht%-JUQNru2n9D6i2K2o7U8M');
 
 // Database Configuration
 define('DB_HOST', 'localhost');
