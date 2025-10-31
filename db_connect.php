@@ -18,7 +18,7 @@ error_reporting(E_ALL);
 
 class Database {
     //Database Class Definition
-    private $servername = "172.19.25.65";
+    private $servername = "localhost";
     private $username = "root";
     private $password = "job1234joy#";
     private $database = "campusLink";
