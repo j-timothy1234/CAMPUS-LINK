@@ -660,10 +660,10 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                 <div class="col-md-3 mb-3">
                     <h5>Download App</h5>
                     <a href="#" class="d-block mb-2">
-                        <img src="images/apple_store.png" alt="Apple Store" class="store-img" style="max-width: 120px;">
+                        <img src="images/apple_store.png" alt="Apple Store" class="store-img mb-2" style="max-width: 120px;">
                     </a>
                     <a href="#" class="d-block">
-                        <img src="images/playstore.png" alt="Google Play Store" class="store-img" style="max-width: 120px;">
+                        <img src="images/playstore.png" alt="Google Play Store" class="store-img mb-2" style="max-width: 120px;">
                     </a>
                 </div>
 
@@ -693,7 +693,7 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
             <div class="row mt-4">
                 <hr>
                 <div class="col text-center">
-                    <p class="mb-0">&copy; 2024 CampusLink. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2025 CampusLink. All rights reserved.</p>
                 </div>
             </div>
         </div>
