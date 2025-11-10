@@ -40,7 +40,7 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Riders Dashboard - Campus Link</title>
+  <title> <?php echo $username; ?> Dashboard</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
