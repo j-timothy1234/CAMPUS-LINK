@@ -477,12 +477,14 @@ if ($thumbCandidate && file_exists(__DIR__ . '/../' . $thumbCandidate)) {
                                             <div class="card-body"><canvas id="deliveryRiderChart"></canvas></div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header">Delivery Agent Orders (Driver)</div>
                                             <div class="card-body"><canvas id="deliveryDriverChart"></canvas></div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
