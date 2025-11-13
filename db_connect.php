@@ -24,7 +24,7 @@ class Database {
     /**
      * Constructor: Load configuration and establish connection
      */
-    
+
     private function __construct() {
         // Load from environment or use defaults
         $this->servername = getenv('DB_HOST') ?: '192.168.40.65';
@@ -114,7 +114,7 @@ class Database {
      */
     public function getConnection() {
         // Reconnect if connection lost
-        if (!$this->conn->ping()) {
+        if (!$this->conn->ping('192.168.40.65')) {
             $this->connect();
         }
         return $this->conn;
