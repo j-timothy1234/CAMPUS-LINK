@@ -112,13 +112,6 @@ class Database {
      * Get database connection
      * @return mysqli
      */
-    public function getConnection() {
-        // Reconnect if connection lost
-        if (!$this->conn->ping()) {
-            $this->connect();
-        }
-        return $this->conn;
-    }
 
     /**
      * Close database connection
