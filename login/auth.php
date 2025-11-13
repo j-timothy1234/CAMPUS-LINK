@@ -1,133 +1,174 @@
 <?php
-// auth.php - centralized login for clients, drivers and riders
-require_once __DIR__ . '/../db_connect.php';
-// Include session configuration and check authentication
-require_once __DIR__ . '/../sessions/session_config.php';
+/**
+ * Unified Authentication Handler
+ * 
+ * Features:
+ * - Rate limiting to prevent brute force attacks
+ * - Optimized query to check only relevant tables
+ * - Security logging
+ * - Fast failure path for non-existent users
+ * - Session fixation prevention
+ */
 
-// Detect if client expects JSON (AJAX) or a normal form POST
-$accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/../sessions/session_config.php';
+require_once __DIR__ . '/../security/SecurityManager.php';
+
+// Set response header
+header('Content-Type: application/json');
+
+// Detect AJAX request
 $isAjax = (
     (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
-    || strpos($accept, 'application/json') !== false
+    || strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false
 );
-if ($isAjax) {
-    header('Content-Type: application/json');
-}
 
+// Only allow POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["status"=>"error","message"=>"Invalid request method"]);
-    exit();
+    http_response_code(405);
+    echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+    exit;
 }
 
+// Get and validate input
 $identifier = trim($_POST['email'] ?? $_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if (empty($identifier) || empty($password)) {
-    echo json_encode(["status"=>"error","message"=>"Email/username and password are required"]);
-    exit();
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'Email/username and password are required']);
+    exit;
+}
+
+// Rate limiting check
+if (SecurityManager::isRateLimited($identifier)) {
+    SecurityManager::logSecurityEvent('RATE_LIMITED', "Identifier: $identifier", 'WARNING');
+    http_response_code(429);
+    echo json_encode(['status' => 'error', 'message' => 'Too many login attempts. Please try again later.']);
+    exit;
 }
 
 try {
-    $db = (new Database())->getConnection();
+    $db = Database::getInstance();
+    $conn = $db->getConnection();
 
-    // Helper to query a table with email/username
-    $checkUser = function($table, $emailField, $idField, $usernameField, $profileField) use ($db, $identifier, $password) {
-        $sql = "SELECT * FROM $table WHERE $emailField = ? OR $usernameField = ? LIMIT 1";
-        $stmt = $db->prepare($sql);
-        if (!$stmt) return null;
-        $stmt->bind_param('ss', $identifier, $identifier);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        if ($res && $res->num_rows === 1) {
-            $row = $res->fetch_assoc();
-            if (isset($row['Password']) && password_verify($password, $row['Password'])) {
-                return $row;
+    /**
+     * Optimized unified authentication query
+     * Uses UNION to check all three tables in a single database round-trip
+     * Much faster than checking each table sequentially
+     */
+    $sql = "
+        SELECT 'rider' AS user_type, Rider_ID AS user_id, Username, Email, Password, Profile_Photo FROM riders 
+        WHERE Email = ? OR Username = ?
+        UNION
+        SELECT 'driver' AS user_type, Driver_ID AS user_id, Username, Email, Password, Profile_Photo FROM drivers 
+        WHERE Email = ? OR Username = ?
+        UNION
+        SELECT 'client' AS user_type, Client_ID AS user_id, Username, Email, Password, Profile_Photo FROM clients 
+        WHERE Email = ? OR Username = ?
+        LIMIT 1
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        throw new Exception('Database query failed: ' . $conn->error);
+    }
+
+    // Bind parameters (same identifier for all email and username checks)
+    $stmt->bind_param('ssssss', $identifier, $identifier, $identifier, $identifier, $identifier, $identifier);
+    
+    if (!$stmt->execute()) {
+        throw new Exception('Query execution failed');
+    }
+
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    // Verify user exists and password is correct
+    if ($user && password_verify($password, $user['Password'])) {
+        // Clear rate limit on successful login
+        SecurityManager::clearRateLimit($identifier);
+
+        // Regenerate session ID to prevent session fixation
+        session_regenerate_id(true);
+
+        // Set session variables based on user type
+        $_SESSION['user_type'] = $user['user_type'];
+        $sessionKey = strtolower($user['user_type']) . '_id';
+        $_SESSION[$sessionKey] = $user['user_id'];
+        $_SESSION['username'] = $user['Username'];
+        $_SESSION['email'] = $user['Email'];
+        
+        // Convert profile photo path if needed
+        $photoPath = $user['Profile_Photo'] ?? '';
+        if (!empty($photoPath) && strpos($photoPath, 'http') === false) {
+            // It's a local path, ensure it's web-accessible
+            if (strpos($photoPath, '../') === 0) {
+                $_SESSION['profile_photo'] = $photoPath;
+            } else {
+                // Extract filename and convert to relative path
+                $folder = ($user['user_type'] === 'rider') ? '../upload_rider/' : '../uploads_driver/';
+                $_SESSION['profile_photo'] = $folder . basename($photoPath);
             }
+        } else {
+            $_SESSION['profile_photo'] = $photoPath ?: 'images/default_profile.png';
         }
-        return null;
-    };
 
-    // Check riders
-    $rider = $checkUser('riders', 'Email', 'Rider_ID', 'Username', 'Profile_Photo');
-    if ($rider) {
-        session_regenerate_id(true);
-        $_SESSION['user_type'] = 'rider';
-        $_SESSION['rider_id'] = $rider['Rider_ID'];
-        $_SESSION['username'] = $rider['Username'];
-        $_SESSION['email'] = $rider['Email'];
-        $_SESSION['profile_photo'] = $rider['Profile_Photo'];
         $_SESSION['loggedin'] = true;
         $_SESSION['login_time'] = time();
+
+        // Log successful login
+        SecurityManager::logSecurityEvent('LOGIN_SUCCESS', "User: {$user['Username']} ({$user['user_type']})", 'INFO');
+
+        // Determine redirect based on user type
+        $redirectMap = [
+            'rider' => '../riderDashboard/riderDashboard.php',
+            'driver' => '../driverDashboard/driverDashboard.php',
+            'client' => '../clientDashboard/clientDashboard.php'
+        ];
+        $redirect = $redirectMap[$user['user_type']] ?? '../homepage/index.html';
+
+        // Return JSON for AJAX, redirect for form submissions
         if ($isAjax) {
-            echo json_encode(["status"=>"success","message"=>"Login successful","redirect"=>"../riderDashboard/riderDashboard.php"]);
-            exit();
+            http_response_code(200);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Login successful',
+                'redirect' => $redirect
+            ]);
         } else {
-            header('Location: ../riderDashboard/riderDashboard.php');
-            exit();
+            header("Location: $redirect");
         }
+        exit;
     }
 
-    // Check drivers
-    $driver = $checkUser('drivers', 'Email', 'Driver_ID', 'Username', 'Profile_Photo');
-    if ($driver) {
-        session_regenerate_id(true);
-        $_SESSION['user_type'] = 'driver';
-        $_SESSION['driver_id'] = $driver['Driver_ID'];
-        $_SESSION['username'] = $driver['Username'];
-        $_SESSION['email'] = $driver['Email'];
-        $_SESSION['profile_photo'] = $driver['Profile_Photo'];
-        $_SESSION['loggedin'] = true;
-        $_SESSION['login_time'] = time();
-        if ($isAjax) {
-            echo json_encode(["status"=>"success","message"=>"Login successful","redirect"=>"../driverDashboard/driverDashboard.php"]);
-            exit();
-        } else {
-            header('Location: ../driverDashboard/driverDashboard.php');
-            exit();
-        }
-    }
+    // Failed login attempt - invalid credentials
+    SecurityManager::logSecurityEvent('LOGIN_FAILED', "Identifier: $identifier (user not found or invalid password)", 'WARNING');
 
-    // Check clients
-    $client = $checkUser('clients', 'Email', 'Client_ID', 'Username', 'Profile_Photo');
-    if ($client) {
-        session_regenerate_id(true);
-        $_SESSION['user_type'] = 'client';
-        $_SESSION['client_id'] = $client['Client_ID'];
-        $_SESSION['username'] = $client['Username'];
-        $_SESSION['email'] = $client['Email'];
-        $_SESSION['profile_photo'] = $client['Profile_Photo'];
-        $_SESSION['loggedin'] = true;
-        $_SESSION['login_time'] = time();
-        if ($isAjax) {
-            echo json_encode(["status"=>"success","message"=>"Login successful","redirect"=>"../clientDashboard/clientDashboard.php"]);
-            exit();
-        } else {
-            header('Location: ../clientDashboard/clientDashboard.php');
-            exit();
-        }
-    }
-
-    // No user found -- suggest registration paths
+    http_response_code(401);
     if ($isAjax) {
         echo json_encode([
-            "status"=>"error",
-            "message"=>"User not found or invalid credentials",
-            "register"=>[
-                "driver"=>"../drivers/driver.html",
-                "rider"=>"../riders/rider.html",
-                "client"=>"../clients/client.html"
+            'status' => 'error',
+            'message' => 'Invalid email/username or password',
+            'register' => [
+                'rider' => '../riders/rider.html',
+                'driver' => '../drivers/driver.html',
+                'client' => '../clients/client.html'
             ]
         ]);
-        exit();
     } else {
-        // For normal form POSTs, redirect back to login with an error code
-        $qs = http_build_query(['error' => 'invalid_credentials']);
-        header('Location: ../login/login.php?' . $qs);
-        exit();
+        header('Location: ../login/login.php?error=invalid_credentials');
     }
+    exit;
 
 } catch (Exception $e) {
-    error_log('Auth error: ' . $e->getMessage());
-    echo json_encode(["status"=>"error","message"=>"Internal server error"]);
-    exit();
+    SecurityManager::logSecurityEvent('AUTH_ERROR', $e->getMessage(), 'ERROR');
+    
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Internal server error. Please try again later.'
+    ]);
+    exit;
+    
 }

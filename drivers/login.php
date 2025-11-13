@@ -61,7 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['driver_id'] = $driver['Driver_ID'];
                 $_SESSION['username'] = $driver['Username'];
                 $_SESSION['email'] = $driver['Email'];
-                $_SESSION['profile_photo'] = $driver['Profile_Photo'];
+                // Convert absolute path to web-relative path for profile photo
+                $photoPath = $driver['Profile_Photo'];
+                if (!empty($photoPath)) {
+                    // Extract filename from path (works with both absolute and relative paths)
+                    $photoFilename = basename($photoPath);
+                    $_SESSION['profile_photo'] = '../uploads_driver/' . $photoFilename;
+                } else {
+                    $_SESSION['profile_photo'] = 'images/default_profile.png';
+                }
                 $_SESSION['user_type'] = 'driver';
                 $_SESSION['loggedin'] = true;
                 $_SESSION['login_time'] = time(); // Track login time for timeout

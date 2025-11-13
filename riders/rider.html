@@ -1,119 +1,164 @@
 <!DOCTYPE html>
 
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
+    <title>Register As Rider</title>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-  <title>Register As Rider</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="rider.css" />
+  </head>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <body>
+    <div class="form-container">
+      <div class="form-header">
+        <img src="images/logo.png" alt="Logo" class="logo" />
 
-  <link rel="stylesheet" href="rider.css">
+        <h3>Register As Rider</h3>
+        <p>Join Our Riding Team</p>
+      </div>
 
-  <style>
-    .hidden {
-      display: none !important;
-    }
-    .availability-status {
-      margin-left: 10px;
-      font-size: 0.9em;
-    }
-  </style>
+      <form id="riderForm">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Username: "
+          required
+        />
 
-</head>
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@gmail.com"
+          required
+        />
 
-<body>
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="07xxxxxxxx"
+          required
+        />
 
-  <div class="form-container">
+        <label class="form-label"> Gender </label>
 
-    <div class="form-header">
+        <div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="genderMale"
+              value="Male"
+              required
+            />
 
-      <img src="images/logo.png" alt="Logo" class="logo">
+            <label class="form-check-label" for="genderMale">Male</label>
+          </div>
 
-      <h3> Register As Rider </h3>
-      <p> Join Our Riding Team </p>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="genderFemale"
+              value="Female"
+            />
 
+            <label class="form-check-label" for="genderFemale">Female</label>
+          </div>
+        </div>
+
+        <!-- Upload Rider's Photo -->
+        <label for="photo">Upload Your Photo</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required />
+
+        <!-- Photo Preview Container -->
+        <div class="preview-container mt-2">
+          <img
+            id="photoPreview"
+            src=""
+            alt="Photo Preview"
+            class="hidden"
+            style="max-width: 120px; height: auto"
+          />
+        </div>
+
+        <label for="plate">Motorcycle Plate Number</label>
+        <input
+          type="text"
+          id="plate"
+          name="plate"
+          placeholder="Enter motorcycle plate number: UAA 000M"
+          required
+        />
+
+        <!-- Residence Field -->
+        <label for="residence">Place of Residence</label>
+        <input
+          type="text"
+          id="residence"
+          name="residence"
+          placeholder="Enter Place of Residence"
+          required
+        />
+
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control with-toggle"
+            placeholder="Password: "
+            required
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            aria-label="Toggle password visibility"
+          ></button>
+        </div>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            class="form-control with-toggle"
+            placeholder="Confirm Password: "
+            required
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            aria-label="Toggle confirm password visibility"
+          ></button>
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
     </div>
 
-    <form id="riderForm">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Username: J-Timothy"
-        required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="jto@gmail.com" required>
-
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" placeholder="0763243453"
-        required>
-
-      <label class="form-label"> Gender </label>
-
-      <div>
-
-        <div class="form-check form-check-inline">
-
-          <input class="form-check-input" type="radio" name="gender"
-            id="genderMale" value="Male" required>
-
-          <label class="form-check-label" for="genderMale">Male</label>
-
-        </div>
-
-        <div class="form-check form-check-inline">
-
-          <input class="form-check-input" type="radio" name="gender"
-            id="genderFemale" value="Female">
-
-          <label class="form-check-label" for="genderFemale">Female</label>
-
-        </div>
-
-      </div>
-
-      <!-- Upload Rider's Photo -->
-      <label for="photo">Upload Your Photo</label>
-      <input type="file" id="photo" name="photo" accept="image/*" required>
-      
-      <!-- Photo Preview Container -->
-      <div class="preview-container mt-2">
-        <img id="photoPreview" src="" alt="Photo Preview" class="hidden" style="max-width:120px; height:auto;">
-      </div>
-
-      <label for="plate">Motorcycle Plate Number</label>
-      <input type="text" id="plate" name="plate" placeholder="Enter motorcycle plate number: UAA 000M"
-        required>
-
-      <!-- Residence Field -->
-      <label for="residence">Place of Residence</label>
-      <input type="text" id="residence" name="residence" placeholder="Enter Place of Residence"
-        required>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Password: iZsy78$b0]"
-        required>
-
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="confirmPassword"
-        placeholder="Confirm Password: iZsy78$b0]" required>
-
-      <button type="submit"> Register </button>
-
-    </form>
-
-  </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script src="rider.js"></script>
-
-</body>
-
+    <!-- External JS files -->
+    <script src="rider.js"></script>
+  </body>
 </html>

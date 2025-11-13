@@ -1,18 +1,18 @@
 body {
-    font-family: 'Times New Roman', Times, serif;
-    background: #f5f8ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  font-family: "Times New Roman", Times, serif;
+  background: #f5f8ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .register-container {
   background: #fff;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
 }
@@ -34,4 +34,53 @@ p.text-muted {
 .btn-primary {
   font-weight: bold;
   padding: 8px 20px;
+}
+
+/* Password toggle (same behavior as riders) */
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none !important;
+  border: none !important;
+  cursor: default !important;
+  font-size: 1.2rem;
+  padding: 5px;
+  color: #6c757d !important;
+  z-index: 10;
+  width: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: auto !important;
+}
+
+.password-toggle:hover {
+  background: none !important;
+  color: #6c757d !important;
+  border: none !important;
+}
+
+.password-toggle:focus {
+  background: none !important;
+  color: #6c757d !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.password-toggle.visible::before {
+  content: "👁️";
+}
+
+.password-toggle:not(.visible)::before {
+  content: "👁️‍🗨️";
+}
+
+.form-control.with-toggle {
+  padding-right: 38px;
 }

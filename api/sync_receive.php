@@ -1,7 +1,7 @@
 -- Active: 1761331557800@@127.0.0.1@3306@campuslink
 <?php
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/../sync/DatabaseWithSync.php';
 
 header('Content-Type: application/json');
 
@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $db = new Database();
+        $db = new DatabaseWithSync();
+        $db->skipSync(true); // Prevent sync loop
         $conn = $db->getConnection();
 
         switch ($action) {

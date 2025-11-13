@@ -26,7 +26,7 @@ $_SESSION['login_time'] = time();
 // Get rider data from session safely (avoid undefined variable warnings)
 $username = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest';
 $rider_id = $_SESSION['rider_id'] ?? 'N/A';
-$profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
+$profile_photo = isset($_SESSION['profile_photo']) ? htmlspecialchars($_SESSION['profile_photo']) : 'images/default_profile.png';
 
 ?>
 
@@ -193,6 +193,29 @@ $profile_photo = $_SESSION['profile_photo'] ?? 'images/default_profile.png';
       </div>
 
       <!-- Rest of the dashboard content remains the same -->
+      
+      <!-- HOME LAYER -->
+      <div id="home-layer" class="layer-panel active mb-4">
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card shadow-sm">
+              <div class="card-header">
+                <h5>Welcome to Your Dashboard</h5>
+              </div>
+              <div class="card-body">
+                <p>Hello, <strong><?php echo $username; ?></strong>! This is your rider dashboard. Use the sidebar menu to navigate between different sections:</p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>📍 Maps</strong> - View live location and current trips</li>
+                  <li class="list-group-item"><strong>🚗 Trips</strong> - Check your trip history</li>
+                  <li class="list-group-item"><strong>🔔 Notifications</strong> - View incoming requests and messages</li>
+                  <li class="list-group-item"><strong>⭐ Ratings</strong> - Check your performance ratings</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- MAP LAYER -->
       <div id="maps-layer" class="layer-panel mb-4">
         <div class="card mb-4">

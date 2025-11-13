@@ -1,168 +1,216 @@
 <!DOCTYPE html>
 
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register As Car Driver</title>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <title>Register As Car Driver</title>
+    <link rel="stylesheet" href="driver.css" />
+  </head>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet">
+  <body class="bg-light">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12">
+          <div class="card shadow border-0">
+            <div class="card-body p-4">
+              <div class="text-center mb-3 form-header">
+                <img src="images/logo.png" alt="Logo" class="logo" />
 
-  <link rel="stylesheet" href="driver.css">
+                <h3>Register As Car Driver</h3>
+                <p>Become Part of Our Driving Network</p>
+              </div>
 
-</head>
+              <form
+                id="driverForm"
+                enctype="multipart/form-data"
+                method="POST"
+                action="../driver_api/register.php"
+              >
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control"
+                    placeholder="Username: Osubert"
+                    required
+                  />
+                </div>
 
-<body class="bg-light">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Email: jto@gmail.com"
+                    required
+                  />
+                </div>
 
-  <div class="container py-5">
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    class="form-control"
+                    placeholder="Phone number: 0763243453"
+                    required
+                  />
+                </div>
 
-    <div class="row justify-content-center">
+                <div class="mb-3">
+                  <label class="form-label">Gender</label>
 
-      <div class="col-lg-6 col-md-8 col-12">
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gender"
+                        id="genderMale"
+                        value="MALE"
+                        required
+                      />
 
-        <div class="card shadow border-0">
+                      <label class="form-check-label" for="genderMale"
+                        >MALE</label
+                      >
+                    </div>
 
-          <div class="card-body p-4">
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gender"
+                        id="genderFemale"
+                        value="FEMALE"
+                      />
 
-            <div class="text-center mb-3 form-header">
+                      <label class="form-check-label" for="genderFemale"
+                        >FEMALE</label
+                      >
+                    </div>
+                  </div>
+                </div>
 
-              <img src="images/logo.png" alt="Logo" class="logo">
+                <div class="mb-3">
+                  <label for="plate" class="form-label">Car Plate Number</label>
+                  <input
+                    type="text"
+                    id="plate"
+                    name="plate"
+                    class="form-control"
+                    placeholder="Car plate number: UBB 493B"
+                    required
+                  />
+                </div>
 
-              <h3> Register As Car Driver </h3>
-              <p> Become Part of Our Driving Network </p>
+                <div class="mb-3">
+                  <label for="photo" class="form-label"
+                    >Upload Your Photo</label
+                  >
 
+                  <input
+                    type="file"
+                    id="photo"
+                    name="photo"
+                    class="form-control"
+                    accept="image/*"
+                    required
+                  />
+
+                  <div class="preview-container mt-2">
+                    <img
+                      id="photoPreview"
+                      src=""
+                      alt="fotoPreview"
+                      class="img-thumbnail d-none"
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="residence" class="form-label"
+                    >Place of Work</label
+                  >
+
+                  <input
+                    type="text"
+                    id="residence"
+                    name="residence"
+                    class="form-control"
+                    placeholder="Place of Work.."
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <div class="password-wrapper">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control with-toggle"
+                      placeholder="Enter password: yj_G86v%w"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      aria-label="Toggle password visibility"
+                    ></button>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="confirmPassword" class="form-label"
+                    >Confirm Password</label
+                  >
+                  <div class="password-wrapper">
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      class="form-control with-toggle"
+                      placeholder="Confirm password: yj_G86v%w"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      aria-label="Toggle password visibility"
+                    ></button>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  Register
+                </button>
+              </form>
             </div>
-
-            <form id="driverForm" method="POST" action="driver.php">
-
-              <div class="mb-3">
-
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" name="username" class="form-control"
-                  placeholder="Username: Osubert" required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control"
-                  placeholder="Email: jto@gmail.com" required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="tel" id="phone" name="phone" class="form-control"
-                  placeholder="Phone number: 0763243453" required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label class="form-label">Gender</label>
-
-                <div>
-
-                  <div class="form-check form-check-inline">
-
-                    <input class="form-check-input" type="radio" name="gender"
-                      id="genderMale" value="MALE" required>
-
-                    <label class="form-check-label" for="genderMale">MALE</label>
-
-                  </div>
-
-                  <div class="form-check form-check-inline">
-
-                    <input class="form-check-input" type="radio" name="gender"
-                      id="genderFemale" value="FEMALE">
-
-                    <label class="form-check-label" for="genderFemale">FEMALE</label>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="plate" class="form-label">Car Plate Number</label>
-                <input type="text" id="plate" name="plate" class="form-control"
-                  placeholder="Car plate number: UBB 493B" required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="photo" class="form-label">Upload Your Photo</label>
-
-                <input type="file" id="photo" name="photo" class="form-control"
-                  accept="image/*" required>
-
-                <div class="preview-container mt-2">
-
-                  <img id="photoPreview" src="" alt="fotoPreview" class="img-thumbnail d-none">
-
-                </div>
-
-              </div>
-
-              <div class="mb-4">
-
-                <label for="residence" class="form-label">Place of Work</label>
-
-                <input type="text" id="residence" name="residence" class="form-control"
-                  placeholder="Place of Work.." required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="password" class="form-label">Password</label>
-
-                <input type="password" id="password" name="password" class="form-control"
-                  placeholder="Enter password: yj_G86v%w" required>
-
-              </div>
-
-              <div class="mb-3">
-
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword"
-                  class="form-control" placeholder="Confirm password: yj_G86v%w" required>
-
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">Register</button>
-
-            </form>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
 
-  </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="driver.js"></script>
-
-</body>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="driver.js"></script>
+  </body>
 </html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Rider Register (Test)</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .password-wrapper {
+        position: relative;
+      }
+      .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0;
+        color: #6c757d;
+      }
+      .password-toggle:hover {
+        color: #495057;
+      }
+      .password-toggle.visible::before {
+        content: "👁️";
+      }
+      .password-toggle:not(.visible)::before {
+        content: "👁️‍🗨️";
+      }
+      .form-control.with-toggle {
+        padding-right: 38px;
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <div class="container" style="max-width: 720px">
+      <h3>Register Rider (Test)</h3>
+      <form id="regForm" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label>Username</label
+          ><input class="form-control" id="username" name="username" required />
+        </div>
+        <div class="mb-3">
+          <label>Email</label
+          ><input
+            class="form-control"
+            id="email"
+            name="email"
+            type="email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Phone</label
+          ><input class="form-control" id="phone" name="phone" required />
+        </div>
+        <div class="mb-3">
+          <label>Gender</label
+          ><select id="gender" name="gender" class="form-select" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Motorcycle Plate</label
+          ><input class="form-control" id="plate" name="plate" required />
+        </div>
+        <div class="mb-3">
+          <label>Photo</label
+          ><input
+            type="file"
+            id="photo"
+            name="photo"
+            accept="image/*"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Place of Residence</label
+          ><input
+            class="form-control"
+            id="residence"
+            name="residence"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Password</label>
+          <div class="password-wrapper">
+            <input
+              class="form-control with-toggle"
+              id="password"
+              name="password"
+              type="password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              aria-label="Toggle password visibility"
+            ></button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary">Register</button>
+        </div>
+      </form>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      // Password visibility toggle
+      document.querySelectorAll(".password-toggle").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const input = button.previousElementSibling;
+          const isPassword = input.type === "password";
+          input.type = isPassword ? "text" : "password";
+          button.classList.toggle("visible", isPassword);
+        });
+      });
+
+      document
+        .getElementById("regForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const fd = new FormData(this);
+          const resEl = document.getElementById("result");
+          resEl.textContent = "Registering...";
+          try {
+            const res = await fetch("../rider_api/register.php", {
+              method: "POST",
+              body: fd,
+            });
+            const data = await res.json();
+            resEl.textContent = JSON.stringify(data);
+            if (data.ok && data.redirect)
+              setTimeout(() => (location.href = data.redirect), 800);
+          } catch (err) {
+            resEl.textContent = "Error: " + err.message;
+          }
+        });
+    </script>
+  </body>
+</html>

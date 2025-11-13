@@ -52,7 +52,10 @@ $error = $_GET['error'] ?? '';
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+        <div class="password-wrapper">
+          <input type="password" class="form-control with-toggle" id="password" name="password" placeholder="Password" required>
+          <button type="button" class="password-toggle" aria-label="Toggle password visibility"></button>
+        </div>
       </div>
       <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="forgot_password.php" class="forgot-link">Forgot password?</a>
@@ -67,5 +70,6 @@ $error = $_GET['error'] ?? '';
     </form>
   </div>
 
+  <script src="login.js"></script>
 </body>
 </html>

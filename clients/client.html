@@ -1,128 +1,117 @@
 <!DOCTYPE html>
-
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Register as Client - (Moved)</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="client.css" />
+  </head>
+  <body>
+    <div class="container" style="max-width: 720px; margin-top: 40px">
+      <div class="text-center mb-4">
+        <img
+          src="images/logo.png"
+          alt="CampusLink Logo"
+          style="max-width: 140px"
+        />
+      </div>
+      <h3 class="text-center">Client Registration</h3>
+      <p class="lead text-center">Register a new client using the API below.</p>
 
-<head>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card p-3">
+            <form id="clientForm">
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input
+                  id="phone_number"
+                  name="phone_number"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Gender</label>
+                <select id="gender" name="gender" class="form-select" required>
+                  <option value="">Select...</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <div class="password-wrapper">
+                  <input
+                    id="password"
+                    name="password"
+                    class="form-control with-toggle"
+                    type="password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    aria-label="Toggle password visibility"
+                  ></button>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <div class="password-wrapper">
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    class="form-control with-toggle"
+                    type="password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    aria-label="Toggle password visibility"
+                  ></button>
+                </div>
+              </div>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <a
+                  class="btn btn-outline-secondary"
+                  href="../client_api/EXAMPLES.md"
+                  >API Examples</a
+                >
+              </div>
+            </form>
+            <div id="result" class="mt-3"></div>
+          </div>
+        </div>
+      </div>
 
-  <title>Register as Client - CampusLink</title>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="client.css">
-
-</head>
-
-<body>
-
-  <div class="register-container">
-
-    <!-- Logo -->
-    <div class="text-center mb-3">
-
-      <img src="images/logo.png" alt="CampusLink Logo" class="logo">
-
+      <script src="client.js"></script>
     </div>
-
-    <!-- Header -->
-    <h3 class="text-center mb-2">Register As Client</h3>
-    <p class="text-center text-muted mb-4">Become Part of Us</p>
-
-    <!-- Form -->
-    <form id="clientForm" method="POST" action="client.php">
-
-      <!-- Username -->
-      <div class="mb-3 text-start">
-
-        <label for="username" class="form-label">Username:</label>
-
-        <input type="text" class="form-control" id="username"
-            placeholder="Enter Username: " required>
-
-      </div>
-
-      <!-- Email -->
-      <div class="mb-3 text-start">
-
-        <label for="email" class="form-label">Email:</label>
-
-        <input type="email" class="form-control" id="email" placeholder="Enter our email: "
-            required>
-
-      </div>
-
-      <!-- Telephone Number -->
-      <div class="mb-3 text-start">
-
-        <label for="phone_number" class="form-label">Telephone Number:</label>
-
-        <input type="number" class="form-control" id="phone_number"
-          placeholder="Enter your Personal Number: " required>
-
-      </div>
-
-      <!-- Gender -->
-      <div class="mb-3 text-start">
-
-        <label class="form-label d-block">Gender:</label>
-
-        <div class="form-check form-check-inline">
-
-          <input class="form-check-input" type="radio" name="gender" id="male" value="Male"
-            required>
-
-          <label class="form-check-label" for="male">Male</label>
-
-        </div>
-
-        <div class="form-check form-check-inline">
-
-          <input class="form-check-input" type="radio" name="gender" id="female"
-            value="Female" required>
-
-          <label class="form-check-label" for="female">Female</label>
-
-        </div>
-
-      </div>
-
-      <!-- Password -->
-      <div class="mb-3 text-start">
-
-        <label for="password" class="form-label">Password:</label>
-
-        <input type="password" class="form-control" id="password"
-            placeholder="Enter Password: " required>
-
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="mb-3 text-start">
-
-        <label for="confirmPassword" class="form-label">Confirm Password:</label>
-
-        <input type="password" class="form-control" id="confirmPassword"
-            placeholder="Confirm Password: " required>
-
-      </div>
-
-      <!-- Submit -->
-      <div class="text-center">
-
-        <button type="submit" class="btn btn-primary w-100">Register</button>
-
-      </div>
-
-    </form>
-
-  </div>
-
-  <script src="client.js"></script>
-
-</body>
-
+  </body>
 </html>

@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2025 at 09:21 PM
--- Server version: 10.4.32-MariaDB
+-- Generation Time: Oct 31, 2025 at 10:44 AM
+-- Server version: 10.4.32-MariaDB-log
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -27,9 +27,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `bookings`
 --
 
-DROP TABLE IF EXISTS `bookings`;
-CREATE TABLE IF NOT EXISTS `bookings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL,
   `client_id` varchar(50) DEFAULT NULL,
   `agent_id` varchar(50) DEFAULT NULL,
   `service` varchar(20) DEFAULT NULL,
@@ -43,9 +42,8 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `dest_lat` double DEFAULT NULL,
   `dest_lng` double DEFAULT NULL,
   `status` varchar(20) DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
@@ -61,30 +59,30 @@ INSERT INTO `bookings` (`id`, `client_id`, `agent_id`, `service`, `mode`, `datet
 -- Table structure for table `clients`
 --
 
-DROP TABLE IF EXISTS `clients`;
-CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
   `Client_ID` varchar(10) DEFAULT NULL,
   `Username` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Phone_Number` varchar(15) DEFAULT NULL,
+  `Profile_photo` varchar(255) DEFAULT NULL,
   `Gender` enum('MALE','FEMALE') NOT NULL,
-  `Password` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `Client_ID` (`Client_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `Client_ID`, `Username`, `Email`, `Phone_Number`, `Gender`, `Password`) VALUES
-(1, 'CL_0001', 'J Timothy', 'jobingetimothyosubert@gmail.com', '0752915250', 'MALE', '$2y$10$dZxe7OgMbdy5qjNhw7nopequ8XecBd1iwB.SP7tvJISnPmvQi9anC'),
-(2, 'CL_0002', 'Ninsiima Caroline', 'ninsiimacarol732@gmail.com', '0766191676', 'FEMALE', '$2y$10$eGiGZgrNSrc.pJScPhp4Zu1nMckzZ5tVW94mxKsdqxCMFWlByNXJa'),
-(3, 'CL_0003', 'ALIRWA PHIONA', 'phionaalirwa67@gmail.com', '0756694769', 'FEMALE', '$2y$10$rwy/47FlJohqBsmOHeDxu.dw4CK.04YaHm2Yg19jvahPwy/k1p9iy'),
-(4, 'CL_0004', 'BALUKU', 'alinethuanoldbaluku@gmail.com', '0791248600', 'MALE', '$2y$10$bnE8H3fBufby/PPQfNz38uPKCG5OSYWq.U6hzym3NpTfebSeMMYYe'),
-(5, 'CL_0005', 'BALUKU', 'alinethuanoldbaluku12@gmail.com', '0791248601', 'MALE', '$2y$10$WR7Wi5KwKGkMhm.9WD28uOS6kffjrpw7nz8MtKYgOLly9MUDdSV1G');
+INSERT INTO `clients` (`id`, `Client_ID`, `Username`, `Email`, `Phone_Number`, `Profile_photo`, `Gender`, `Password`) VALUES
+(1, 'CL_0001', 'J Timothy', 'jobingetimothyosubert@gmail.com', '0752915250', NULL, 'MALE', '$2y$10$dZxe7OgMbdy5qjNhw7nopequ8XecBd1iwB.SP7tvJISnPmvQi9anC'),
+(2, 'CL_0002', 'Ninsiima Caroline', 'ninsiimacarol732@gmail.com', '0766191676', NULL, 'FEMALE', '$2y$10$eGiGZgrNSrc.pJScPhp4Zu1nMckzZ5tVW94mxKsdqxCMFWlByNXJa'),
+(3, 'CL_0003', 'ALIRWA PHIONA', 'phionaalirwa67@gmail.com', '0756694769', NULL, 'FEMALE', '$2y$10$rwy/47FlJohqBsmOHeDxu.dw4CK.04YaHm2Yg19jvahPwy/k1p9iy'),
+(4, 'CL_0004', 'BALUKU', 'alinethuanoldbaluku@gmail.com', '0791248600', NULL, 'MALE', '$2y$10$bnE8H3fBufby/PPQfNz38uPKCG5OSYWq.U6hzym3NpTfebSeMMYYe'),
+(5, 'CL_0005', 'BALUKU', 'alinethuanoldbaluku12@gmail.com', '0791248601', NULL, 'MALE', '$2y$10$WR7Wi5KwKGkMhm.9WD28uOS6kffjrpw7nz8MtKYgOLly9MUDdSV1G'),
+(6, 'CL_0006', 'Oscar Difasi', 'oscardifasi@gmail.com', '0784010420', NULL, 'MALE', '$2y$10$CFydgN1M2YX//iQlo8FscO.gRSuyXFEFlwsO7NE7rx.IixEUNqu..'),
+(7, 'CL_0007', 'Lillian Nabirye', 'nabiryelillian@gmail.com', '0773243453', NULL, 'FEMALE', '$2y$10$VmIc1NQKRLR1MwJnjo4U4ONhVuamN3tWimZV1oFabfyJYpQiiWIM6'),
+(13, 'CL_0008', 'Denis', 'odj@gmail.com', '077777777777755', NULL, 'MALE', '$2y$10$iDOr6fO2yjt9Z3nnchEx5u4NX/F.o4rLaketEhRPsKk/MoDpIHDie');
 
 -- --------------------------------------------------------
 
@@ -92,9 +90,8 @@ INSERT INTO `clients` (`id`, `Client_ID`, `Username`, `Email`, `Phone_Number`, `
 -- Table structure for table `drivers`
 --
 
-DROP TABLE IF EXISTS `drivers`;
-CREATE TABLE IF NOT EXISTS `drivers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `drivers` (
+  `id` int(11) NOT NULL,
   `Driver_ID` varchar(8) NOT NULL,
   `Username` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
@@ -104,14 +101,8 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `Car_Plate_Number` varchar(20) NOT NULL,
   `Residence` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `Created_At` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Driver_ID` (`Driver_ID`),
-  UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `Phone_Number` (`Phone_Number`),
-  UNIQUE KEY `Car_Plate_Number` (`Car_Plate_Number`),
-  UNIQUE KEY `unique_driver_username` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `drivers`
@@ -130,16 +121,14 @@ INSERT INTO `drivers` (`id`, `Driver_ID`, `Username`, `Email`, `Phone_Number`, `
 -- Table structure for table `notifications`
 --
 
-DROP TABLE IF EXISTS `notifications`;
-CREATE TABLE IF NOT EXISTS `notifications` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
   `booking_id` int(11) DEFAULT NULL,
   `agent_id` varchar(50) DEFAULT NULL,
   `client_id` varchar(50) DEFAULT NULL,
   `status` varchar(20) DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `notifications`
@@ -154,16 +143,14 @@ INSERT INTO `notifications` (`id`, `booking_id`, `agent_id`, `client_id`, `statu
 -- Table structure for table `password_resets`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
   `user_table` varchar(50) NOT NULL,
   `user_id` varchar(100) NOT NULL,
   `token` varchar(128) NOT NULL,
   `expires_at` datetime NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `password_resets`
@@ -178,9 +165,8 @@ INSERT INTO `password_resets` (`id`, `user_table`, `user_id`, `token`, `expires_
 -- Table structure for table `riders`
 --
 
-DROP TABLE IF EXISTS `riders`;
-CREATE TABLE IF NOT EXISTS `riders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `riders` (
+  `id` int(11) NOT NULL,
   `Rider_ID` varchar(8) NOT NULL,
   `Username` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
@@ -190,14 +176,8 @@ CREATE TABLE IF NOT EXISTS `riders` (
   `Residence` varchar(50) NOT NULL,
   `Motorcycle_Plate_Number` varchar(20) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `Created_At` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Rider_ID` (`Rider_ID`),
-  UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `Phone_Number` (`Phone_Number`),
-  UNIQUE KEY `Motorcycle_Plate_Number` (`Motorcycle_Plate_Number`),
-  UNIQUE KEY `unique_rider_username` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `riders`
@@ -212,6 +192,98 @@ INSERT INTO `riders` (`id`, `Rider_ID`, `Username`, `Email`, `Phone_Number`, `Ge
 (6, 'R000006', 'Kose Joy', 'kosejoy626@gmail.com', 763243453, 'Female', '../upload_rider/Kose_Joy_profile.jpeg', 'Nyamitanga', 'UBG 363G', '$2y$10$VCtLYWDRh8qpcU7.ah.fxuUxnHfCOg6SGzWXxWyASZKKu9CLeVj6q', '2025-10-22 13:11:54'),
 (7, 'R000007', 'Pascals', 'pascals@gmail.com', 752915250, 'Male', '../upload_rider/Pascals_profile.jpeg', 'Katete', 'UGH 637H', '$2y$10$/TUp08IRrWVSH4SeeVNyb.CUxaEFN.nZtsZaJauIFonQvx2Weaov6', '2025-10-22 13:39:35'),
 (8, 'R000008', 'Phiona', 'alirwaphiona@gmail.com', 752915500, 'Female', '../upload_rider/Phiona_profile.jpg', 'NYAMITANGA', 'UBE 382L', '$2y$10$H9RYINHpN/IKLcWH2pvX5e/JDi/Q4nnZT7SwQnr1p43bPMNtma/PG', '2025-10-22 14:00:05');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `Client_ID` (`Client_ID`);
+
+--
+-- Indexes for table `drivers`
+--
+ALTER TABLE `drivers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Driver_ID` (`Driver_ID`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `Phone_Number` (`Phone_Number`),
+  ADD UNIQUE KEY `Car_Plate_Number` (`Car_Plate_Number`),
+  ADD UNIQUE KEY `unique_driver_username` (`Username`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `riders`
+--
+ALTER TABLE `riders`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Rider_ID` (`Rider_ID`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `Phone_Number` (`Phone_Number`),
+  ADD UNIQUE KEY `Motorcycle_Plate_Number` (`Motorcycle_Plate_Number`),
+  ADD UNIQUE KEY `unique_rider_username` (`Username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `drivers`
+--
+ALTER TABLE `drivers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `riders`
+--
+ALTER TABLE `riders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

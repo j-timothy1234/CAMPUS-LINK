@@ -1,148 +1,42 @@
 <?php
-// Include database connection
-require_once __DIR__ . '/../db_connect.php';
+/**
+ * Deprecated compatibility shim for driver registration.
+ *
+ * Notes:
+ * - The registration logic has been moved to `/driver_api/register.php`.
+ * - This file is kept as a fallback to give a machine-readable deprecation
+ *   response for any clients that still POST here.
+ * - We intentionally do NOT duplicate the full registration logic here to
+ *   avoid divergence and maintenance burden. Keep business logic centralized
+ *   in the API folder.
+ *
+ * Behavior:
+ * - For POST requests: return a JSON object indicating the new API location
+ *   and an HTTP 410-like informational message. Clients should follow the
+ *   new endpoint or use the test form at `../driver_api/register_form.html`.
+ * - For non-POST requests: return a small JSON message indicating deprecation.
+ *
+ * You may delete this file once all clients have migrated. For now we keep
+ * it commented and minimal so it's easy to audit.
+ */
 
-// Enable maximum error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Minimal safeguard: do NOT execute registration here. Just respond with JSON.
+header('Content-Type: application/json; charset=utf-8');
 
-// Set response header to JSON
-header('Content-Type: application/json');
-
-// ----------------------------
-// DRIVER REGISTRATION HANDLER
-// ----------------------------
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    
-    try {
-        // Get database connection
-        $conn = (new Database())->getConnection();
-        
-        // Check connection
-        if (!$conn) {
-            throw new Exception("Database connection failed");
-        }
-
-        // Validate required fields
-        $required_fields = ['username', 'email', 'phone', 'gender', 'plate', 'residence', 'password'];
-        $missing_fields = [];
-        
-        foreach ($required_fields as $field) {
-            if (empty($_POST[$field])) {
-                $missing_fields[] = $field;
-            }
-        }
-        
-        if (!empty($missing_fields)) {
-            throw new Exception("Missing required fields: " . implode(', ', $missing_fields));
-        }
-
-        // Check if file was uploaded
-        if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
-            throw new Exception("Please upload a valid profile photo");
-        }
-
-        // Collect and sanitize user inputs
-        $username = $conn->real_escape_string($_POST['username']);
-        $email = $conn->real_escape_string($_POST['email']);
-        $phone_number = $conn->real_escape_string($_POST['phone']);
-        $gender = $conn->real_escape_string($_POST['gender']);
-        $car_plate_number = $conn->real_escape_string($_POST['plate']);
-        $residence = $conn->real_escape_string($_POST['residence']);
-        $password = $_POST['password'];
-        $profile_photo = $_FILES['photo'];
-
-        // ===== GENERATE DRIVER_ID =====
-        $driver_id_result = $conn->query("SELECT MAX(CAST(SUBSTRING(Driver_ID, 2) AS UNSIGNED)) as max_id FROM drivers");
-        if ($driver_id_result && $driver_id_result->num_rows > 0) {
-            $driver_id_row = $driver_id_result->fetch_assoc();
-            $next_id = ($driver_id_row['max_id'] ?? 0) + 1;
-        } else {
-            $next_id = 1;
-        }
-        $driver_id = "D" . str_pad($next_id, 6, "0", STR_PAD_LEFT);
-
-        // Convert gender to uppercase to match ENUM
-        $gender = strtoupper($gender);
-
-        // Convert phone to integer
-        $phone_number = (int)$phone_number;
-
-        // Handle Photo Upload
-        // Check file size (max 5MB)
-        if ($profile_photo['size'] > 5 * 1024 * 1024) {
-            throw new Exception("Photo exceeds 5MB limit.");
-        }
-
-        // Validate file type
-        $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        $file_type = mime_content_type($profile_photo['tmp_name']);
-        
-        if (!in_array($file_type, $allowed_types)) {
-            throw new Exception("Only JPG, JPEG, PNG & GIF files are allowed.");
-        }
-
-        // Define upload directory and unique filename
-        $uploadDir = "../uploads_driver";
-        if (!file_exists($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
-                throw new Exception("Failed to create upload directory.");
-            }
-        }
-
-        // Create a unique name for the uploaded photo
-        $photoName = uniqid("driver_") . "_" . basename($profile_photo["name"]);
-        $photoPath = $uploadDir . "/" . $photoName;
-
-        // Move file to uploads folder
-        if (!move_uploaded_file($profile_photo["tmp_name"], $photoPath)) {
-            throw new Exception("Failed to save uploaded photo.");
-        }
-
-        // Hash Password for Security
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Insert Data into Database - NOW INCLUDES Driver_ID
-        $sql = "INSERT INTO drivers 
-                (Driver_ID, Username, Email, Phone_Number, Gender, Profile_Photo, Car_Plate_Number, Residence, Password) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            throw new Exception("SQL preparation failed: " . $conn->error);
-        }
-
-        // Bind parameters - INCLUDING Driver_ID
-        $stmt->bind_param("sssisssss", $driver_id, $username, $email, $phone_number, $gender, $photoPath, $car_plate_number, $residence, $hashedPassword);
-
-        if ($stmt->execute()) {
-            echo json_encode([
-                "status" => "success", 
-                "message" => "Driver registered successfully. Your Driver ID: " . $driver_id
-            ]);
-        } else {
-            throw new Exception("Database error: " . $stmt->error);
-        }
-
-        $stmt->close();
-        $conn->close();
-
-    } catch (Exception $e) {
-        // Log error for debugging
-        error_log("Driver Registration Error: " . $e->getMessage());
-        
-        // Send error response
-        echo json_encode([
-            "status" => "error", 
-            "message" => $e->getMessage()
-        ]);
-    }
-
-} else {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Return 200 with a machine-friendly message. Clients should be updated to
+    // use /driver_api/register.php. We avoid redirecting because many API
+    // clients do not follow HTTP redirects for POST automatically.
     echo json_encode([
-        "status" => "error", 
-        "message" => "Invalid request method."
+        'ok' => false,
+        'message' => 'Driver registration has moved to /driver_api/register.php. POST there (multipart/form-data) or use ../driver_api/register_form.html for a test form.'
     ]);
+    exit;
 }
+
+// Non-POST (GET/other) requests: information only.
+echo json_encode([
+    'ok' => false,
+    'message' => 'This endpoint is deprecated. Use /driver_api/register.php'
+]);
+exit;
