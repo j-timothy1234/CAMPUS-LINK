@@ -24,9 +24,10 @@ class Database {
     /**
      * Constructor: Load configuration and establish connection
      */
+    
     private function __construct() {
         // Load from environment or use defaults
-        $this->servername = getenv('DB_HOST') ?: 'localhost';
+        $this->servername = getenv('DB_HOST') ?: '192.168.40.65';
         $this->username = getenv('DB_USER') ?: 'root';
         $this->password = getenv('DB_PASSWORD') ?: 'job1234joy#';
         $this->database = getenv('DB_NAME') ?: 'campusLink';
