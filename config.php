@@ -35,8 +35,8 @@ define('DB_PORT', 3306);
  * UPDATE THESE WITH YOUR ACTUAL IPs:
  */
 
-define('MASTER_SERVER', 'http://192.168.40.65');  // ← Update to LAPTOP-A IP
-define('SLAVE_SERVER', 'http://192.168.40.196');   // ← Update to LAPTOP-B IP
+//define('MASTER_SERVER', 'http://192.168.40.65');  // ← Update to LAPTOP-A IP
+//define('SLAVE_SERVER', 'http://192.168.40.196');   // ← Update to LAPTOP-B IP
 
 /**
  * API Key for sync authentication
@@ -115,7 +115,7 @@ define('SYNC_TIMEOUT', 30);
 // ============================================================================
 
 // Allowed CORS origins (comma-separated)
-define('CORS_ORIGINS', 'http://localhost,http://192.168.40.65,http://192.168.40.196');
+//define('CORS_ORIGINS', 'http://localhost,http://192.168.40.65,http://192.168.40.196');
 
 // ============================================================================
 // LOGGING CONFIGURATION
@@ -200,7 +200,7 @@ function getServerUrl() {
  */
 function getOtherServerUrl() {
     $current = getServerUrl();
-    if (strpos($current, '192.168.40.65') !== false || strpos($current, 'MASTER') !== false) {
+    if (strpos($current, 'localhost') !== false || strpos($current, 'MASTER') !== false) {
         return SLAVE_SERVER;
     } else {
         return MASTER_SERVER;

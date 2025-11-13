@@ -27,7 +27,7 @@ class Database {
 
     private function __construct() {
         // Load from environment or use defaults
-        $this->servername = getenv('DB_HOST') ?: '192.168.40.65';
+        $this->servername = getenv('DB_HOST') ?: 'localhost';
         $this->username = getenv('DB_USER') ?: 'root';
         $this->password = getenv('DB_PASSWORD') ?: 'job1234joy#';
         $this->database = getenv('DB_NAME') ?: 'campusLink';
@@ -114,7 +114,7 @@ class Database {
      */
     public function getConnection() {
         // Reconnect if connection lost
-        if (!$this->conn->ping('192.168.40.65')) {
+        if (!$this->conn->ping()) {
             $this->connect();
         }
         return $this->conn;
