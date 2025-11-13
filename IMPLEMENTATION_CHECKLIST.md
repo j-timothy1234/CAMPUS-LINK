@@ -34,7 +34,7 @@ If using ngrok (recommended for different networks):
 - [ ] Use this URL as MASTER_SERVER in config.php
 
 ## Phase 2: Configuration (10 min)
-
+172.20.10.2
 ### LAPTOP-A Configuration
 
 - [ ] Open `d:\xampp\htdocs\CAMPUS-LINK\config.php`
