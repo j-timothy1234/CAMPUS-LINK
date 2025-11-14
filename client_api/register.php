@@ -51,7 +51,7 @@ if (!validate_username($username)) {
     json_resp(['ok' => false, 'message' => 'Invalid username'], 400);
 }
 if (!validate_email($email)) {
-    json_resp(['ok' => false, 'message' => 'Invalid email (must be @gmail.com)'], 400);
+    json_resp(['ok' => false, 'message' => 'Invalid email, (must be @gmail.com)'], 400);
 }
 if (!validate_phone($phone_number)) {
     json_resp(['ok' => false, 'message' => 'Invalid phone number'], 400);
